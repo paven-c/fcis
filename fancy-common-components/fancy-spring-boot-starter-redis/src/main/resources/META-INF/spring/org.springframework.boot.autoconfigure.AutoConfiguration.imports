@@ -1,0 +1,2 @@
+com.fancy.component.redis.config.RedisAutoConfiguration
+com.fancy.component.redis.config.CacheAutoConfiguration

@@ -1,0 +1,5 @@
+com.fancy.component.banner.config.BannerAutoConfiguration
+com.fancy.component.jackson.config.JacksonAutoConfiguration
+com.fancy.component.swagger.config.SwaggerAutoConfiguration
+com.fancy.component.web.config.WebAutoConfiguration
+com.fancy.component.xss.config.XssAutoConfiguration

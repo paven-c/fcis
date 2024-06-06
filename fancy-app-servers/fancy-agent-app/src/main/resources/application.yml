@@ -1,0 +1,30 @@
+server:
+  port: 18080
+
+spring:
+  application:
+    name: fancy-agent-management
+  profiles:
+    active: local
+  servlet:
+    multipart:
+      max-file-size: 3MB
+      max-request-size: 5MB
+
+app:
+  info:
+    version: 0.0.1
+    base-package: com.fancy
+  web:
+    admin-ui: # 配置 Spring Boot Admin 的 UI 地址
+      url: http://localhost:18080/admin/
+  security:
+    permit-all_urls:
+  swagger:
+    title:
+    description:
+    version: ${app.info.version}
+    url: ${app.web.admin-ui.url}
+    email: x
+  captcha:
+    enable: true # 验证码的开关，默认为 true
