@@ -239,7 +239,7 @@ public class RoleServiceImpl implements RoleService {
                 throw exception(ROLE_NOT_EXISTS);
             }
             if (!CommonStatusEnum.ENABLE.getStatus().equals(role.getStatus())) {
-                throw exception(ROLE_IS_DISABLE, role.getName());
+                throw exception(ROLE_IS_DISABLE, role.getRoleName());
             }
         });
     }

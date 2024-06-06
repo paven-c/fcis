@@ -21,10 +21,12 @@ public class RoleMenu extends BasePojo {
      */
     @TableId
     private Long id;
+
     /**
      * 角色ID
      */
     private Long roleId;
+
     /**
      * 菜单ID
      */

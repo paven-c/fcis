@@ -28,7 +28,7 @@ public interface UserConvert {
     default UserRespVO convert(User user, Dept dept) {
         UserRespVO userVO = BeanUtils.toBean(user, UserRespVO.class);
         if (dept != null) {
-            userVO.setDeptName(dept.getName());
+            userVO.setDeptName(dept.getDeptName());
         }
         return userVO;
     }
@@ -36,7 +36,7 @@ public interface UserConvert {
     default List<UserSimpleRespVO> convertSimpleList(List<User> list, Map<Long, Dept> deptMap) {
         return CollectionUtils.convertList(list, user -> {
             UserSimpleRespVO userVO = BeanUtils.toBean(user, UserSimpleRespVO.class);
-            MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> userVO.setDeptName(dept.getName()));
+            MapUtils.findAndThen(deptMap, user.getDeptId(), dept -> userVO.setDeptName(dept.getDeptName()));
             return userVO;
         });
     }

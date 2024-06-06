@@ -18,7 +18,7 @@ public interface RoleMapper extends BaseMapperX<Role> {
 
     default PageResult<Role> selectPage(RolePageReqVO reqVO) {
         return selectPage(reqVO, new LambdaQueryWrapperX<Role>()
-                .likeIfPresent(Role::getName, reqVO.getName())
+                .likeIfPresent(Role::getRoleName, reqVO.getName())
                 .likeIfPresent(Role::getCode, reqVO.getCode())
                 .eqIfPresent(Role::getStatus, reqVO.getStatus())
                 .betweenIfPresent(Role::getCreateTime, reqVO.getCreateTime())
@@ -26,7 +26,7 @@ public interface RoleMapper extends BaseMapperX<Role> {
     }
 
     default Role selectByName(String name) {
-        return selectOne(Role::getName, name);
+        return selectOne(Role::getRoleName, name);
     }
 
     default Role selectByCode(String code) {

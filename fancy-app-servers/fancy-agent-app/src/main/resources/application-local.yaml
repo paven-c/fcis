@@ -5,7 +5,7 @@ spring:
       - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-2zey4nle11qy6eimt3o.mysql.rds.aliyuncs.com:3306/fancy_content?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+    url: jdbc:mysql://rm-2zey4nle11qy6eimt3o.mysql.rds.aliyuncs.com:3306/fancy_agent?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
     username: fancy_root
     password: fancyApp666
     druid: # Druid 【监控】相关的全局配置
@@ -43,7 +43,7 @@ spring:
     redis:
       host: 60.205.222.35
       port: 6380
-      database: 0
+      database: 6
       password: fancybos888
       timeout: 20000ms
 

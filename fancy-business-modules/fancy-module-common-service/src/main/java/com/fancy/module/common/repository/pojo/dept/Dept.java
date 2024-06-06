@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  *
  * @author paven
  */
-@TableName("system_dept")
+@TableName("dept")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class Dept extends BasePojo {
@@ -24,32 +24,24 @@ public class Dept extends BasePojo {
      */
     @TableId
     private Long id;
+
     /**
      * 部门名称
      */
-    private String name;
+    private String deptName;
+
     /**
      * 父部门ID
      * <p>
      * 关联 {@link #id}
      */
     private Long parentId;
+
     /**
      * 显示顺序
      */
     private Integer sort;
-    /**
-     * 负责人 关联 {@link com.fancy.module.common.repository.pojo.user.User#getId()}
-     */
-    private Long leaderUserId;
-    /**
-     * 联系电话
-     */
-    private String phone;
-    /**
-     * 邮箱
-     */
-    private String email;
+
     /**
      * 部门状态
      * <p>

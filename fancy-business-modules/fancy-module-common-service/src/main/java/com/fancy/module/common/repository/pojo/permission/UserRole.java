@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fancy.component.mybatis.core.dataobject.BasePojo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 用户和角色关联
@@ -13,6 +14,7 @@ import lombok.EqualsAndHashCode;
  */
 @TableName("user_role")
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class UserRole extends BasePojo {
 

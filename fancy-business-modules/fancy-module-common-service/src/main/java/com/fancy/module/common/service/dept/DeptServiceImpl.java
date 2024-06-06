@@ -222,7 +222,7 @@ public class DeptServiceImpl implements DeptService {
                 throw exception(DEPT_NOT_FOUND);
             }
             if (!CommonStatusEnum.ENABLE.getStatus().equals(dept.getStatus())) {
-                throw exception(DEPT_NOT_ENABLE, dept.getName());
+                throw exception(DEPT_NOT_ENABLE, dept.getDeptName());
             }
         });
     }

@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserLogin(Long id, String loginIp) {
-        userMapper.updateById(new User().setId(id).setLoginIp(loginIp).setLoginDate(LocalDateTime.now()));
+        userMapper.updateById(new User().setId(id).setLastLoginIp(loginIp).setLastLoginDate(LocalDateTime.now()));
     }
 
     @Override

@@ -8,17 +8,20 @@ import java.util.Collection;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
+/**
+ * @author paven
+ */
 @Mapper
 public interface DeptMapper extends BaseMapperX<Dept> {
 
     default List<Dept> selectList(DeptListReqVO reqVO) {
         return selectList(new LambdaQueryWrapperX<Dept>()
-                .likeIfPresent(Dept::getName, reqVO.getName())
+                .likeIfPresent(Dept::getDeptName, reqVO.getName())
                 .eqIfPresent(Dept::getStatus, reqVO.getStatus()));
     }
 
     default Dept selectByParentIdAndName(Long parentId, String name) {
-        return selectOne(Dept::getParentId, parentId, Dept::getName, name);
+        return selectOne(Dept::getParentId, parentId, Dept::getDeptName, name);
     }
 
     default Long selectCountByParentId(Long parentId) {

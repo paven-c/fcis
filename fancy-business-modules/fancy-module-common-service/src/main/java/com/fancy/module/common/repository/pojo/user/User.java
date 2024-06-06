@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  *
  * @author paven
  */
-@TableName(value = "system_users", autoResultMap = true)
+@TableName(value = "user", autoResultMap = true)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -32,57 +32,69 @@ public class User extends BasePojo {
      */
     @TableId
     private Long id;
+
     /**
      * 用户账号
      */
     private String username;
+
     /**
      * 加密后的密码
      */
     private String password;
+
     /**
      * 用户昵称
      */
     private String nickname;
+
     /**
      * 备注
      */
     private String remark;
+
     /**
      * 部门 ID
      */
     private Long deptId;
+
     /**
      * 用户邮箱
      */
     private String email;
+
     /**
      * 手机号码
      */
     private String mobile;
+
     /**
      * 用户性别
      * <p>
      * 枚举类 {@link GenderEnum}
      */
     private Integer gender;
+
     /**
      * 用户头像
      */
     private String avatar;
+
     /**
      * 帐号状态
      * <p>
      * 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
+
     /**
      * 最后登录IP
      */
-    private String loginIp;
+    private String lastLoginIp;
+
     /**
      * 最后登录时间
      */
-    private LocalDateTime loginDate;
+    private LocalDateTime lastLoginDate;
 
 }

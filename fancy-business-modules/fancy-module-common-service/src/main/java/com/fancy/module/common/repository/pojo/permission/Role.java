@@ -29,49 +29,54 @@ public class Role extends BasePojo {
      */
     @TableId
     private Long id;
+
     /**
      * 角色名称
      */
-    private String name;
+    private String roleName;
+
     /**
      * 角色标识
-     *
-     * 枚举
      */
     private String code;
+
     /**
      * 角色排序
      */
     private Integer sort;
-    /**
-     * 角色状态
-     *
-     * 枚举 {@link CommonStatusEnum}
-     */
-    private Integer status;
-    /**
-     * 角色类型
-     *
-     * 枚举 {@link RoleTypeEnum}
-     */
-    private Integer type;
-    /**
-     * 备注
-     */
-    private String remark;
 
     /**
      * 数据范围
-     *
+     * <p>
      * 枚举 {@link DataScopeEnum}
      */
     private Integer dataScope;
+
     /**
      * 数据范围(指定部门数组)
-     *
+     * <p>
      * 适用于 {@link #dataScope} 的值为 {@link DataScopeEnum#DEPT_CUSTOM} 时
      */
     @TableField(typeHandler = JsonLongSetTypeHandler.class)
     private Set<Long> dataScopeDeptIds;
+
+    /**
+     * 角色状态
+     * <p>
+     * 枚举 {@link CommonStatusEnum}
+     */
+    private Integer status;
+
+    /**
+     * 角色类型
+     * <p>
+     * 枚举 {@link RoleTypeEnum}
+     */
+    private Integer type;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
 }

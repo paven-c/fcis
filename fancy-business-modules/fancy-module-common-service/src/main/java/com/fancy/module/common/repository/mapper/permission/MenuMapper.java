@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MenuMapper extends BaseMapperX<Menu> {
 
     default Menu selectByParentIdAndName(Long parentId, String name) {
-        return selectOne(Menu::getParentId, parentId, Menu::getName, name);
+        return selectOne(Menu::getParentId, parentId, Menu::getMenuName, name);
     }
 
     default Long selectCountByParentId(Long parentId) {
@@ -23,7 +23,7 @@ public interface MenuMapper extends BaseMapperX<Menu> {
 
     default List<Menu> selectList(MenuListReqVO reqVO) {
         return selectList(new LambdaQueryWrapperX<Menu>()
-                .likeIfPresent(Menu::getName, reqVO.getName())
+                .likeIfPresent(Menu::getMenuName, reqVO.getName())
                 .eqIfPresent(Menu::getStatus, reqVO.getStatus()));
     }
 
