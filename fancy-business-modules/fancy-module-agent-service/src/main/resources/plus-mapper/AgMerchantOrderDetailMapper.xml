@@ -3,7 +3,7 @@
 <mapper namespace="com.fancy.module.common.repository.mapper.AgMerchantOrderDetailMapper">
 
   <select id="listMerchantTaskNum" resultType="com.fancy.module.common.repository.vo.MerchantTaskNumListVO">
-    select if(sum(case when service_total_num = -1 then 1 else 0 end) > 0, 'N', sum(service_total_num)) as service_total_num,
+    select if(sum(case when service_total_num = -1 then 1 else 0 end) > 0, '-1', sum(service_total_num)) as service_total_num,
            sum(service_consume_num) as service_consume_num, content_service_id
     from ag_merchant_order_detail
     where

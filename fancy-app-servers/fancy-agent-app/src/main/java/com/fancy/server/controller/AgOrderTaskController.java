@@ -29,7 +29,7 @@ public class AgOrderTaskController {
     private AgOrderTaskService agOrderTaskService;
 
     @PostMapping("/listOrderTask")
-    public PageResult<AgOrderTask> listOrderTask(@RequestBody OrderTaskListDTO orderTaskListDTO) {
+    public PageResult<OrderTaskListVO> listOrderTask(@RequestBody OrderTaskListDTO orderTaskListDTO) {
         return agOrderTaskService.listOrderTask(orderTaskListDTO);
     }
 

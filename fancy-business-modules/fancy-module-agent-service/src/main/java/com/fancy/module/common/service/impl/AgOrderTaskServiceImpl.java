@@ -38,7 +38,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
 
 
     @Override
-    public PageResult<AgOrderTask> listOrderTask(OrderTaskListDTO orderTaskListDTO) {
+    public PageResult<OrderTaskListVO> listOrderTask(OrderTaskListDTO orderTaskListDTO) {
         String contentName = orderTaskListDTO.getContentName();
         Integer contentType = orderTaskListDTO.getContentType();
         List<AgContentServiceMain> serviceMainList = new ArrayList<>();
@@ -61,7 +61,31 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
                 .le(Objects.nonNull(orderTaskListDTO.getTaskFinishTime()), AgOrderTask::getTaskFinishTime, orderTaskListDTO.getTaskFinishTime())
                 .orderByDesc(AgOrderTask::getTaskCreateTime)
         );
-        return agOrderTaskPageResult;
+
+        // 查询内容相关信息
+        if (CollectionUtil.isNotEmpty(agOrderTaskPageResult.getList())) {
+            serviceMainList = agContentServiceMainService.list(Wrappers.lambdaQuery(AgContentServiceMain.class)
+                    .in(AgContentServiceMain::getId, agOrderTaskPageResult.getList().stream().map(AgOrderTask::getContentId).toList())
+            );
+        }
+
+        // 转换
+        List<OrderTaskListVO> orderTaskListVOS = new ArrayList<>();
+        for (AgOrderTask agOrderTask : agOrderTaskPageResult.getList()) {
+            OrderTaskListVO orderTaskListVO = new OrderTaskListVO();
+            BeanUtil.copyProperties(agOrderTask, orderTaskListVO);
+            for (AgContentServiceMain agContentServiceMain : serviceMainList) {
+                if (agOrderTask.getContentId().equals(agContentServiceMain.getId())) {
+                    orderTaskListVO.setContentName(agContentServiceMain.getContentName());
+                    orderTaskListVO.setContentType(agContentServiceMain.getContentType());
+                }
+            }
+            orderTaskListVOS.add(orderTaskListVO);
+        }
+        PageResult<OrderTaskListVO> orderTaskListVOPageResult = new PageResult<>();
+        BeanUtil.copyProperties(agOrderTaskPageResult, orderTaskListVOPageResult);
+        orderTaskListVOPageResult.setList(orderTaskListVOS);
+        return orderTaskListVOPageResult;
     }
 
 }

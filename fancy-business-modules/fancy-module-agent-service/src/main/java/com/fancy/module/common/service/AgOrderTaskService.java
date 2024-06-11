@@ -16,5 +16,5 @@ import com.fancy.module.common.repository.vo.OrderTaskListVO;
  */
 public interface AgOrderTaskService extends IService<AgOrderTask> {
 
-    PageResult<AgOrderTask> listOrderTask(OrderTaskListDTO orderTaskListDTO);
+    PageResult<OrderTaskListVO> listOrderTask(OrderTaskListDTO orderTaskListDTO);
 }

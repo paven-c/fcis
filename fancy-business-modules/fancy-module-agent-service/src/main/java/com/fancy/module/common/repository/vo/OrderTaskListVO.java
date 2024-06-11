@@ -92,5 +92,16 @@ public class OrderTaskListVO implements Serializable {
      */
     private Long deptId;
 
+    /**
+     * 内容类型 1图片 2视频 3套餐
+     */
+    private Integer contentType;
+
+    /**
+     * 内容名称
+     */
+    private String contentName;
+
+
 
 }
