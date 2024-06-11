@@ -1,6 +1,7 @@
 package com.fancy.module.common.repository.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.module.common.repository.pojo.AgOrderTask;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -13,6 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-06-07
  */
 @Mapper
-public interface AgOrderTaskMapper extends BaseMapper<AgOrderTask> {
+public interface AgOrderTaskMapper extends BaseMapperX<AgOrderTask> {
 
 }

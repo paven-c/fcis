@@ -42,6 +42,11 @@
       <artifactId>fancy-spring-boot-starter-excel</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.fancy</groupId>
+      <artifactId>fancy-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
   </dependencies>
 </project>

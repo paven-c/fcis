@@ -1,7 +1,10 @@
 package com.fancy.module.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fancy.common.pojo.PageResult;
+import com.fancy.module.common.repository.dto.OrderTaskListDTO;
 import com.fancy.module.common.repository.pojo.AgOrderTask;
+import com.fancy.module.common.repository.vo.OrderTaskListVO;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.fancy.module.common.repository.pojo.AgOrderTask;
  */
 public interface AgOrderTaskService extends IService<AgOrderTask> {
 
+    PageResult<AgOrderTask> listOrderTask(OrderTaskListDTO orderTaskListDTO);
 }
