@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: fancy-agent-app
-          image: registry.cn-beijing.aliyuncs.com/fancycontent/fancy-agent-app
+          image: registry.cn-beijing.aliyuncs.com/fancycontent/content-test
           imagePullPolicy: Always
           resources:
             limits:
