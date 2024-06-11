@@ -1,6 +1,5 @@
 package com.fancy.module.common.vo;
 
-import com.fancy.module.common.repository.pojo.AgMerchantOrder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -10,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-public class AgMerchantOrderVo extends AgMerchantOrder {
+public class AgMerchantOrderVo {
     /**
      * 订单ID
      */
