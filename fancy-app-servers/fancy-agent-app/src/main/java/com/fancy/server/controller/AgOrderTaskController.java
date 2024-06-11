@@ -1,6 +1,14 @@
 package com.fancy.server.controller;
 
 
+import com.fancy.common.pojo.PageResult;
+import com.fancy.module.common.repository.dto.OrderTaskListDTO;
+import com.fancy.module.common.repository.pojo.AgOrderTask;
+import com.fancy.module.common.repository.vo.OrderTaskListVO;
+import com.fancy.module.common.service.AgOrderTaskService;
+import jakarta.annotation.Resource;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -16,5 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/agOrderTask")
 public class AgOrderTaskController {
+
+    @Resource
+    private AgOrderTaskService agOrderTaskService;
+
+    @PostMapping("/listOrderTask")
+    public PageResult<AgOrderTask> listOrderTask(@RequestBody OrderTaskListDTO orderTaskListDTO) {
+        return agOrderTaskService.listOrderTask(orderTaskListDTO);
+    }
 
 }
