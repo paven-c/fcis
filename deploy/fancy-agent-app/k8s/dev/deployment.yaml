@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fancy-agent-app
+  labels:
+    app: fancy-agent-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fancy-agent-app
+  template:
+    metadata:
+      labels:
+        app: fancy-agent-app
+    spec:
+      containers:
+        - name: fancy-agent-app
+          image: registry.cn-beijing.aliyuncs.com/fancycontent/fancy-agent-app
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: "1000m"
+          env:
+            - name: JAVA_OPTS
+              value: "-server -Xms512m -Xmx512m -Xss512K"
+            - name: aliyun_logs_fancy-agent-logtest
+              value: /home/admin/fancy-agent/logs/service_stdout.*.log
+            - name: aliyun_logs_fancy-agent-logtest_logstore
+              value: fancy-agent-test
+            - name: aliyun_logs_fancy_agent_tags
+              value: content=v1
+          volumeMounts:
+            - name: volumn-sls-fancyagentapp-test
+              mountPath: /home/admin/fancy-agent-app/logs
+      volumes:
+        - name: volumn-sls-fancyagentapp-test
+          emptyDir: { }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fancy-agent-app
+  labels:
+    app: fancy-agent-app
+spec:
+  ports:
+    - name: http
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    app: fancy-agent-app
+  sessionAffinity: None
+  type: ClusterIP
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: fancy-agent-app-route
+spec:
+  rules:
+    - host: fancy-agent-test.fancybos.com
+      http:
+        paths:
+          - backend:
+              serviceName: fancy-agent-app
+              servicePort: 8081
+            path: /
