@@ -10,7 +10,7 @@
   </parent>
 
   <artifactId>fancy-agent-app</artifactId>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
   <dependencies>
     <dependency>
