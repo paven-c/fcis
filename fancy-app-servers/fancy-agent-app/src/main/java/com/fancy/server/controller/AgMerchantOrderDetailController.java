@@ -30,7 +30,7 @@ public class AgMerchantOrderDetailController {
 
     @PostMapping("/listMerchantTaskNum")
     public CommonResult<List<MerchantTaskNumListVO>> listMerchantTaskNum(@RequestBody MerchantTaskNumListDTO merchantTaskNumListDTO) {
-        return agMerchantOrderDetailService.listMerchantTaskNum(merchantTaskNumListDTO);
+        return CommonResult.success(agMerchantOrderDetailService.listMerchantTaskNum(merchantTaskNumListDTO));
     }
 
 }

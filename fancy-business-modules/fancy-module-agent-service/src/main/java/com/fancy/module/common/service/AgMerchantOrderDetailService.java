@@ -19,5 +19,5 @@ import java.util.List;
  */
 public interface AgMerchantOrderDetailService extends IService<AgMerchantOrderDetail> {
 
-    CommonResult<List<MerchantTaskNumListVO>> listMerchantTaskNum(MerchantTaskNumListDTO merchantTaskNumListDTO);
+    List<MerchantTaskNumListVO> listMerchantTaskNum(MerchantTaskNumListDTO merchantTaskNumListDTO);
 }

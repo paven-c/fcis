@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fancy.module.common.repository.mapper.AgMerchantOrderDetailMapper">
+
+  <select id="listMerchantTaskNum" resultType="com.fancy.module.common.repository.vo.MerchantTaskNumListVO">
+    select if(sum(case when service_total_num = -1 then 1 else 0 end) > 0, 'N', sum(service_total_num)) as service_total_num,
+           sum(service_consume_num) as service_consume_num, content_service_id
+    from ag_merchant_order_detail
+    where
+        service_status != 1
+    and deleted = 0
+    <if test="merchantId != null">
+      and merchant_id = #{merchantId}
+    </if>
+    group by content_service_id
+  </select>
+
+</mapper>
