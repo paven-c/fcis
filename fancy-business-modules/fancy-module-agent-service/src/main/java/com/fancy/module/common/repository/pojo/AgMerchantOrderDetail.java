@@ -1,6 +1,5 @@
 package com.fancy.module.common.repository.pojo;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -15,7 +14,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * 代理客户订单表(AgMerchantOrder)实体类
+ * 代理客户订单明显表(AgMerchantOrder)实体类
  *
  * @author makejava
  * @since 2024-06-11 09:26:56
@@ -23,8 +22,8 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName(value = "ag_merchant_order",autoResultMap = true)
-public class AgMerchantOrder implements Serializable {
+@TableName(value = "ag_merchant_order_detail",autoResultMap = true)
+public class AgMerchantOrderDetail implements Serializable {
     private static final long serialVersionUID = 952798869645981870L;
 
     @TableId(value = "id", type = IdType.AUTO)
@@ -67,19 +66,28 @@ public class AgMerchantOrder implements Serializable {
     /**
      * 单价金额
      */
-    private BigDecimal orderUnitPrice; 
+    private BigDecimal orderUnitPrice;
 
-    
+    /**
+     * 服务版本id
+     */
+    private Long contentServiceId;
+
+    /**
+     * 服务版本类型
+     */
+    private Integer serviceType;
+
     /**
      * 服务版本json
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private JSONObject serviceJson;
+    private String serviceJson; 
     
     /**
      * 订单状态 0正常 1停用 2完成
      */
-    private Integer status;
+    private Integer serviceStatus;
     
     /**
      * 服务任务总数
