@@ -1,7 +1,7 @@
 FROM public.ecr.aws/x1z3a6w8/openjdk:openjdk-8
 
 # 设置应用目录
-ARG APP_HOME="fancy--app-servers"
+ARG APP_HOME="fancy-app-servers"
 ARG APP_NAME="fancy-agent-app"
 
 # 设置环境变量
