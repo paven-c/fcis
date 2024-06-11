@@ -1,0 +1,109 @@
+package com.fancy.module.common.repository.pojo;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+/**
+ * 代理客户订单表(AgMerchantOrder)实体类
+ *
+ * @author makejava
+ * @since 2024-06-11 09:26:56
+ */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName(value = "ag_merchant_order",autoResultMap = true)
+public class AgMerchantOrder implements Serializable {
+    private static final long serialVersionUID = 952798869645981870L;
+    /**
+     * 代理商户id
+     */
+    private Long agMerchantId; 
+    
+    /**
+     * 代理商户名称
+     */
+    private String name; 
+    
+    /**
+     * fc商户id
+     */
+    private Long merchantId; 
+    
+    /**
+     * 创建人Id
+     */
+    private Long creatorId; 
+    
+    /**
+     * 部门id
+     */
+    private Long deptId; 
+    
+    /**
+     * 订单名称
+     */
+    private String orderName; 
+    
+    /**
+     * 订单金额
+     */
+    private BigDecimal orderMoney; 
+    
+    /**
+     * 单价金额
+     */
+    private BigDecimal orderUnitPrice; 
+    
+    /**
+     * 服务版本id
+     */
+    private Long contentServiceId; 
+    
+    /**
+     * 服务版本类型
+     */
+    private Integer serviceType; 
+    
+    /**
+     * 服务版本json
+     */
+    private String serviceJson; 
+    
+    /**
+     * 订单状态 0正常 1停用 2完成
+     */
+    private Integer serviceStatus; 
+    
+    /**
+     * 服务任务总数
+     */
+    private Long serviceTotalNum; 
+    
+    /**
+     * 服务消耗任务数
+     */
+    private Long serviceConsumeNum; 
+    
+    /**
+     * 合同开始时间
+     */
+    private LocalDateTime contractStartTime; 
+    
+    /**
+     * 合同结束时间
+     */
+    private LocalDateTime contractEndTime; 
+    
+    
+    
+    
+
+}
+
