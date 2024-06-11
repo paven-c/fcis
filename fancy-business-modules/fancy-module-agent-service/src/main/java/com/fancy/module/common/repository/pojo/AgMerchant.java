@@ -1,5 +1,7 @@
 package com.fancy.module.common.repository.pojo;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +22,11 @@ import java.time.LocalDateTime;
 @TableName(value = "ag_merchant",autoResultMap = true)
 public class AgMerchant implements Serializable {
     private static final long serialVersionUID = -61564167293543000L;
+
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
+
     /**
      * fc商户id
      */
@@ -133,8 +140,22 @@ public class AgMerchant implements Serializable {
     /**
      * 公司介绍
      */
-    private String companyIntroduction; 
-    
+    private String companyIntroduction;
+
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createTime;
+
+    /**
+     * 修改时间
+     */
+    private LocalDateTime updateTime;
+
+    /**
+     * 是否删除0启用1删除
+     */
+    private Integer deleted;
     
     
     
