@@ -1,4 +1,4 @@
-FROM public.ecr.aws/x1z3a6w8/openjdk:openjdk-8
+FROM registry.cn-beijing.aliyuncs.com/fancyflip/openjdk:17
 
 # 设置应用目录
 ARG APP_HOME="fancy-app-servers"

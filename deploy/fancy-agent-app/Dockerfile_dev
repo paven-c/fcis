@@ -1,4 +1,4 @@
-FROM public.ecr.aws/x1z3a6w8/openjdk:openjdk-8
+FROM registry.cn-beijing.aliyuncs.com/fancyflip/openjdk:17
 
 # 设置应用目录
 ARG APP_HOME="fancy-app-servers"
@@ -22,3 +22,5 @@ COPY ${APP_HOME}/${APP_NAME}/target/*.jar /app/app.jar
 
 # 设置入口点
 ENTRYPOINT java ${JAVA_OPTS} -Djava.security.egd=file:/dev/./urandom -jar app.jar --spring.profiles.active=dev
+
+
