@@ -61,7 +61,7 @@ metadata:
   name: fancy-agent-app-route
 spec:
   rules:
-    - host: fancy-agent.fancybos.com
+    - host: agentapi.fancybos.com
       http:
         paths:
           - backend:
