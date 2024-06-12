@@ -3,7 +3,7 @@ FROM registry.cn-beijing.aliyuncs.com/fancyflip/openjdk:17
 # 设置应用目录
 ARG APP_HOME="fancy-app-servers"
 ARG APP_NAME="fancy-agent-app"
-
+ENV TZ='Asia/Shanghai'
 # 设置环境变量
 ENV JAVA_OPTS="\
     -server \
