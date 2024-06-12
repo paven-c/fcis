@@ -39,6 +39,9 @@ mybatis-plus:
       logic-not-delete-value: 0
     banner: false
   type-aliases-package: ${app.info.base-package}.module.*.repository.pojo
+  mapper-locations:
+    - classpath*:plus-mapper/*.xml
+    - classpath*:mapper/*.xml
 
 mybatis-plus-join:
   banner: false # 是否打印 mybatis plus join banner，默认true

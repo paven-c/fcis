@@ -30,7 +30,7 @@ public class MerchantTaskNumListVO implements Serializable {
     /**
      * 内容id
      */
-    private Long contentId;
+    private Long contentServiceId;
 
     /**
      * 内容名称

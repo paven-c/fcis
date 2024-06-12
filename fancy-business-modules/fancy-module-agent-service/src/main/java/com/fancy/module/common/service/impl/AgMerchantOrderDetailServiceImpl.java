@@ -37,13 +37,13 @@ public class AgMerchantOrderDetailServiceImpl extends ServiceImpl<AgMerchantOrde
         if (CollectionUtil.isNotEmpty(merchantTaskNumListVOS)) {
             // 查询内容名称
             List<AgContentServiceMain> serviceMainList = agContentServiceMainService.list(Wrappers.lambdaQuery(AgContentServiceMain.class)
-                    .in(AgContentServiceMain::getId, merchantTaskNumListVOS.stream().map(MerchantTaskNumListVO::getContentId).toList())
+                    .in(AgContentServiceMain::getId, merchantTaskNumListVOS.stream().map(MerchantTaskNumListVO::getContentServiceId).toList())
             );
 
             if (CollectionUtil.isNotEmpty(serviceMainList)) {
                 for (MerchantTaskNumListVO merchantTaskNumListVO : merchantTaskNumListVOS) {
                     for (AgContentServiceMain serviceMain : serviceMainList) {
-                        if (Objects.equals(merchantTaskNumListVO.getContentId(), serviceMain.getId())) {
+                        if (Objects.equals(merchantTaskNumListVO.getContentServiceId(), serviceMain.getId())) {
                             merchantTaskNumListVO.setContentServiceName(serviceMain.getContentName());
                         }
                     }
