@@ -29,7 +29,7 @@ spec:
             - name: aliyun_logs_fancy-agent-log_logstore
               value: fancy-agent
             - name: aliyun_logs_fancy_agent_tags
-              value: content=v1
+              value: agent=v1
           volumeMounts:
             - name: volumn-sls-fancyagentapp
               mountPath: /app/fancy-agent-app/logs
