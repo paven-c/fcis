@@ -1,5 +1,8 @@
 package com.fancy.common.pojo;
 
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.fancy.common.exception.ErrorCode;
 import com.fancy.common.exception.ServiceException;
 import com.fancy.common.exception.enums.GlobalErrorCodeConstants;
@@ -7,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
 /**
@@ -16,6 +20,7 @@ import org.springframework.util.Assert;
  * @author paven
  */
 @Data
+@Slf4j
 public class CommonResult<T> implements Serializable {
 
     /**
@@ -33,7 +38,12 @@ public class CommonResult<T> implements Serializable {
      *
      * @see ErrorCode#getMsg() ()
      */
-    private String msg;
+    private String message;
+
+    /**
+     * 请求链路追踪ID
+     * */
+    private String requestId;
 
     /**
      * 将传入的 result 对象，转换成另外一个泛型结果的对象
@@ -43,14 +53,14 @@ public class CommonResult<T> implements Serializable {
      * @return 新的 CommonResult 对象
      */
     public static <T> CommonResult<T> error(CommonResult<?> result) {
-        return error(result.getCode(), result.getMsg());
+        return error(result.getCode(), result.getMessage());
     }
 
     public static <T> CommonResult<T> error(Integer code, String message) {
         Assert.isTrue(!GlobalErrorCodeConstants.SUCCESS.getCode().equals(code), "code 必须是错误的！");
         CommonResult<T> result = new CommonResult<>();
         result.code = code;
-        result.msg = message;
+        result.message = message;
         return result;
     }
 
@@ -62,7 +72,7 @@ public class CommonResult<T> implements Serializable {
         CommonResult<T> result = new CommonResult<>();
         result.code = GlobalErrorCodeConstants.SUCCESS.getCode();
         result.data = data;
-        result.msg = "";
+        result.message = "";
         return result;
     }
 
@@ -90,7 +100,7 @@ public class CommonResult<T> implements Serializable {
             return;
         }
         // 业务异常
-        throw new ServiceException(code, msg);
+        throw new ServiceException(code, message);
     }
 
     /**
@@ -98,6 +108,7 @@ public class CommonResult<T> implements Serializable {
      */
     @JsonIgnore
     public T getCheckedData() {
+        log.info("getCheckedData: {}", JSONUtil.toJsonPrettyStr(this));
         checkError();
         return data;
     }
