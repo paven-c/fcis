@@ -35,6 +35,11 @@ public class AgMerchantOrderVo {
      * 代理商户名称
      */
     private String agMerchantName;
+
+    /**
+     * 创建人Id
+     */
+    private Long creatorId;
     /**
      * 所属代理
      */

@@ -42,4 +42,9 @@ public class AgMerchantOrderController {
         return CommonResult.success(agMerchantOrderservice.info(req));
     }
 
+    @PostMapping("/add")
+    public CommonResult<AgMerchantOrderVo> add(@RequestBody QueryAgMerchantOrderReq req){
+        return CommonResult.success(agMerchantOrderservice.info(req));
+    }
+
 }
