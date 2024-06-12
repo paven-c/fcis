@@ -59,35 +59,4 @@
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
   </dependencies>
-
-  <dependencies>
-
-    <!-- 组件依赖 -->
-    <dependency>
-      <groupId>com.fancy</groupId>
-      <artifactId>fancy-spring-boot-starter-security</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fancy</groupId>
-      <artifactId>fancy-spring-boot-starter-mybatis</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fancy</groupId>
-      <artifactId>fancy-spring-boot-starter-redis</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fancy</groupId>
-      <artifactId>fancy-spring-boot-starter-excel</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fancy</groupId>
-      <artifactId>fancy-common</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-
-  </dependencies>
 </project>
