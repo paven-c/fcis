@@ -16,14 +16,9 @@ import lombok.Getter;
 public enum UserTypeEnum implements IntArrayValuable {
 
     /**
-     * 客户端用户
+     * 代理平台用户
      */
-    USER(1, "客户端用户"),
-
-    /**
-     * 后台用户
-     */
-    ADMIN(2, "后台用户");
+    AGENT(1, "代理平台用户");
 
     public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(UserTypeEnum::getValue).toArray();
 

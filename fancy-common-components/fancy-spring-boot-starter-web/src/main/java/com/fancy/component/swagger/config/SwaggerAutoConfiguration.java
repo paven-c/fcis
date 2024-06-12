@@ -1,14 +1,10 @@
 package com.fancy.component.swagger.config;
 
-import static com.fancy.component.web.core.util.WebFrameworkUtils.HEADER_TENANT_ID;
-
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import io.swagger.v3.oas.models.media.IntegerSchema;
-import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
@@ -97,8 +93,6 @@ public class SwaggerAutoConfiguration {
                 propertyResolverUtils, openApiBuilderCustomizers, serverBaseUrlCustomizers, javadocProvider);
     }
 
-    // ========== 分组 OpenAPI 配置 ==========
-
     /**
      * 所有模块的 API 分组
      */
@@ -114,24 +108,9 @@ public class SwaggerAutoConfiguration {
     public static GroupedOpenApi buildGroupedOpenApi(String group, String path) {
         return GroupedOpenApi.builder()
                 .group(group)
-                .pathsToMatch("/admin/" + path + "/**", "/app/" + path + "/**")
-                .addOperationCustomizer((operation, handlerMethod) -> operation
-                        .addParametersItem(buildTenantHeaderParameter())
-                        .addParametersItem(buildSecurityHeaderParameter()))
+                .pathsToMatch("/agent/" + path + "/**")
+                .addOperationCustomizer((operation, handlerMethod) -> operation.addParametersItem(buildSecurityHeaderParameter()))
                 .build();
-    }
-
-    /**
-     * 构建 Tenant 租户编号请求头参数
-     *
-     * @return 多租户参数
-     */
-    private static Parameter buildTenantHeaderParameter() {
-        return new Parameter()
-                .name(HEADER_TENANT_ID)
-                .description("租户编号")
-                .in(String.valueOf(SecurityScheme.In.HEADER))
-                .schema(new IntegerSchema()._default(1L).name(HEADER_TENANT_ID).description("租户编号"));
     }
 
     /**
@@ -145,8 +124,7 @@ public class SwaggerAutoConfiguration {
         return new Parameter()
                 .name(HttpHeaders.AUTHORIZATION)
                 .description("认证 Token")
-                .in(String.valueOf(SecurityScheme.In.HEADER))
-                .schema(new StringSchema()._default("Bearer test1").name(HEADER_TENANT_ID).description("认证 Token"));
+                .in(String.valueOf(SecurityScheme.In.HEADER));
     }
 
 }

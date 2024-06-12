@@ -15,8 +15,9 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.util.object.BeanUtils;
-import com.fancy.module.common.controller.admin.dept.vo.dept.DeptListReqVO;
-import com.fancy.module.common.controller.admin.dept.vo.dept.DeptSaveReqVO;
+import com.fancy.component.datapermission.core.annotation.DataPermission;
+import com.fancy.module.common.controller.dept.vo.DeptListReqVO;
+import com.fancy.module.common.controller.dept.vo.DeptSaveReqVO;
 import com.fancy.module.common.repository.cache.redis.RedisKeyConstants;
 import com.fancy.module.common.repository.mapper.dept.DeptMapper;
 import com.fancy.module.common.repository.pojo.dept.Dept;
@@ -50,8 +51,7 @@ public class DeptServiceImpl implements DeptService {
     private DeptMapper deptMapper;
 
     @Override
-    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,
-            allEntries = true) // allEntries 清空所有缓存，因为操作一个部门，涉及到多个缓存
+    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST, allEntries = true)
     public Long createDept(DeptSaveReqVO createReqVO) {
         if (createReqVO.getParentId() == null) {
             createReqVO.setParentId(Dept.PARENT_ID_ROOT);
@@ -60,16 +60,14 @@ public class DeptServiceImpl implements DeptService {
         validateParentDept(null, createReqVO.getParentId());
         // 校验部门名的唯一性
         validateDeptNameUnique(null, createReqVO.getParentId(), createReqVO.getName());
-
-        // 插入部门
-        Dept dept = BeanUtils.toBean(createReqVO, Dept.class);
+        // 新增部门
+        Dept dept = Dept.builder().deptName(createReqVO.getName()).parentId(createReqVO.getParentId()).status(createReqVO.getStatus()).build();
         deptMapper.insert(dept);
         return dept.getId();
     }
 
     @Override
-    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,
-            allEntries = true) // allEntries 清空所有缓存，因为操作一个部门，涉及到多个缓存
+    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST, allEntries = true)
     public void updateDept(DeptSaveReqVO updateReqVO) {
         if (updateReqVO.getParentId() == null) {
             updateReqVO.setParentId(Dept.PARENT_ID_ROOT);
@@ -80,15 +78,13 @@ public class DeptServiceImpl implements DeptService {
         validateParentDept(updateReqVO.getId(), updateReqVO.getParentId());
         // 校验部门名的唯一性
         validateDeptNameUnique(updateReqVO.getId(), updateReqVO.getParentId(), updateReqVO.getName());
-
         // 更新部门
         Dept updateObj = BeanUtils.toBean(updateReqVO, Dept.class);
         deptMapper.updateById(updateObj);
     }
 
     @Override
-    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST,
-            allEntries = true) // allEntries 清空所有缓存，因为操作一个部门，涉及到多个缓存
+    @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST, allEntries = true)
     public void deleteDept(Long id) {
         // 校验是否存在
         validateDeptExists(id);
@@ -116,26 +112,26 @@ public class DeptServiceImpl implements DeptService {
         if (parentId == null || Dept.PARENT_ID_ROOT.equals(parentId)) {
             return;
         }
-        // 1. 不能设置自己为父部门
+        // 不能设置自己为父部门
         if (Objects.equals(id, parentId)) {
             throw exception(DEPT_PARENT_ERROR);
         }
-        // 2. 父部门不存在
+        // 父部门不存在
         Dept parentDept = deptMapper.selectById(parentId);
         if (parentDept == null) {
             throw exception(DEPT_PARENT_NOT_EXITS);
         }
-        // 3. 递归校验父部门，如果父部门是自己的子部门，则报错，避免形成环路
-        if (id == null) { // id 为空，说明新增，不需要考虑环路
+        // 递归校验父部门，如果父部门是自己的子部门，则报错，避免形成环路
+        if (id == null) {
             return;
         }
         for (int i = 0; i < Short.MAX_VALUE; i++) {
-            // 3.1 校验环路
+            // 校验环路
             parentId = parentDept.getParentId();
             if (Objects.equals(id, parentId)) {
                 throw exception(DEPT_PARENT_IS_CHILD);
             }
-            // 3.2 继续递归下一级父部门
+            // 继续递归下一级父部门
             if (parentId == null || Dept.PARENT_ID_ROOT.equals(parentId)) {
                 break;
             }
@@ -201,7 +197,7 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-//    @DataPermission(enable = false)
+    @DataPermission(enable = false)
     @Cacheable(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST, key = "#id")
     public Set<Long> getChildDeptIdListFromCache(Long id) {
         List<Dept> children = getChildDeptList(id);

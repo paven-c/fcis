@@ -9,8 +9,8 @@ import static com.fancy.module.common.enums.ErrorCodeConstants.AUTH_LOGIN_USER_D
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.enums.UserTypeEnum;
 import com.fancy.common.util.validation.ValidationUtils;
-import com.fancy.module.common.controller.admin.auth.vo.AuthLoginReqVO;
-import com.fancy.module.common.controller.admin.auth.vo.AuthLoginRespVO;
+import com.fancy.module.common.controller.auth.vo.AuthLoginReqVO;
+import com.fancy.module.common.controller.auth.vo.AuthLoginRespVO;
 import com.fancy.module.common.convert.auth.AuthConvert;
 import com.fancy.module.common.enums.LoginLogTypeEnum;
 import com.fancy.module.common.enums.oauth.OAuth2ClientConstants;
@@ -77,7 +77,7 @@ public class AuthServiceImpl implements AuthService {
         // 使用账号密码，进行登录
         User user = authenticate(reqVO.getUsername(), reqVO.getPassword());
         // 创建 Token 令牌，记录登录日志
-        return createTokenAfterLoginSuccess(user.getId(), reqVO.getUsername(), LoginLogTypeEnum.LOGIN_USERNAME);
+        return createTokenAfterLoginSuccess(OAuth2ClientConstants.CLIENT_ID_AGENT, user.getId(), reqVO.getUsername());
     }
 
     @VisibleForTesting
@@ -97,16 +97,16 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private AuthLoginRespVO createTokenAfterLoginSuccess(Long userId, String username, LoginLogTypeEnum logType) {
+    private AuthLoginRespVO createTokenAfterLoginSuccess(String clientId, Long userId, String username) {
         // 创建访问令牌
-        OAuth2AccessToken accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(), OAuth2ClientConstants.CLIENT_ID_DEFAULT, null);
+        OAuth2AccessToken accessTokenDO = oauth2TokenService.createAccessToken(userId, getUserType().getValue(), clientId, null);
         // 构建返回结果
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
 
     @Override
-    public AuthLoginRespVO refreshToken(String refreshToken) {
-        OAuth2AccessToken accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, OAuth2ClientConstants.CLIENT_ID_DEFAULT);
+    public AuthLoginRespVO refreshToken(String clientId, String refreshToken) {
+        OAuth2AccessToken accessTokenDO = oauth2TokenService.refreshAccessToken(refreshToken, clientId);
         return AuthConvert.INSTANCE.convert(accessTokenDO);
     }
 
@@ -131,7 +131,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private UserTypeEnum getUserType() {
-        return UserTypeEnum.ADMIN;
+        return UserTypeEnum.AGENT;
     }
 
 }

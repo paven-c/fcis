@@ -1,8 +1,8 @@
 package com.fancy.module.common.service.permission;
 
 import com.fancy.common.pojo.PageResult;
-import com.fancy.module.common.controller.admin.permission.vo.role.RolePageReqVO;
-import com.fancy.module.common.controller.admin.permission.vo.role.RoleSaveReqVO;
+import com.fancy.module.common.controller.permission.vo.role.RolePageReqVO;
+import com.fancy.module.common.controller.permission.vo.role.RoleSaveReqVO;
 import com.fancy.module.common.repository.pojo.permission.Role;
 import jakarta.validation.Valid;
 import java.util.Collection;

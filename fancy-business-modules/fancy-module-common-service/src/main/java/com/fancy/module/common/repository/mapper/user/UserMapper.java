@@ -3,7 +3,7 @@ package com.fancy.module.common.repository.mapper.user;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.component.mybatis.core.query.LambdaQueryWrapperX;
-import com.fancy.module.common.controller.admin.user.vo.user.UserPageReqVO;
+import com.fancy.module.common.controller.user.vo.user.UserPageReqVO;
 import com.fancy.module.common.repository.pojo.user.User;
 import java.util.Collection;
 import java.util.List;

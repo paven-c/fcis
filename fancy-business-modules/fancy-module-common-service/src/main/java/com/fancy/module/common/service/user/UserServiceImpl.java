@@ -19,13 +19,14 @@ import com.fancy.common.exception.ServiceException;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.common.util.collection.CollectionUtils;
 import com.fancy.common.util.object.BeanUtils;
+import com.fancy.component.datapermission.core.util.DataPermissionUtils;
 import com.fancy.module.common.api.file.FileApi;
-import com.fancy.module.common.controller.admin.user.vo.profile.UserProfileUpdatePasswordReqVO;
-import com.fancy.module.common.controller.admin.user.vo.profile.UserProfileUpdateReqVO;
-import com.fancy.module.common.controller.admin.user.vo.user.UserImportExcelVO;
-import com.fancy.module.common.controller.admin.user.vo.user.UserImportRespVO;
-import com.fancy.module.common.controller.admin.user.vo.user.UserPageReqVO;
-import com.fancy.module.common.controller.admin.user.vo.user.UserSaveReqVO;
+import com.fancy.module.common.controller.user.vo.profile.UserProfileUpdatePasswordReqVO;
+import com.fancy.module.common.controller.user.vo.profile.UserProfileUpdateReqVO;
+import com.fancy.module.common.controller.user.vo.user.UserImportExcelVO;
+import com.fancy.module.common.controller.user.vo.user.UserImportRespVO;
+import com.fancy.module.common.controller.user.vo.user.UserPageReqVO;
+import com.fancy.module.common.controller.user.vo.user.UserSaveReqVO;
 import com.fancy.module.common.repository.mapper.user.UserMapper;
 import com.fancy.module.common.repository.pojo.dept.Dept;
 import com.fancy.module.common.repository.pojo.user.User;
@@ -33,7 +34,6 @@ import com.fancy.module.common.service.dept.DeptService;
 import com.fancy.module.common.service.permission.PermissionService;
 import com.google.common.annotations.VisibleForTesting;
 import com.mzt.logapi.context.LogRecordContext;
-import com.mzt.logapi.service.impl.DiffParseFunction;
 import jakarta.annotation.Resource;
 import java.io.InputStream;
 import java.time.LocalDateTime;
@@ -78,10 +78,9 @@ public class UserServiceImpl implements UserService {
     public Long createUser(UserSaveReqVO createReqVO) {
         validateUserForCreateOrUpdate(null, createReqVO.getUsername(), createReqVO.getMobile(), createReqVO.getEmail(), createReqVO.getDeptId());
         User user = BeanUtils.toBean(createReqVO, User.class);
-        user.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        user.setStatus(createReqVO.getStatus() == null ? CommonStatusEnum.ENABLE.getStatus() : createReqVO.getStatus());
         user.setPassword(encodePassword(createReqVO.getPassword()));
         userMapper.insert(user);
-        LogRecordContext.putVariable("user", user);
         return user.getId();
     }
 
@@ -89,12 +88,10 @@ public class UserServiceImpl implements UserService {
     @Transactional(rollbackFor = Exception.class)
     public void updateUser(UserSaveReqVO updateReqVO) {
         updateReqVO.setPassword(null);
-        User oldUser = validateUserForCreateOrUpdate(updateReqVO.getId(), updateReqVO.getUsername(),
-                updateReqVO.getMobile(), updateReqVO.getEmail(), updateReqVO.getDeptId());
+        User oldUser = validateUserForCreateOrUpdate(
+                updateReqVO.getId(), updateReqVO.getUsername(), updateReqVO.getMobile(), updateReqVO.getEmail(), updateReqVO.getDeptId());
         User updateObj = BeanUtils.toBean(updateReqVO, User.class);
         userMapper.updateById(updateObj);
-        LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(oldUser, UserSaveReqVO.class));
-        LogRecordContext.putVariable("user", oldUser);
     }
 
     @Override
@@ -244,21 +241,19 @@ public class UserServiceImpl implements UserService {
     }
 
     private User validateUserForCreateOrUpdate(Long id, String username, String mobile, String email, Long deptId) {
-        // 关闭数据权限，避免因为没有数据权限，查询不到数据，进而导致唯一校验不正确
-//        return DataPermissionUtils.executeIgnore(() -> {
-//            // 校验用户存在
-//            User user = validateUserExists(id);
-//            // 校验用户名唯一
-//            validateUsernameUnique(id, username);
-//            // 校验手机号唯一
-//            validateMobileUnique(id, mobile);
-//            // 校验邮箱唯一
-//            validateEmailUnique(id, email);
-//            // 校验部门处于开启状态
+        return DataPermissionUtils.executeIgnore(() -> {
+            // 校验用户存在
+            User user = validateUserExists(id);
+            // 校验用户名唯一
+            validateUsernameUnique(id, username);
+            // 校验手机号唯一
+            validateMobileUnique(id, mobile);
+            // 校验邮箱唯一
+            validateEmailUnique(id, email);
+            // 校验部门处于开启状态
 //            deptService.validateDeptList(CollectionUtils.singleton(deptId));
-//            return user;
-//        });
-        return null;
+            return user;
+        });
     }
 
     @VisibleForTesting

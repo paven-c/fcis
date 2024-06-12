@@ -7,6 +7,6 @@ package com.fancy.module.common.enums.oauth;
  */
 public interface OAuth2ClientConstants {
 
-    String CLIENT_ID_DEFAULT = "default";
+    String CLIENT_ID_AGENT = "fancy-agent";
 
 }

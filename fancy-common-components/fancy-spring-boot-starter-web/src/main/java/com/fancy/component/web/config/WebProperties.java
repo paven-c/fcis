@@ -17,12 +17,10 @@ import org.springframework.validation.annotation.Validated;
 @Data
 public class WebProperties {
 
-    @NotNull(message = "APP API 不能为空")
-    private Api appApi = new Api("/app", "**.controller.app.**");
+    @NotNull(message = "Agent API 不能为空")
+    private Api agentApi = new Api("/agent-api", "**.controller.agent.**");
     @NotNull(message = "Admin API 不能为空")
-    private Api adminApi = new Api("/admin", "**.controller.admin.**");
-    @NotNull(message = "Admin UI 不能为空")
-    private Ui adminUi;
+    private Api adminApi = new Api("/admin-api", "**.controller.admin.**");
 
     @Data
     @AllArgsConstructor

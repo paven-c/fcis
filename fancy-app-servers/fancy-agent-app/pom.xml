@@ -18,7 +18,6 @@
       <artifactId>fancy-module-common-service</artifactId>
       <version>${project.version}</version>
     </dependency>
-
     <dependency>
       <groupId>com.fancy</groupId>
       <artifactId>fancy-module-agent-service</artifactId>

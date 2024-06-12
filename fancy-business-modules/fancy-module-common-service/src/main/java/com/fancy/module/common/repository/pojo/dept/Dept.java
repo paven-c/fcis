@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.component.mybatis.core.dataobject.BasePojo;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,6 +15,7 @@ import lombok.EqualsAndHashCode;
  */
 @TableName("dept")
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = true)
 public class Dept extends BasePojo {
 

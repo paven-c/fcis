@@ -1,8 +1,8 @@
 package com.fancy.module.common.service.dept;
 
 import com.fancy.common.util.collection.CollectionUtils;
-import com.fancy.module.common.controller.admin.dept.vo.dept.DeptListReqVO;
-import com.fancy.module.common.controller.admin.dept.vo.dept.DeptSaveReqVO;
+import com.fancy.module.common.controller.dept.vo.DeptListReqVO;
+import com.fancy.module.common.controller.dept.vo.DeptSaveReqVO;
 import com.fancy.module.common.repository.pojo.dept.Dept;
 import java.util.Collection;
 import java.util.List;

@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: fancy-agent-management
+    name: fancy-agent-app
   profiles:
     active: local
   servlet:
@@ -28,3 +28,21 @@ app:
     email: x
   captcha:
     enable: true # 验证码的开关，默认为 true
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      id-type: AUTO
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+    banner: false
+  type-aliases-package: ${app.info.base-package}.module.*.repository.pojo
+
+mybatis-plus-join:
+  banner: false # 是否打印 mybatis plus join banner，默认true
+  sub-table-logic: true # 全局启用副表逻辑删除，默认true。关闭后关联查询不会加副表逻辑删除
+  ms-cache: true # 拦截器MappedStatement缓存，默认 true
+  table-alias: t # 表别名(默认 t)
+  logic-del-type: on # 副表逻辑删除条件的位置，支持 WHERE、ON，默认 ON

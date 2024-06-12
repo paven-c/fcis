@@ -13,8 +13,8 @@ import static com.fancy.module.common.repository.pojo.permission.Menu.ID_ROOT;
 
 import cn.hutool.core.collection.CollUtil;
 import com.fancy.common.util.object.BeanUtils;
-import com.fancy.module.common.controller.admin.permission.vo.menu.MenuListReqVO;
-import com.fancy.module.common.controller.admin.permission.vo.menu.MenuSaveVO;
+import com.fancy.module.common.controller.permission.vo.menu.MenuListReqVO;
+import com.fancy.module.common.controller.permission.vo.menu.MenuSaveVO;
 import com.fancy.module.common.enums.permission.MenuTypeEnum;
 import com.fancy.module.common.repository.cache.redis.RedisKeyConstants;
 import com.fancy.module.common.repository.mapper.permission.MenuMapper;
@@ -51,8 +51,9 @@ public class MenuServiceImpl implements MenuService {
         validateParentMenu(createReqVO.getParentId(), null);
         // 校验菜单（自己）
         validateMenu(createReqVO.getParentId(), createReqVO.getName(), null);
-        // 插入数据库
+        // 新增菜单
         Menu menu = BeanUtils.toBean(createReqVO, Menu.class);
+        menu.setMenuName(createReqVO.getName());
         initMenuProperty(menu);
         menuMapper.insert(menu);
         // 返回
@@ -60,7 +61,6 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    // allEntries 清空所有缓存，因为 permission 如果变更，涉及到新老两个 permission。直接清理，简单有效
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, allEntries = true)
     public void updateMenu(MenuSaveVO updateReqVO) {
         // 校验更新的菜单是否存在
@@ -71,7 +71,6 @@ public class MenuServiceImpl implements MenuService {
         validateParentMenu(updateReqVO.getParentId(), updateReqVO.getId());
         // 校验菜单（自己）
         validateMenu(updateReqVO.getParentId(), updateReqVO.getName(), updateReqVO.getId());
-
         // 更新到数据库
         Menu updateObj = BeanUtils.toBean(updateReqVO, Menu.class);
         initMenuProperty(updateObj);
@@ -80,7 +79,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    // allEntries 清空所有缓存，因为此时不知道 id 对应的 permission 是多少。直接清理，简单有效
     @CacheEvict(value = RedisKeyConstants.PERMISSION_MENU_ID_LIST, allEntries = true)
     public void deleteMenu(Long id) {
         // 校验是否还有子菜单

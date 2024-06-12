@@ -2,8 +2,8 @@ package com.fancy.module.common.service.file;
 
 import com.fancy.common.pojo.PageResult;
 import com.fancy.module.common.component.file.core.client.FileClient;
-import com.fancy.module.common.controller.admin.file.vo.config.FileConfigPageReqVO;
-import com.fancy.module.common.controller.admin.file.vo.config.FileConfigSaveReqVO;
+import com.fancy.module.common.controller.file.vo.config.FileConfigPageReqVO;
+import com.fancy.module.common.controller.file.vo.config.FileConfigSaveReqVO;
 import com.fancy.module.common.repository.pojo.file.FileConfig;
 import jakarta.validation.Valid;
 

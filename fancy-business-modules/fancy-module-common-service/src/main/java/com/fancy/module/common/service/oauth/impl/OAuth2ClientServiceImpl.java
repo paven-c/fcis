@@ -18,8 +18,8 @@ import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.common.util.object.BeanUtils;
 import com.fancy.common.util.string.StrUtils;
-import com.fancy.module.common.controller.admin.oauth.vo.client.OAuth2ClientPageReqVO;
-import com.fancy.module.common.controller.admin.oauth.vo.client.OAuth2ClientSaveReqVO;
+import com.fancy.module.common.controller.oauth.vo.client.OAuth2ClientPageReqVO;
+import com.fancy.module.common.controller.oauth.vo.client.OAuth2ClientSaveReqVO;
 import com.fancy.module.common.repository.cache.redis.RedisKeyConstants;
 import com.fancy.module.common.repository.mapper.oauth.OAuth2ClientMapper;
 import com.fancy.module.common.repository.pojo.oauth.OAuth2Client;
@@ -115,8 +115,8 @@ public class OAuth2ClientServiceImpl implements OAuth2ClientService {
     }
 
     @Override
-    public OAuth2Client validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType,
-            Collection<String> scopes, String redirectUri) {
+    public OAuth2Client validOAuthClientFromCache(String clientId, String clientSecret, String authorizedGrantType, Collection<String> scopes,
+            String redirectUri) {
         // 校验客户端存在、且开启
         OAuth2Client client = getSelf().getOAuth2ClientFromCache(clientId);
         if (client == null) {

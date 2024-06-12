@@ -21,7 +21,6 @@ public class WebFrameworkUtils {
     private static final String REQUEST_ATTRIBUTE_LOGIN_USER_ID = "login_user_id";
     private static final String REQUEST_ATTRIBUTE_LOGIN_USER_TYPE = "login_user_type";
     private static final String REQUEST_ATTRIBUTE_COMMON_RESULT = "common_result";
-    public static final String HEADER_TENANT_ID = "tenant-id";
 
     /**
      * 终端的 Header
@@ -34,17 +33,6 @@ public class WebFrameworkUtils {
 
     public WebFrameworkUtils(WebProperties webProperties) {
         WebFrameworkUtils.properties = webProperties;
-    }
-
-    /**
-     * 获得租户编号，从 header 中
-     *
-     * @param request 请求
-     * @return 租户编号
-     */
-    public static Long getTenantId(HttpServletRequest request) {
-        String tenantId = request.getHeader(HEADER_TENANT_ID);
-        return NumberUtil.isNumber(tenantId) ? Long.valueOf(tenantId) : null;
     }
 
     public static void setLoginUserId(ServletRequest request, Long userId) {
@@ -90,11 +78,8 @@ public class WebFrameworkUtils {
             return userType;
         }
         // 2. 其次，基于 URL 前缀的约定
-        if (request.getServletPath().startsWith(properties.getAdminApi().getPrefix())) {
-            return UserTypeEnum.ADMIN.getValue();
-        }
-        if (request.getServletPath().startsWith(properties.getAppApi().getPrefix())) {
-            return UserTypeEnum.USER.getValue();
+        if (request.getServletPath().startsWith(properties.getAgentApi().getPrefix())) {
+            return UserTypeEnum.AGENT.getValue();
         }
         return null;
     }

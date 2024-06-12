@@ -42,8 +42,7 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
     @Override
     @SuppressWarnings("NullableProblems")
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurePathMatch(configurer, webProperties.getAdminApi());
-        configurePathMatch(configurer, webProperties.getAppApi());
+        configurePathMatch(configurer, webProperties.getAgentApi());
     }
 
     /**

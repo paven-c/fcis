@@ -13,13 +13,14 @@ import static com.fancy.module.common.enums.ErrorCodeConstants.ROLE_NOT_EXISTS;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.common.util.collection.CollectionUtils;
 import com.fancy.common.util.object.BeanUtils;
-import com.fancy.module.common.controller.admin.permission.vo.role.RolePageReqVO;
-import com.fancy.module.common.controller.admin.permission.vo.role.RoleSaveReqVO;
+import com.fancy.module.common.controller.permission.vo.role.RolePageReqVO;
+import com.fancy.module.common.controller.permission.vo.role.RoleSaveReqVO;
 import com.fancy.module.common.enums.permission.DataScopeEnum;
 import com.fancy.module.common.enums.permission.RoleCodeEnum;
 import com.fancy.module.common.enums.permission.RoleTypeEnum;
@@ -27,8 +28,6 @@ import com.fancy.module.common.repository.cache.redis.RedisKeyConstants;
 import com.fancy.module.common.repository.mapper.permission.RoleMapper;
 import com.fancy.module.common.repository.pojo.permission.Role;
 import com.google.common.annotations.VisibleForTesting;
-import com.mzt.logapi.context.LogRecordContext;
-import com.mzt.logapi.service.impl.DiffParseFunction;
 import jakarta.annotation.Resource;
 import java.util.Collection;
 import java.util.Collections;
@@ -40,7 +39,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 /**
  * 角色 Service 实现类
@@ -59,32 +57,28 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Long createRole(RoleSaveReqVO createReqVO, Integer type) {
-        // 1. 校验角色
+        // 查重校验
         validateRoleDuplicate(createReqVO.getName(), createReqVO.getCode(), null);
-        // 2. 插入到数据库
+        // 新增角色
         Role role = BeanUtils.toBean(createReqVO, Role.class)
+                .setRoleName(createReqVO.getName())
                 .setType(ObjectUtil.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()))
                 .setStatus(CommonStatusEnum.ENABLE.getStatus())
                 .setDataScope(DataScopeEnum.ALL.getScope());
         roleMapper.insert(role);
-
-        // 3. 记录操作日志上下文
-        LogRecordContext.putVariable("role", role);
         return role.getId();
     }
 
     @Override
     @CacheEvict(value = RedisKeyConstants.ROLE, key = "#updateReqVO.id")
     public void updateRole(RoleSaveReqVO updateReqVO) {
-        // 1.1 校验是否可以更新
+        // 校验是否可以更新
         Role role = validateRoleForUpdate(updateReqVO.getId());
-        // 1.2 校验角色的唯一字段是否重复
+        // 校验角色的唯一字段是否重复
         validateRoleDuplicate(updateReqVO.getName(), updateReqVO.getCode(), updateReqVO.getId());
-        // 2. 更新到数据库
+        // 更新到数据库
         Role updateObj = BeanUtils.toBean(updateReqVO, Role.class);
         roleMapper.updateById(updateObj);
-        // 3. 记录操作日志上下文
-        LogRecordContext.putVariable("role", role);
     }
 
     @Override
@@ -92,7 +86,6 @@ public class RoleServiceImpl implements RoleService {
     public void updateRoleDataScope(Long id, Integer dataScope, Set<Long> dataScopeDeptIds) {
         // 校验是否可以更新
         validateRoleForUpdate(id);
-
         // 更新数据范围
         Role updateObject = new Role();
         updateObject.setId(id);
@@ -105,43 +98,38 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(rollbackFor = Exception.class)
     @CacheEvict(value = RedisKeyConstants.ROLE, key = "#id")
     public void deleteRole(Long id) {
-        // 1. 校验是否可以更新
+        // 校验是否可以更新
         Role role = validateRoleForUpdate(id);
-        // 2.1 标记删除
+        // 标记删除
         roleMapper.deleteById(id);
-        // 2.2 删除相关数据
+        // 删除相关数据
         permissionService.processRoleDeleted(id);
-        // 3. 记录操作日志上下文
-        LogRecordContext.putVariable(DiffParseFunction.OLD_OBJECT, BeanUtils.toBean(role, RoleSaveReqVO.class));
-        LogRecordContext.putVariable("role", role);
     }
 
     /**
      * 校验角色的唯一字段是否重复
-     *
-     * 1. 是否存在相同名字的角色
-     * 2. 是否存在相同编码的角色
+     * <p>
+     * 1. 是否存在相同名字的角色 2. 是否存在相同编码的角色
      *
      * @param name 角色名字
      * @param code 角色额编码
-     * @param id 角色编号
+     * @param id   角色编号
      */
     @VisibleForTesting
     void validateRoleDuplicate(String name, String code, Long id) {
-        // 0. 超级管理员，不允许创建
+        // 超管账号不能通过接口创建
         if (RoleCodeEnum.isSuperAdmin(code)) {
             throw exception(ROLE_ADMIN_CODE_ERROR, code);
         }
-        // 1. 该 name 名字被其它角色所使用
+        // 校验角色名称是否存在
         Role role = roleMapper.selectByName(name);
         if (role != null && !role.getId().equals(id)) {
             throw exception(ROLE_NAME_DUPLICATE, name);
         }
-        // 2. 是否存在相同编码的角色
-        if (!StringUtils.hasText(code)) {
+        // 校验角色编码是否存在
+        if (StrUtil.isBlank(code)) {
             return;
         }
-        // 该 code 编码被其它角色所使用
         role = roleMapper.selectByCode(code);
         if (role != null && !role.getId().equals(id)) {
             throw exception(ROLE_CODE_DUPLICATE, code);

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.component.mybatis.core.query.LambdaQueryWrapperX;
-import com.fancy.module.common.controller.admin.dict.vo.data.DictDataPageReqVO;
+import com.fancy.module.common.controller.dict.vo.data.DictDataPageReqVO;
 import com.fancy.module.common.repository.pojo.dict.DictData;
 import java.util.Arrays;
 import java.util.Collection;

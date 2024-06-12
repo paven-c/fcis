@@ -10,8 +10,10 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.util.collection.CollectionUtils;
+import com.fancy.component.datapermission.core.annotation.DataPermission;
 import com.fancy.module.common.api.permission.dto.DeptDataPermissionRespDTO;
 import com.fancy.module.common.enums.permission.DataScopeEnum;
+import com.fancy.module.common.enums.permission.RoleCodeEnum;
 import com.fancy.module.common.repository.cache.redis.RedisKeyConstants;
 import com.fancy.module.common.repository.mapper.permission.RoleMenuMapper;
 import com.fancy.module.common.repository.mapper.permission.UserRoleMapper;
@@ -25,6 +27,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.Sets;
 import jakarta.annotation.Resource;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -66,26 +69,21 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public boolean hasAnyPermissions(Long userId, String... permissions) {
-        // 如果为空，说明已经有权限
         if (ArrayUtil.isEmpty(permissions)) {
             return true;
         }
-
-        // 获得当前登录的角色。如果为空，说明没有权限
+        // 用户角色列表
         List<Role> roles = getEnableUserRoleListByUserIdFromCache(userId);
         if (CollUtil.isEmpty(roles)) {
             return false;
         }
-
-        // 情况一：遍历判断每个权限，如果有一满足，说明有权限
-        for (String permission : permissions) {
-            if (hasAnyPermission(roles, permission)) {
-                return true;
-            }
+        // 超管无需权限拦截
+        boolean isSuperAdmin = roles.stream().anyMatch(role -> RoleCodeEnum.isSuperAdmin(role.getCode()));
+        if (isSuperAdmin) {
+            return true;
         }
-
-        // 情况二：如果是超管，也说明有权限
-        return roleService.hasAnySuperAdmin(convertSet(roles, Role::getId));
+        // 遍历进行权限比对, 只要有一个权限即通过
+        return Arrays.stream(permissions).anyMatch(permission -> hasAnyPermission(roles, permission));
     }
 
     /**
@@ -97,15 +95,12 @@ public class PermissionServiceImpl implements PermissionService {
      */
     private boolean hasAnyPermission(List<Role> roles, String permission) {
         List<Long> menuIds = menuService.getMenuIdListByPermissionFromCache(permission);
-        // 采用严格模式，如果权限找不到对应的 Menu 的话，也认为没有权限
         if (CollUtil.isEmpty(menuIds)) {
             return false;
         }
-
-        // 判断是否有权限
         Set<Long> roleIds = convertSet(roles, Role::getId);
         for (Long menuId : menuIds) {
-            // 获得拥有该菜单的角色编号集合
+            // 拥有该菜单的角色编号集合
             Set<Long> menuRoleIds = getSelf().getMenuRoleIdListByMenuIdFromCache(menuId);
             // 如果有交集，说明有权限
             if (CollUtil.containsAny(menuRoleIds, roleIds)) {
@@ -121,13 +116,11 @@ public class PermissionServiceImpl implements PermissionService {
         if (ArrayUtil.isEmpty(roles)) {
             return true;
         }
-
-        // 获得当前登录的角色。如果为空，说明没有权限
+        // 当前登录的角色。如果为空，说明没有权限
         List<Role> roleList = getEnableUserRoleListByUserIdFromCache(userId);
         if (CollUtil.isEmpty(roleList)) {
             return false;
         }
-
         // 判断是否有角色
         Set<String> userRoles = convertSet(roleList, Role::getCode);
         return CollUtil.containsAny(userRoles, Sets.newHashSet(roles));
@@ -136,8 +129,7 @@ public class PermissionServiceImpl implements PermissionService {
     // ========== 角色-菜单的相关方法  ==========
 
     @Override
-    @CacheEvict(value = RedisKeyConstants.MENU_ROLE_ID_LIST,
-            allEntries = true) // allEntries 清空所有缓存，主要一次更新涉及到的 menuIds 较多，反倒批量会更快
+    @CacheEvict(value = RedisKeyConstants.MENU_ROLE_ID_LIST, allEntries = true)
     public void assignRoleMenu(Long roleId, Set<Long> menuIds) {
         // 获得角色拥有菜单编号
         Set<Long> dbMenuIds = convertSet(roleMenuMapper.selectListByRoleId(roleId), RoleMenu::getMenuId);
@@ -162,10 +154,8 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     @Caching(evict = {
-            @CacheEvict(value = RedisKeyConstants.MENU_ROLE_ID_LIST,
-                    allEntries = true), // allEntries 清空所有缓存，此处无法方便获得 roleId 对应的 menu 缓存们
-            @CacheEvict(value = RedisKeyConstants.USER_ROLE_ID_LIST,
-                    allEntries = true) // allEntries 清空所有缓存，此处无法方便获得 roleId 对应的 user 缓存们
+            @CacheEvict(value = RedisKeyConstants.MENU_ROLE_ID_LIST, allEntries = true),
+            @CacheEvict(value = RedisKeyConstants.USER_ROLE_ID_LIST, allEntries = true)
     })
     public void processRoleDeleted(Long roleId) {
         // 标记删除 UserRole
@@ -185,7 +175,6 @@ public class PermissionServiceImpl implements PermissionService {
         if (CollUtil.isEmpty(roleIds)) {
             return Collections.emptySet();
         }
-
         // 如果是管理员的情况下，获取全部菜单编号
         if (roleService.hasAnySuperAdmin(roleIds)) {
             return convertSet(menuService.getMenuList(), Menu::getId);
@@ -206,9 +195,7 @@ public class PermissionServiceImpl implements PermissionService {
     @CacheEvict(value = RedisKeyConstants.USER_ROLE_ID_LIST, key = "#userId")
     public void assignUserRole(Long userId, Set<Long> roleIds) {
         // 获得角色拥有角色编号
-        Set<Long> dbRoleIds = convertSet(
-                userRoleMapper.selectListByUserId(userId),
-                UserRole::getRoleId);
+        Set<Long> dbRoleIds = convertSet(userRoleMapper.selectListByUserId(userId), UserRole::getRoleId);
         // 计算新增和删除的角色编号
         Set<Long> roleIdList = CollUtil.emptyIfNull(roleIds);
         Collection<Long> createRoleIds = CollUtil.subtract(roleIdList, dbRoleIds);
@@ -273,57 +260,52 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-//    @DataPermission(enable = false)
+    @DataPermission(enable = false)
     public DeptDataPermissionRespDTO getDeptDataPermission(Long userId) {
         // 获得用户的角色
         List<Role> roles = getEnableUserRoleListByUserIdFromCache(userId);
-
         // 如果角色为空，则只能查看自己
         DeptDataPermissionRespDTO result = new DeptDataPermissionRespDTO();
         if (CollUtil.isEmpty(roles)) {
             result.setSelf(true);
             return result;
         }
-
-        // 获得用户的部门编号的缓存，通过 Guava 的 Suppliers 惰性求值，即有且仅有第一次发起 DB 的查询
+        // 获得用户的部门编号的缓存
         Supplier<Long> userDeptId = Suppliers.memoize(() -> userService.getUser(userId).getDeptId());
         // 遍历每个角色，计算
         for (Role role : roles) {
-            // 为空时，跳过
             if (role.getDataScope() == null) {
                 continue;
             }
-            // 情况一，ALL
+            // 全部数据权限
             if (Objects.equals(role.getDataScope(), DataScopeEnum.ALL.getScope())) {
                 result.setAll(true);
                 continue;
             }
-            // 情况二，DEPT_CUSTOM
+            // 自定义部门可见
             if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_CUSTOM.getScope())) {
                 CollUtil.addAll(result.getDeptIds(), role.getDataScopeDeptIds());
                 // 自定义可见部门时，保证可以看到自己所在的部门。否则，一些场景下可能会有问题。
-                // 例如说，登录时，基于 t_user 的 username 查询会可能被 dept_id 过滤掉
                 CollUtil.addAll(result.getDeptIds(), userDeptId.get());
                 continue;
             }
-            // 情况三，DEPT_ONLY
+            // 本部门可见
             if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_ONLY.getScope())) {
                 CollectionUtils.addIfNotNull(result.getDeptIds(), userDeptId.get());
                 continue;
             }
-            // 情况四，DEPT_DEPT_AND_CHILD
+            // 本部门及其子部门
             if (Objects.equals(role.getDataScope(), DataScopeEnum.DEPT_AND_CHILD.getScope())) {
                 CollUtil.addAll(result.getDeptIds(), deptService.getChildDeptIdListFromCache(userDeptId.get()));
                 // 添加本身部门编号
                 CollUtil.addAll(result.getDeptIds(), userDeptId.get());
                 continue;
             }
-            // 情况五，SELF
+            // 本人数据
             if (Objects.equals(role.getDataScope(), DataScopeEnum.SELF.getScope())) {
                 result.setSelf(true);
                 continue;
             }
-            // 未知情况，error log 即可
             log.error("[getDeptDataPermission][LoginUser({}) role({}) 无法处理]", userId, toJsonString(result));
         }
         return result;

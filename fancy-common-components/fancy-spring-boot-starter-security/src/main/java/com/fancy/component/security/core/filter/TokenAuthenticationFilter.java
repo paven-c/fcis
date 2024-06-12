@@ -64,12 +64,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             if (accessToken == null) {
                 return null;
             }
-            if (userType != null
-                    && ObjectUtil.notEqual(accessToken.getUserType(), userType)) {
+            if (userType != null && ObjectUtil.notEqual(accessToken.getUserType(), userType)) {
                 throw new AccessDeniedException("错误的用户类型");
             }
-            return new LoginUser().setId(accessToken.getUserId()).setUserType(accessToken.getUserType())
-                    .setInfo(accessToken.getUserInfo()).setTenantId(accessToken.getTenantId()).setScopes(accessToken.getScopes());
+            return new LoginUser().setId(accessToken.getUserId())
+                    .setUserType(accessToken.getUserType())
+                    .setInfo(accessToken.getUserInfo())
+                    .setScopes(accessToken.getScopes());
         } catch (ServiceException serviceException) {
             return null;
         }
@@ -93,7 +94,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
         // 构建模拟用户
         Long userId = Long.valueOf(token.substring(securityProperties.getMockSecret().length()));
-        return new LoginUser().setId(userId).setUserType(userType).setTenantId(WebFrameworkUtils.getTenantId(request));
+        return new LoginUser().setId(userId).setUserType(userType);
     }
 
 }

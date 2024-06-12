@@ -18,9 +18,9 @@ public class SecurityConfiguration {
     public AuthorizeRequestsCustomizer authorizeRequestsCustomizer() {
         return new AuthorizeRequestsCustomizer() {
             @Override
-            public void customize(
-                    AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authorizationManagerRequestMatcherRegistry) {
-
+            public void customize(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry registry) {
+                registry.requestMatchers(buildAgentApi("/auth/login")).anonymous()
+                        .requestMatchers(buildAgentApi("/**")).authenticated();
             }
         };
     }

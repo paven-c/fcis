@@ -18,12 +18,8 @@ public abstract class AuthorizeRequestsCustomizer
     @Resource
     private WebProperties webProperties;
 
-    protected String buildAdminApi(String url) {
-        return webProperties.getAdminApi().getPrefix() + url;
-    }
-
-    protected String buildAppApi(String url) {
-        return webProperties.getAppApi().getPrefix() + url;
+    protected String buildAgentApi(String url) {
+        return webProperties.getAgentApi().getPrefix() + url;
     }
 
     @Override

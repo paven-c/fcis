@@ -6,9 +6,10 @@ import static com.fancy.common.util.collection.CollectionUtils.filterList;
 import static com.fancy.module.common.repository.pojo.permission.Menu.ID_ROOT;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.fancy.common.util.object.BeanUtils;
-import com.fancy.module.common.controller.admin.auth.vo.AuthLoginRespVO;
-import com.fancy.module.common.controller.admin.auth.vo.AuthPermissionInfoRespVO;
+import com.fancy.module.common.controller.auth.vo.AuthLoginRespVO;
+import com.fancy.module.common.controller.auth.vo.AuthPermissionInfoRespVO;
 import com.fancy.module.common.enums.permission.MenuTypeEnum;
 import com.fancy.module.common.repository.pojo.oauth.OAuth2AccessToken;
 import com.fancy.module.common.repository.pojo.permission.Menu;
@@ -38,9 +39,7 @@ public interface AuthConvert {
         return AuthPermissionInfoRespVO.builder()
                 .user(BeanUtils.toBean(user, AuthPermissionInfoRespVO.UserVO.class))
                 .roles(convertSet(roleList, Role::getCode))
-                // 权限标识信息
-                .permissions(convertSet(menuList, Menu::getPermission))
-                // 菜单树
+                .permissions(convertSet(menuList, Menu::getPermission, p -> StrUtil.isNotBlank(p.getPermission())))
                 .menus(buildMenuTree(menuList))
                 .build();
     }
@@ -61,9 +60,7 @@ public interface AuthConvert {
         menuList.removeIf(menu -> menu.getType().equals(MenuTypeEnum.BUTTON.getType()));
         // 排序，保证菜单的有序性
         menuList.sort(Comparator.comparing(Menu::getSort));
-
         // 构建菜单树
-        // 使用 LinkedHashMap 的原因，是为了排序 。实际也可以用 Stream API ，就是太丑了。
         Map<Long, AuthPermissionInfoRespVO.MenuVO> treeNodeMap = new LinkedHashMap<>();
         menuList.forEach(menu -> treeNodeMap.put(menu.getId(), AuthConvert.INSTANCE.convertTreeNode(menu)));
         // 处理父子关系
@@ -71,8 +68,7 @@ public interface AuthConvert {
             // 获得父节点
             AuthPermissionInfoRespVO.MenuVO parentNode = treeNodeMap.get(childNode.getParentId());
             if (parentNode == null) {
-                LoggerFactory.getLogger(getClass()).error("[buildRouterTree][resource({}) 找不到父资源({})]",
-                        childNode.getId(), childNode.getParentId());
+                LoggerFactory.getLogger(getClass()).error("[buildRouterTree][resource({}) 找不到父资源({})]", childNode.getId(), childNode.getParentId());
                 return;
             }
             // 将自己添加到父节点中

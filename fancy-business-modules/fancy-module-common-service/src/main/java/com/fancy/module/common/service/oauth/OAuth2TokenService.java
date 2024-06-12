@@ -1,7 +1,7 @@
 package com.fancy.module.common.service.oauth;
 
 import com.fancy.common.pojo.PageResult;
-import com.fancy.module.common.controller.admin.oauth.vo.token.OAuth2AccessTokenPageReqVO;
+import com.fancy.module.common.controller.oauth.vo.token.OAuth2AccessTokenPageReqVO;
 import com.fancy.module.common.repository.pojo.oauth.OAuth2AccessToken;
 import java.util.List;
 

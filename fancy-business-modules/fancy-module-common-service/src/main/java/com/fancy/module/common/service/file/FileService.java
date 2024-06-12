@@ -2,9 +2,9 @@ package com.fancy.module.common.service.file;
 
 
 import com.fancy.common.pojo.PageResult;
-import com.fancy.module.common.controller.admin.file.vo.file.FileCreateReqVO;
-import com.fancy.module.common.controller.admin.file.vo.file.FilePageReqVO;
-import com.fancy.module.common.controller.admin.file.vo.file.FilePresignedUrlRespVO;
+import com.fancy.module.common.controller.file.vo.file.FileCreateReqVO;
+import com.fancy.module.common.controller.file.vo.file.FilePageReqVO;
+import com.fancy.module.common.controller.file.vo.file.FilePresignedUrlRespVO;
 import com.fancy.module.common.repository.pojo.file.File;
 
 /**

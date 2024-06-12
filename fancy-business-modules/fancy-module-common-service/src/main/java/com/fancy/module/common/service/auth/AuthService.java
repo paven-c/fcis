@@ -1,13 +1,12 @@
 package com.fancy.module.common.service.auth;
 
-import com.fancy.module.common.controller.admin.auth.vo.AuthLoginReqVO;
-import com.fancy.module.common.controller.admin.auth.vo.AuthLoginRespVO;
+import com.fancy.module.common.controller.auth.vo.AuthLoginReqVO;
+import com.fancy.module.common.controller.auth.vo.AuthLoginRespVO;
 import com.fancy.module.common.repository.pojo.user.User;
 import jakarta.validation.Valid;
 
 /**
- * 管理后台的认证 Service 接口
- * 提供用户的登录、登出的能力
+ * 管理后台的认证 Service 接口 提供用户的登录、登出的能力
  *
  * @author paven
  */
@@ -33,7 +32,7 @@ public interface AuthService {
     /**
      * 基于 token 退出登录
      *
-     * @param token token
+     * @param token   token
      * @param logType 登出类型
      */
     void logout(String token, Integer logType);
@@ -41,9 +40,10 @@ public interface AuthService {
     /**
      * 刷新访问令牌
      *
+     * @param clientId     客户端ID
      * @param refreshToken 刷新令牌
      * @return 登录结果
      */
-    AuthLoginRespVO refreshToken(String refreshToken);
+    AuthLoginRespVO refreshToken(String clientId, String refreshToken);
 
 }

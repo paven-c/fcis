@@ -2,7 +2,7 @@ package com.fancy.module.common.repository.mapper.dept;
 
 import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.component.mybatis.core.query.LambdaQueryWrapperX;
-import com.fancy.module.common.controller.admin.dept.vo.dept.DeptListReqVO;
+import com.fancy.module.common.controller.dept.vo.DeptListReqVO;
 import com.fancy.module.common.repository.pojo.dept.Dept;
 import java.util.Collection;
 import java.util.List;

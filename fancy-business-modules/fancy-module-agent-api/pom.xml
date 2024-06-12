@@ -11,4 +11,19 @@
 
   <artifactId>fancy-module-agent-api</artifactId>
   <packaging>jar</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.fancy</groupId>
+      <artifactId>fancy-common</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <!-- 参数校验 -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+      <optional>true</optional>
+    </dependency>
+  </dependencies>
 </project>

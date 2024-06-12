@@ -18,26 +18,26 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         if (Objects.nonNull(metaObject) && metaObject.getOriginalObject() instanceof BasePojo) {
-            BasePojo BasePojo = (BasePojo) metaObject.getOriginalObject();
+            BasePojo basePojo = (BasePojo) metaObject.getOriginalObject();
 
             LocalDateTime current = LocalDateTime.now();
             // 创建时间为空，则以当前时间为插入时间
-            if (Objects.isNull(BasePojo.getCreateTime())) {
-                BasePojo.setCreateTime(current);
+            if (Objects.isNull(basePojo.getCreateTime())) {
+                basePojo.setCreateTime(current);
             }
             // 更新时间为空，则以当前时间为更新时间
-            if (Objects.isNull(BasePojo.getUpdateTime())) {
-                BasePojo.setUpdateTime(current);
+            if (Objects.isNull(basePojo.getUpdateTime())) {
+                basePojo.setUpdateTime(current);
             }
 
             Long userId = WebFrameworkUtils.getLoginUserId();
             // 当前登录用户不为空，创建人为空，则当前登录用户为创建人
-            if (Objects.nonNull(userId) && Objects.isNull(BasePojo.getCreator())) {
-                BasePojo.setCreator(userId.toString());
+            if (Objects.nonNull(userId) && Objects.isNull(basePojo.getCreator())) {
+                basePojo.setCreator(userId.toString());
             }
             // 当前登录用户不为空，更新人为空，则当前登录用户为更新人
-            if (Objects.nonNull(userId) && Objects.isNull(BasePojo.getUpdater())) {
-                BasePojo.setUpdater(userId.toString());
+            if (Objects.nonNull(userId) && Objects.isNull(basePojo.getUpdater())) {
+                basePojo.setUpdater(userId.toString());
             }
         }
     }

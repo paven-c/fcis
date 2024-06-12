@@ -47,21 +47,14 @@ public class MybatisAutoConfiguration {
     public IKeyGenerator keyGenerator(ConfigurableEnvironment environment) {
         DbType dbType = IdTypeEnvironmentPostProcessor.getDbType(environment);
         if (dbType != null) {
-            switch (dbType) {
-                case POSTGRE_SQL:
-                    return new PostgreKeyGenerator();
-                case ORACLE:
-                case ORACLE_12C:
-                    return new OracleKeyGenerator();
-                case H2:
-                    return new H2KeyGenerator();
-                case KINGBASE_ES:
-                    return new KingbaseKeyGenerator();
-                case DM:
-                    return new DmKeyGenerator();
-                default:
-                    throw new IllegalArgumentException(StrUtil.format("DbType{} 找不到合适的 IKeyGenerator 实现类", dbType));
-            }
+            return switch (dbType) {
+                case POSTGRE_SQL -> new PostgreKeyGenerator();
+                case ORACLE, ORACLE_12C -> new OracleKeyGenerator();
+                case H2 -> new H2KeyGenerator();
+                case KINGBASE_ES -> new KingbaseKeyGenerator();
+                case DM -> new DmKeyGenerator();
+                default -> throw new IllegalArgumentException(StrUtil.format("DbType{} 找不到合适的 IKeyGenerator 实现类", dbType));
+            };
         }
         throw new IllegalArgumentException(StrUtil.format("DbType{} 找不到合适的 IKeyGenerator 实现类", dbType));
     }

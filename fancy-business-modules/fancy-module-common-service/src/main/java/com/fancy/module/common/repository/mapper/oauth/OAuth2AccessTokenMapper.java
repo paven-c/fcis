@@ -3,7 +3,7 @@ package com.fancy.module.common.repository.mapper.oauth;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.component.mybatis.core.query.LambdaQueryWrapperX;
-import com.fancy.module.common.controller.admin.oauth.vo.token.OAuth2AccessTokenPageReqVO;
+import com.fancy.module.common.controller.oauth.vo.token.OAuth2AccessTokenPageReqVO;
 import com.fancy.module.common.repository.pojo.oauth.OAuth2AccessToken;
 import java.time.LocalDateTime;
 import java.util.List;

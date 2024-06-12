@@ -14,7 +14,7 @@ import com.fancy.common.exception.enums.GlobalErrorCodeConstants;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.common.util.date.DateUtils;
 import com.fancy.component.security.core.LoginUser;
-import com.fancy.module.common.controller.admin.oauth.vo.token.OAuth2AccessTokenPageReqVO;
+import com.fancy.module.common.controller.oauth.vo.token.OAuth2AccessTokenPageReqVO;
 import com.fancy.module.common.repository.cache.redis.oauth2.OAuth2AccessTokenRedisDAO;
 import com.fancy.module.common.repository.mapper.oauth.OAuth2AccessTokenMapper;
 import com.fancy.module.common.repository.mapper.oauth.OAuth2RefreshTokenMapper;
@@ -27,7 +27,6 @@ import com.fancy.module.common.service.oauth.OAuth2TokenService;
 import com.fancy.module.common.service.user.UserService;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.springframework.context.annotation.Lazy;
@@ -79,10 +78,10 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
         }
 
         // 移除相关的访问令牌
-        List<OAuth2AccessToken> accessTokenDOs = oauth2AccessTokenMapper.selectListByRefreshToken(refreshToken);
-        if (CollUtil.isNotEmpty(accessTokenDOs)) {
-            oauth2AccessTokenMapper.deleteBatchIds(convertSet(accessTokenDOs, OAuth2AccessToken::getId));
-            oauth2AccessTokenRedisDAO.deleteList(convertSet(accessTokenDOs, OAuth2AccessToken::getAccessToken));
+        List<OAuth2AccessToken> oAuth2AccessTokens = oauth2AccessTokenMapper.selectListByRefreshToken(refreshToken);
+        if (CollUtil.isNotEmpty(oAuth2AccessTokens)) {
+            oauth2AccessTokenMapper.deleteBatchIds(convertSet(oAuth2AccessTokens, OAuth2AccessToken::getId));
+            oauth2AccessTokenRedisDAO.deleteList(convertSet(oAuth2AccessTokens, OAuth2AccessToken::getAccessToken));
         }
 
         // 已过期的情况下，删除刷新令牌
@@ -173,12 +172,10 @@ public class OAuth2TokenServiceImpl implements OAuth2TokenService {
      * @see LoginUser
      */
     private Map<String, String> buildUserInfo(Long userId, Integer userType) {
-        if (userType.equals(UserTypeEnum.ADMIN.getValue())) {
+        if (userType.equals(UserTypeEnum.AGENT.getValue())) {
             User user = userService.getUser(userId);
             return MapUtil.builder(LoginUser.INFO_KEY_NICKNAME, user.getNickname()).put(LoginUser.INFO_KEY_DEPT_ID, StrUtil.toStringOrNull(user.getDeptId()))
                     .build();
-        } else if (userType.equals(UserTypeEnum.USER.getValue())) {
-            return Collections.emptyMap();
         }
         return null;
     }

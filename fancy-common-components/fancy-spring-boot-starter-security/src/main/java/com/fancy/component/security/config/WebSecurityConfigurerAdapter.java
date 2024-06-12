@@ -68,24 +68,44 @@ public class WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 配置 URL 的安全配置 anyRequest          |   匹配所有请求路径 access              |   SpringEl表达式结果为true时可以访问 anonymous           |   匿名可以访问 denyAll             | 用户不能访问
-     * fullyAuthenticated  |   用户完全认证可以访问（非remember-me下自动登录） hasAnyAuthority     |   如果有参数，参数表示权限，则其中任何一个权限可以访问 hasAnyRole          | 如果有参数，参数表示角色，则其中任何一个角色可以访问
-     * hasAuthority        |   如果有参数，参数表示权限，则其权限可以访问 hasIpAddress        |   如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问 hasRole             | 如果有参数，参数表示角色，则其角色可以访问
-     * permitAll           |   用户可以任意访问 rememberMe          |   允许通过remember-me登录的用户访问 authenticated       |   用户登录后可访问
+     * 配置 URL 的安全配置
+     * <p>
+     * anyRequest          |   匹配所有请求路径
+     * <p>
+     * access              |   SpringEl表达式结果为true时可以访问
+     * <p>
+     * anonymous           |   匿名可以访问
+     * <p>
+     * denyAll             |   用户不能访问
+     * <p>
+     * fullyAuthenticated  |   用户完全认证可以访问（非remember-me下自动登录）
+     * <p>
+     * hasAnyAuthority     |   如果有参数，参数表示权限，则其中任何一个权限可以访问
+     * <p>
+     * hasAnyRole          |   如果有参数，参数表示角色，则其中任何一个角色可以访问
+     * <p>
+     * hasAuthority        |   如果有参数，参数表示权限，则其权限可以访问
+     * <p>
+     * hasIpAddress        |   如果有参数，参数表示IP地址，如果用户IP和参数匹配，则可以访问
+     * <p>
+     * hasRole             |   如果有参数，参数表示角色，则其角色可以访问
+     * <p>
+     * permitAll           |   用户可以任意访问
+     * <p>
+     * rememberMe          |   允许通过remember-me登录的用户访问
+     * <p>
+     * authenticated       |   用户登录后可访问
      */
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        // 登出
         httpSecurity
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(c -> c.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(c -> c.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .exceptionHandling(c -> c.authenticationEntryPoint(authenticationEntryPoint)
-                        .accessDeniedHandler(accessDeniedHandler));
+                .exceptionHandling(c -> c.authenticationEntryPoint(authenticationEntryPoint).accessDeniedHandler(accessDeniedHandler));
         Multimap<HttpMethod, String> permitAllUrls = getPermitAllUrlsFromAnnotations();
-        httpSecurity
-                .authorizeHttpRequests(c -> c
+        httpSecurity.authorizeHttpRequests(c -> c
                         .requestMatchers(HttpMethod.GET, "/*.html", "/*.html", "/*.css", "/*.js").permitAll()
                         .requestMatchers(HttpMethod.GET, permitAllUrls.get(HttpMethod.GET).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.POST, permitAllUrls.get(HttpMethod.POST).toArray(new String[0])).permitAll()
@@ -94,7 +114,7 @@ public class WebSecurityConfigurerAdapter {
                         .requestMatchers(HttpMethod.HEAD, permitAllUrls.get(HttpMethod.HEAD).toArray(new String[0])).permitAll()
                         .requestMatchers(HttpMethod.PATCH, permitAllUrls.get(HttpMethod.PATCH).toArray(new String[0])).permitAll()
                         .requestMatchers(securityProperties.getPermitAllUrls().toArray(new String[0])).permitAll()
-                        .requestMatchers(buildAppApi()).permitAll()
+                        .requestMatchers(buildAdminApi()).permitAll()
                 )
                 .authorizeHttpRequests(c -> authorizeRequestsCustomizers.forEach(customizer -> customizer.customize(c)))
                 .authorizeHttpRequests(c -> c.anyRequest().authenticated());
@@ -102,15 +122,14 @@ public class WebSecurityConfigurerAdapter {
         return httpSecurity.build();
     }
 
-    private String buildAppApi() {
-        return webProperties.getAppApi().getPrefix() + "/**";
+    private String buildAdminApi() {
+        return webProperties.getAdminApi().getPrefix() + "/**";
     }
 
     private Multimap<HttpMethod, String> getPermitAllUrlsFromAnnotations() {
         Multimap<HttpMethod, String> result = HashMultimap.create();
         // 获得接口对应的 HandlerMethod 集合
-        RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping)
-                applicationContext.getBean("requestMappingHandlerMapping");
+        RequestMappingHandlerMapping requestMappingHandlerMapping = (RequestMappingHandlerMapping) applicationContext.getBean("requestMappingHandlerMapping");
         Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = requestMappingHandlerMapping.getHandlerMethods();
         // 获得有 @PermitAll 注解的接口
         for (Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethodMap.entrySet()) {

@@ -38,7 +38,6 @@ public class SecurityFrameworkUtils {
      * @return 认证 Token
      */
     public static String obtainAuthorization(HttpServletRequest request, String headerName, String parameterName) {
-        // 1. 获得 Token。优先级：Header > Parameter
         String token = request.getHeader(headerName);
         if (StrUtil.isEmpty(token)) {
             token = request.getParameter(parameterName);
@@ -46,7 +45,6 @@ public class SecurityFrameworkUtils {
         if (!StringUtils.hasText(token)) {
             return null;
         }
-        // 2. 去除 Token 中带的 Bearer
         int index = token.indexOf(AUTHORIZATION_BEARER + " ");
         return index >= 0 ? token.substring(index + 7).trim() : token;
     }

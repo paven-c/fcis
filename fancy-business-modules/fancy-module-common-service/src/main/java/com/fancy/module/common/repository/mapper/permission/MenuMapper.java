@@ -2,7 +2,7 @@ package com.fancy.module.common.repository.mapper.permission;
 
 import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.component.mybatis.core.query.LambdaQueryWrapperX;
-import com.fancy.module.common.controller.admin.permission.vo.menu.MenuListReqVO;
+import com.fancy.module.common.controller.permission.vo.menu.MenuListReqVO;
 import com.fancy.module.common.repository.pojo.permission.Menu;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;

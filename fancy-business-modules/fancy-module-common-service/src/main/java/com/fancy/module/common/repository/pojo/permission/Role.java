@@ -7,6 +7,7 @@ import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.component.mybatis.core.dataobject.BasePojo;
 import com.fancy.component.mybatis.core.type.JsonLongSetTypeHandler;
 import com.fancy.module.common.enums.permission.DataScopeEnum;
+import com.fancy.module.common.enums.permission.RoleCodeEnum;
 import com.fancy.module.common.enums.permission.RoleTypeEnum;
 import java.util.Set;
 import lombok.Data;
@@ -37,6 +38,8 @@ public class Role extends BasePojo {
 
     /**
      * 角色标识
+     * <p>
+     * {@link RoleCodeEnum}
      */
     private String code;
 

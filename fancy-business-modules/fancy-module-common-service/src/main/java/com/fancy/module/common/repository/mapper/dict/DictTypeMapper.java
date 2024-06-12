@@ -3,7 +3,7 @@ package com.fancy.module.common.repository.mapper.dict;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.component.mybatis.core.query.LambdaQueryWrapperX;
-import com.fancy.module.common.controller.admin.dict.vo.type.DictTypePageReqVO;
+import com.fancy.module.common.controller.dict.vo.type.DictTypePageReqVO;
 import com.fancy.module.common.repository.pojo.dict.DictType;
 import java.time.LocalDateTime;
 import org.apache.ibatis.annotations.Mapper;

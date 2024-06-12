@@ -27,7 +27,7 @@ public class LoginUser {
     private Long id;
     /**
      * 用户类型
-     *
+     * <p>
      * 关联 {@link UserTypeEnum}
      */
     private Integer userType;
@@ -35,20 +35,16 @@ public class LoginUser {
      * 额外的用户信息
      */
     private Map<String, String> info;
-    /**
-     * 租户编号
-     */
-    private Long tenantId;
+
     /**
      * 授权范围
      */
     private List<String> scopes;
 
-    // ========== 上下文 ==========
     /**
      * 上下文字段，不进行持久化
-     *
-     * 1. 用于基于 LoginUser 维度的临时缓存
+     * <p>
+     * 用于基于 LoginUser 维度的临时缓存
      */
     @JsonIgnore
     private Map<String, Object> context;

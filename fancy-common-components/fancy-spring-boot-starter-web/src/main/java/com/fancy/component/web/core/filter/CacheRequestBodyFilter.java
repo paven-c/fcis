@@ -17,8 +17,7 @@ public class CacheRequestBodyFilter extends OncePerRequestFilter {
 
     @Override
     @SuppressWarnings("NullableProblems")
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         filterChain.doFilter(new CacheRequestBodyWrapper(request), response);
     }
 

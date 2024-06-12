@@ -45,11 +45,10 @@ public class GlobalExceptionHandler {
     private final String applicationName;
 
     /**
-     * 处理所有异常，主要是提供给 Filter 使用
-     * 因为 Filter 不走 SpringMVC 的流程，但是我们又需要兜底处理异常，所以这里提供一个全量的异常处理过程，保持逻辑统一。
+     * 处理所有异常，主要是提供给 Filter 使用 因为 Filter 不走 SpringMVC 的流程，但是我们又需要兜底处理异常，所以这里提供一个全量的异常处理过程，保持逻辑统一。
      *
      * @param request 请求
-     * @param ex 异常
+     * @param ex      异常
      * @return 通用返回
      */
     public CommonResult<?> allExceptionHandler(HttpServletRequest request, Throwable ex) {
@@ -179,6 +178,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     public CommonResult<?> defaultExceptionHandler(HttpServletRequest req, Throwable ex) {
         // 返回 ERROR CommonResult
+        log.error("[defaultExceptionHandler]", ex);
         return CommonResult.error(INTERNAL_SERVER_ERROR.getCode(), INTERNAL_SERVER_ERROR.getMsg());
     }
 }

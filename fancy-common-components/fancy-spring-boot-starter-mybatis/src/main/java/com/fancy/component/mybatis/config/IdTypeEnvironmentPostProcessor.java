@@ -24,6 +24,7 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
     private static final String ID_TYPE_KEY = "mybatis-plus.global-config.db-config.id-type";
 
     private static final String DATASOURCE_DYNAMIC_KEY = "spring.datasource.dynamic";
+    private static final String DATASOURCE_KEY = "spring.datasource";
 
     private static final String QUARTZ_JOB_STORE_DRIVER_KEY = "spring.quartz.properties.org.quartz.jobStore.driverDelegateClass";
 
@@ -38,7 +39,6 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
         if (dbType == null) {
             return;
         }
-
         // 设置 Quartz JobStore 对应的 Driver
         setJobStoreDriverIfPresent(environment, dbType);
 
@@ -50,12 +50,10 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
         if (idType != IdType.NONE) {
             return;
         }
-        // 情况一，用户输入 ID，适合 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库
         if (INPUT_ID_TYPES.contains(dbType)) {
             setIdType(environment, IdType.INPUT);
             return;
         }
-        // 情况二，自增 ID，适合 MySQL 等直接自增的数据库
         setIdType(environment, IdType.AUTO);
     }
 
@@ -74,21 +72,12 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
             return;
         }
         // 根据 dbType 类型，获取对应的 driverClass
-        switch (dbType) {
-            case POSTGRE_SQL:
-                driverClass = "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate";
-                break;
-            case ORACLE:
-            case ORACLE_12C:
-                driverClass = "org.quartz.impl.jdbcjobstore.oracle.OracleDelegate";
-                break;
-            case SQL_SERVER:
-            case SQL_SERVER2005:
-                driverClass = "org.quartz.impl.jdbcjobstore.MSSQLDelegate";
-                break;
-            default:
-                throw new IllegalArgumentException(String.format("未知的 dbType[%s]", dbType));
-        }
+        driverClass = switch (dbType) {
+            case POSTGRE_SQL -> "org.quartz.impl.jdbcjobstore.PostgreSQLDelegate";
+            case ORACLE, ORACLE_12C -> "org.quartz.impl.jdbcjobstore.oracle.OracleDelegate";
+            case SQL_SERVER, SQL_SERVER2005 -> "org.quartz.impl.jdbcjobstore.MSSQLDelegate";
+            default -> throw new IllegalArgumentException(String.format("未知的 dbType[%s]", dbType));
+        };
         // 设置 driverClass 变量
         if (StrUtil.isNotEmpty(driverClass)) {
             environment.getSystemProperties().put(QUARTZ_JOB_STORE_DRIVER_KEY, driverClass);
@@ -96,11 +85,11 @@ public class IdTypeEnvironmentPostProcessor implements EnvironmentPostProcessor 
     }
 
     public static DbType getDbType(ConfigurableEnvironment environment) {
-        String primary = environment.getProperty(DATASOURCE_DYNAMIC_KEY + "." + "primary");
-        if (StrUtil.isEmpty(primary)) {
+        String datasource = environment.getProperty(DATASOURCE_KEY);
+        if (StrUtil.isEmpty(datasource)) {
             return null;
         }
-        String url = environment.getProperty(DATASOURCE_DYNAMIC_KEY + ".datasource." + primary + ".url");
+        String url = environment.getProperty(DATASOURCE_KEY + ".datasource.url");
         if (StrUtil.isEmpty(url)) {
             return null;
         }

@@ -1,7 +1,7 @@
 package com.fancy.module.common.service.permission;
 
-import com.fancy.module.common.controller.admin.permission.vo.menu.MenuListReqVO;
-import com.fancy.module.common.controller.admin.permission.vo.menu.MenuSaveVO;
+import com.fancy.module.common.controller.permission.vo.menu.MenuListReqVO;
+import com.fancy.module.common.controller.permission.vo.menu.MenuSaveVO;
 import com.fancy.module.common.repository.pojo.permission.Menu;
 import java.util.Collection;
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.fancy.module.common.service.dict;
 
 import com.fancy.common.pojo.PageResult;
-import com.fancy.module.common.controller.admin.dict.vo.type.DictTypePageReqVO;
-import com.fancy.module.common.controller.admin.dict.vo.type.DictTypeSaveReqVO;
+import com.fancy.module.common.controller.dict.vo.type.DictTypePageReqVO;
+import com.fancy.module.common.controller.dict.vo.type.DictTypeSaveReqVO;
 import com.fancy.module.common.repository.pojo.dict.DictType;
 import java.util.List;
 

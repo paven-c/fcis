@@ -1,8 +1,8 @@
 package com.fancy.module.common.service.oauth;
 
 import com.fancy.common.pojo.PageResult;
-import com.fancy.module.common.controller.admin.oauth.vo.client.OAuth2ClientPageReqVO;
-import com.fancy.module.common.controller.admin.oauth.vo.client.OAuth2ClientSaveReqVO;
+import com.fancy.module.common.controller.oauth.vo.client.OAuth2ClientPageReqVO;
+import com.fancy.module.common.controller.oauth.vo.client.OAuth2ClientSaveReqVO;
 import com.fancy.module.common.repository.pojo.oauth.OAuth2Client;
 import jakarta.validation.Valid;
 import java.util.Collection;
