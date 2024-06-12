@@ -36,19 +36,13 @@ public class AgMerchantController {
 
     @PostMapping("/update")
     public CommonResult<?> updateMerchant(@RequestBody EditAgMerchantReq req){
+        agMerchantService.updateMerchant(req);
         return CommonResult.success("成功");
     }
 
-
-    @PostMapping("/info")
-    public CommonResult<AgMerchantVo> infoMerchant(@RequestBody EditAgMerchantReq req){
-        return CommonResult.success(null);
-    }
-
-
     @PostMapping("/pageList")
     public CommonResult<PageResult<AgMerchantVo>> pageListMerchant(@RequestBody QueryAgMerchantReq req){
-        return CommonResult.success(null);
+        return CommonResult.success(agMerchantService.pageListMerchant(req));
     }
 
 }

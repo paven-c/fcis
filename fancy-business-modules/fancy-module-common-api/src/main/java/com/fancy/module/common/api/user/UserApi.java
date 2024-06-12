@@ -4,6 +4,8 @@ import com.fancy.module.common.api.user.dto.UserRespDTO;
 import com.fancy.module.common.api.user.dto.UserSaveReqDTO;
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 /**
  * 用户API
  *
@@ -26,4 +28,11 @@ public interface UserApi {
      * @return 用户信息
      */
     UserRespDTO getUser(Long userId);
+
+    /**
+     * 获取用户信息
+     * @param userIds 用户编号
+     * @return 用户信息
+     */
+    List<UserRespDTO> getUserByIds(List<Long> userIds);
 }

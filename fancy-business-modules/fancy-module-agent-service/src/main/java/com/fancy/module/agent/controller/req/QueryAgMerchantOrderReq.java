@@ -5,10 +5,17 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 public class QueryAgMerchantOrderReq extends PageParam {
+
+    /**
+     * 订单Id
+     */
+    private Long agMerchantOrderId;
 
     /**
      * 客户id
@@ -28,4 +35,14 @@ public class QueryAgMerchantOrderReq extends PageParam {
      * 结束时间
      */
     private String endTime;
+
+    /**
+     * 创建人id
+     */
+    private List<Long> creatorIds;
+
+    /**
+     * 部门id
+     */
+    private List<Long>  deptIds;
 }

@@ -28,6 +28,7 @@ public interface UserConvert {
     UserConvert INSTANCE = Mappers.getMapper(UserConvert.class);
 
     UserSaveReqVO convert(UserSaveReqDTO createReqDTO);
+    List<UserRespDTO> convertDtoList(List<User> users);
 
     default List<UserRespVO> convertList(List<User> list, Map<Long, Dept> deptMap) {
         return CollectionUtils.convertList(list, user -> convert(user, deptMap.get(user.getDeptId())));

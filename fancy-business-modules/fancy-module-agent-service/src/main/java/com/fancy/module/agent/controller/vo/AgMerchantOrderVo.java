@@ -1,10 +1,12 @@
 package com.fancy.module.agent.controller.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Accessors(chain = true)
@@ -41,5 +43,8 @@ public class AgMerchantOrderVo {
     /**
      * 订单创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String createTime;
+
+    private List<AgMerchantOrderDetailVo> orderDetailList; //<订单明细>
 }
