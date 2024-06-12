@@ -2,6 +2,7 @@ package com.fancy.module.agent.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.security.core.util.SecurityFrameworkUtils;
@@ -68,11 +69,10 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
 
     @Override
     public PageResult<AgMerchantVo> pageListMerchant(QueryAgMerchantReq req) {
-        PageResult<AgMerchant> agMerchantPageResult = baseMapper.selectPage(req, lambdaQuery()
+        PageResult<AgMerchant> agMerchantPageResult = baseMapper.selectPage(req, Wrappers.lambdaQuery(AgMerchant.class)
                 .eq(ObjectUtil.isNotEmpty(req.getAgMerchantId()), AgMerchant::getId, req.getAgMerchantId())
                 .eq(ObjectUtil.isNotEmpty(req.getAuthStatus()), AgMerchant::getAuthStatus, req.getAuthStatus())
                 .like(ObjectUtil.isNotEmpty(req.getName()), AgMerchant::getName, req.getName())
-                .in(ObjectUtil.isNotEmpty(req.getDeptIds()), AgMerchant::getDeptId, req.getDeptIds())
                 .in(ObjectUtil.isNotEmpty(req.getCreatorIds()), AgMerchant::getCreatorId, req.getCreatorIds())
                 .between(ObjectUtil.isNotEmpty(req.getStartTime()) && ObjectUtil.isNotEmpty(req.getEndTime()), AgMerchant::getCreateTime, req.getStartTime(), req.getEndTime())
                 .eq(AgMerchant::getDeleted,0)
@@ -86,7 +86,7 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
                 .stream().collect(Collectors.toMap(UserRespDTO::getId, UserRespDTO::getUsername));
         agMerchantVos.forEach(agMerchantVo -> {
             if (ObjectUtil.isNotEmpty(agMerchantVo.getCreatorId())) {
-                agMerchantVo.setAgMerchantName(userMap.get(agMerchantVo.getCreatorId()));
+                agMerchantVo.setAgUserName(userMap.get(agMerchantVo.getCreatorId()));
             }
         });
         return new PageResult<>(agMerchantVos, agMerchantPageResult.getTotal());

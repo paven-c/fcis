@@ -21,10 +21,7 @@ public class QueryAgMerchantOrderReq extends PageParam {
      * 客户id
      */
     private Long agMerchantId;
-    /**
-     * 客户名称
-     */
-    private String name;
+
 
     /**
      * 开始时间

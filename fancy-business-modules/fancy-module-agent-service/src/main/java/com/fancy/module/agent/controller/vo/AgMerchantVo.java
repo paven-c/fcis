@@ -13,5 +13,5 @@ public class AgMerchantVo extends AgMerchant {
     /**
      * 代理商户创建人名称（所属代理商）
      */
-    private String agMerchantName;
+    private String agUserName;
 }
