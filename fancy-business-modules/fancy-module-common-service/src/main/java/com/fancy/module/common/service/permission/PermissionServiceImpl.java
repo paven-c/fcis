@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -223,6 +225,12 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public Set<Long> getUserRoleIdListByUserId(Long userId) {
         return convertSet(userRoleMapper.selectListByUserId(userId), UserRole::getRoleId);
+    }
+
+    @Override
+    public Set<String> getUserRoleCodeListByUserId(Long userId) {
+        List<Role> roles = getEnableUserRoleListByUserIdFromCache(userId);
+        return roles.stream().map(Role::getCode).collect(Collectors.toSet());
     }
 
     @Override

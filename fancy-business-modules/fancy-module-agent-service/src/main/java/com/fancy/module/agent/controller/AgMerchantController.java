@@ -7,11 +7,19 @@ import com.fancy.module.agent.service.AgMerchantService;
 import com.fancy.module.agent.controller.req.EditAgMerchantReq;
 import com.fancy.module.agent.controller.req.QueryAgMerchantReq;
 import com.fancy.module.agent.controller.vo.AgMerchantVo;
+import com.fancy.module.common.api.permission.PermissionApi;
+import com.fancy.module.common.enums.permission.RoleCodeEnum;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * <p>
@@ -27,6 +35,8 @@ public class AgMerchantController {
 
     @Resource
     private AgMerchantService agMerchantService;
+    @Resource
+    private PermissionApi permissionApi;
 
     @PostMapping("/add")
     public CommonResult<?> addMerchant(@RequestBody EditAgMerchantReq req){
@@ -42,6 +52,10 @@ public class AgMerchantController {
 
     @PostMapping("/pageList")
     public CommonResult<PageResult<AgMerchantVo>> pageListMerchant(@RequestBody QueryAgMerchantReq req){
+        Set<String> userRoleCodeListByUserIds = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
+        //是否代理商角色
+        boolean b = userRoleCodeListByUserIds.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
+        req.setCreatorIds(b ? Collections.singletonList(getLoginUserId()) : null);
         return CommonResult.success(agMerchantService.pageListMerchant(req));
     }
 

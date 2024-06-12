@@ -7,11 +7,19 @@ import com.fancy.module.agent.controller.req.QueryAgMerchantOrderReq;
 import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.agent.controller.vo.AgMerchantOrderOverviewVo;
 import com.fancy.module.agent.controller.vo.AgMerchantOrderVo;
+import com.fancy.module.common.api.permission.PermissionApi;
+import com.fancy.module.common.enums.permission.RoleCodeEnum;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * <p>
@@ -27,13 +35,24 @@ public class AgMerchantOrderController {
 
     @Resource
     private AgMerchantOrderService agMerchantOrderservice;
+
+    @Resource
+    private PermissionApi permissionApi;
     @PostMapping("/overview")
     public CommonResult<AgMerchantOrderOverviewVo> overview(){
-        return CommonResult.success(agMerchantOrderservice.overview());
+        Set<String> userRoleCodeListByUserIds = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
+        //是否代理商角色
+        boolean b = userRoleCodeListByUserIds.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
+        List<Long> creatorIds =b ? Collections.singletonList(getLoginUserId()) : null;
+        return CommonResult.success(agMerchantOrderservice.overview(creatorIds));
     }
 
     @PostMapping("/pageList")
     public CommonResult<PageResult<AgMerchantOrderVo>> pageList(@RequestBody QueryAgMerchantOrderReq req){
+        Set<String> userRoleCodeListByUserIds = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
+        //是否代理商角色
+        boolean b = userRoleCodeListByUserIds.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
+        req.setCreatorIds(b ? Collections.singletonList(getLoginUserId()) : null);
         return CommonResult.success(agMerchantOrderservice.pageList(req));
     }
 
