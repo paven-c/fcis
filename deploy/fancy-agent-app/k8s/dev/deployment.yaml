@@ -25,14 +25,14 @@ spec:
             - name: JAVA_OPTS
               value: "-server -Xms512m -Xmx512m -Xss512K"
             - name: aliyun_logs_fancy-agent-logtest
-              value: /home/admin/fancy-agent/logs/service_stdout.*.log
+              value: /app/fancy-domestic/logs/service_stdout.*.log
             - name: aliyun_logs_fancy-agent-logtest_logstore
               value: fancy-agent-test
             - name: aliyun_logs_fancy_agent_tags
               value: content=v1
           volumeMounts:
             - name: volumn-sls-fancyagentapp-test
-              mountPath: /home/admin/fancy-agent-app/logs
+              mountPath: /app/fancy-domestic/logs
       volumes:
         - name: volumn-sls-fancyagentapp-test
           emptyDir: { }
