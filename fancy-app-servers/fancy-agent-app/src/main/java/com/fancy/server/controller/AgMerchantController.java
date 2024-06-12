@@ -30,6 +30,7 @@ public class AgMerchantController {
 
     @PostMapping("/add")
     public CommonResult<?> addMerchant(@RequestBody EditAgMerchantReq req){
+        agMerchantService.addMerchant(req);
         return CommonResult.success("成功");
     }
 

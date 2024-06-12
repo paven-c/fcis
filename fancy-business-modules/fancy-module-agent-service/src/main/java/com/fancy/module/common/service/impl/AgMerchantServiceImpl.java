@@ -5,6 +5,7 @@ import com.fancy.module.common.repository.mapper.AgMerchantMapper;
 import com.fancy.module.common.repository.mapper.AgMerchantOrderMapper;
 import com.fancy.module.common.repository.pojo.AgMerchant;
 import com.fancy.module.common.repository.pojo.AgMerchantOrder;
+import com.fancy.module.common.req.EditAgMerchantReq;
 import com.fancy.module.common.service.AgMerchantOrderService;
 import com.fancy.module.common.service.AgMerchantService;
 import org.springframework.stereotype.Service;
@@ -20,4 +21,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerchant> implements AgMerchantService {
 
+    @Override
+    public void addMerchant(EditAgMerchantReq req) {
+
+        // merchant/create 创建商户
+        // cmsMerchantConfig/addOrUpdate 更新商户配置
+    }
 }

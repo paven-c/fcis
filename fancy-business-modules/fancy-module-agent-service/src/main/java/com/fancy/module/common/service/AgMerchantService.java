@@ -3,6 +3,7 @@ package com.fancy.module.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fancy.module.common.repository.pojo.AgMerchant;
+import com.fancy.module.common.req.EditAgMerchantReq;
 
 /**
  * <p>
@@ -14,4 +15,9 @@ import com.fancy.module.common.repository.pojo.AgMerchant;
  */
 public interface AgMerchantService extends IService<AgMerchant> {
 
+    /**
+     * 创建商户
+     * @param req
+     */
+    void addMerchant(EditAgMerchantReq req);
 }
