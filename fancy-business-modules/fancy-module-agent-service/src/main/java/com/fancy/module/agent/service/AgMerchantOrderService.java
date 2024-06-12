@@ -2,6 +2,10 @@ package com.fancy.module.agent.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fancy.common.pojo.PageResult;
+import com.fancy.module.agent.controller.req.QueryAgMerchantOrderReq;
+import com.fancy.module.agent.controller.vo.AgMerchantOrderOverviewVo;
+import com.fancy.module.agent.controller.vo.AgMerchantOrderVo;
 import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
 
 /**
@@ -14,4 +18,9 @@ import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
  */
 public interface AgMerchantOrderService extends IService<AgMerchantOrder> {
 
+    AgMerchantOrderVo info(QueryAgMerchantOrderReq req);
+
+    AgMerchantOrderOverviewVo overview();
+
+    PageResult<AgMerchantOrderVo> pageList(QueryAgMerchantOrderReq req);
 }

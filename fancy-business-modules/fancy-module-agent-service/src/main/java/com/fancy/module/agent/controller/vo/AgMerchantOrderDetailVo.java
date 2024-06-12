@@ -1,6 +1,5 @@
 package com.fancy.module.agent.controller.vo;
 
-import com.fancy.module.agent.repository.pojo.AgMerchant;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -8,10 +7,19 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-public class AgMerchantVo extends AgMerchant {
+public class AgMerchantOrderDetailVo {
+    /**
+     * 订单ID
+     */
+    private Long id;
 
     /**
-     * 代理商户创建人名称（所属代理商）
+     * 服务内容
      */
-    private String agMerchantName;
+    private String serviceName;
+    /**
+     * 服务任务总数
+     */
+    private Long serviceTotalNum;
+
 }

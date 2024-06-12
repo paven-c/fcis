@@ -29,12 +29,17 @@ public class AgMerchantOrderController {
     private AgMerchantOrderService agMerchantOrderservice;
     @PostMapping("/overview")
     public CommonResult<AgMerchantOrderOverviewVo> overview(){
-        return CommonResult.success(null);
+        return CommonResult.success(agMerchantOrderservice.overview());
     }
 
     @PostMapping("/pageList")
     public CommonResult<PageResult<AgMerchantOrderVo>> pageList(@RequestBody QueryAgMerchantOrderReq req){
-        return CommonResult.success(null);
+        return CommonResult.success(agMerchantOrderservice.pageList(req));
+    }
+
+    @PostMapping("/info")
+    public CommonResult<AgMerchantOrderVo> info(@RequestBody QueryAgMerchantOrderReq req){
+        return CommonResult.success(agMerchantOrderservice.info(req));
     }
 
 }

@@ -29,6 +29,10 @@ public class AgMerchantOrderDetail implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
+     * 订单Id
+     */
+    private Long agMerchantOrderId;
+    /**
      * 代理商户id
      */
     private Long agMerchantId; 

@@ -66,5 +66,8 @@ app:
       - ${spring.boot.admin.context-path}/**
       - ${management.endpoints.web.base-path}/**
 
+feignUrl:
+  content: https://ccapi-test.fancybos.com/
+
 
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fancy.module.agent.repository.mapper.AgMerchantOrderMapper">
+
+<select id="countAgMerchantOrderOverviewVo"
+          resultType="com.fancy.module.agent.controller.vo.AgMerchantOrderOverviewVo">
+      SELECT
+        COUNT(DISTINCT ag_merchant_id) AS numberOfCustomersOrdered,  -- 去重下单客户数
+        COUNT(*) AS numberOfOrders,                          -- 订单总数
+        SUM(order_money) AS orderConsumption                 -- 订单总金额
+      FROM
+        ag_merchant_order
+      where  deleted = 0
+        <if test="creatorIds != null and creatorIds.size > 0">
+          and creator_id in
+            <foreach item="id" index="index" collection="creatorIds" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+    <if test="deptIds != null and deptIds.size > 0">
+        and deptId in
+        <foreach item="id" index="index" collection="deptIds" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </if>
+  </select>
+</mapper>

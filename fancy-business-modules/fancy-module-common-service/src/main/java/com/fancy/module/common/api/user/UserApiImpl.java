@@ -11,6 +11,8 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
+
 /**
  * 用户API实现类
  *
@@ -38,6 +40,12 @@ public class UserApiImpl implements UserApi {
         }
         Dept dept = deptService.getDept(user.getDeptId());
         return UserConvert.INSTANCE.convertDTO(user, dept);
+    }
+
+    @Override
+    public List<UserRespDTO> getUserByIds(List<Long> userIds) {
+        List<User> userList = userService.getUserList(userIds);
+        return UserConvert.INSTANCE.convertDtoList(userList);
     }
 
 }
