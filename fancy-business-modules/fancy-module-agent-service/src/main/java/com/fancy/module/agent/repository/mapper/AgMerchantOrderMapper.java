@@ -20,6 +20,6 @@ import java.util.List;
 @Mapper
 public interface AgMerchantOrderMapper extends BaseMapperX<AgMerchantOrder> {
 
-    public AgMerchantOrderOverviewVo countAgMerchantOrderOverviewVo(@Param("creator_id") List<Long> creatorIds, @Param("dept_id" ) List<Long> deptIds);
+    public AgMerchantOrderOverviewVo countAgMerchantOrderOverviewVo(@Param("creator_id") List<Long> creatorIds);
 
 }

@@ -69,8 +69,8 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
 
     @Override
     public AgMerchantOrderOverviewVo overview(List<Long> creatorIds) {
-        //获取登录人Id和部门Id
-        return baseMapper.countAgMerchantOrderOverviewVo(creatorIds, null);
+        //获取登录人Id
+        return baseMapper.countAgMerchantOrderOverviewVo(creatorIds);
     }
 
     @Override
@@ -106,7 +106,6 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
     @Override
     @Transactional
     public void add(EditAgMerchantOrderReq req) {
-
         LoginUser loginUser = Optional.ofNullable(getLoginUser()).orElseThrow(NeedLoginException::new);
         Long loginUserId = loginUser.getId();
         Long loginUserDeptId = MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID, null);
@@ -115,7 +114,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
         AgMerchant agMerchant = agMerchantMapper.selectById(req.getAgMerchantId());
         Optional.ofNullable(agMerchant).orElseThrow(()->new SecurityException("客户不存在"));
         if (ObjectUtil.equals(agMerchant.getCreatorId(), loginUserId)) {
-            throw  new  SecurityException("不能创建其他代理商户订单");
+            throw  new  SecurityException("不能创建其他代理客户订单");
         }
         //计算消耗
         builderEditAgMerchantOrder(req);
@@ -146,10 +145,10 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                 .setObjectType(AgUserBalanceDetailType.CONTENT_SERVICE_CONSUMPTION)
                 .setObjectSubType(req.getOrderType())
                 .setObjectSubName(agMerchantOrder.getOrderName())
-                .setRemarks("代理商订单创建"));
+                .setRemarks("代理商创建客户订单"));
 
         if (!b) {
-            throw new RuntimeException("扣减代理商户余额失败");
+            throw new RuntimeException("扣减代理商余额失败");
         }
 
     }
@@ -203,7 +202,8 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                 for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
                     AgContentServiceMain agContentServiceMain = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
                     Optional.ofNullable(agContentServiceMain).orElseThrow(()->new SecurityException("服务内容不存在"));
-
+                    Optional.ofNullable(orderDetail.getCoverageNumber()).orElseThrow(()->new SecurityException("服务覆盖数不能为空"));
+                    Optional.ofNullable(orderDetail.getNumberOfGenerations()).orElseThrow(()->new SecurityException("生成数不能为空"));
                     //计算总数
                     int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber(), 2).intValue();
                     orderDetail.setServiceTotalNum(i)

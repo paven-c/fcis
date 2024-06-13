@@ -86,12 +86,12 @@ public class EditAgMerchantOrderReq  {
         /**
          * 覆盖数
          */
-        @NotNull(message = "覆盖数不能为空")
+//        @NotNull(message = "覆盖数不能为空")
         private Integer coverageNumber;
         /**
          * 生成数
          */
-        @NotNull(message = "生成数不能为空")
+//        @NotNull(message = "生成数不能为空")
         private Integer numberOfGenerations;
 
         /**
