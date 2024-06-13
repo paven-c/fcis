@@ -1,5 +1,6 @@
 package com.fancy.module.common.repository.mapper.permission;
 
+import com.fancy.common.enums.DeleteStatusEnum;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.component.mybatis.core.query.LambdaQueryWrapperX;
@@ -30,7 +31,7 @@ public interface RoleMapper extends BaseMapperX<Role> {
     }
 
     default Role selectByCode(String code) {
-        return selectOne(Role::getCode, code);
+        return selectOne(Role::getCode, code, Role::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus());
     }
 
     default List<Role> selectListByStatus(@Nullable Collection<Integer> statuses) {

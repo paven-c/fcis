@@ -34,9 +34,12 @@ import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.dept.DeptApi;
 import com.fancy.module.common.api.dept.dto.DeptSaveReqDTO;
 import com.fancy.module.common.api.permission.PermissionApi;
+import com.fancy.module.common.api.permission.RoleApi;
+import com.fancy.module.common.api.permission.dto.RoleRespDTO;
 import com.fancy.module.common.api.user.UserApi;
 import com.fancy.module.common.api.user.dto.UserSaveReqDTO;
 import com.fancy.module.common.enums.permission.RoleCodeEnum;
+import com.google.common.collect.Sets;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -81,6 +84,8 @@ public class AgentController {
     @Resource
     private DeptApi deptApi;
     @Resource
+    private RoleApi roleApi;
+    @Resource
     private AgentService agentService;
     @Resource
     private PermissionApi permissionApi;
@@ -103,6 +108,10 @@ public class AgentController {
         // 新增用户
         Long userId = userApi.createUser(UserSaveReqDTO.builder().username(reqVO.getMobile()).nickname(reqVO.getContactorName()).deptId(deptId)
                 .mobile(reqVO.getMobile()).password(reqVO.getPassword()).status(CommonStatusEnum.DISABLE.getStatus()).build());
+        // 设置用户角色
+        RoleRespDTO role = roleApi.getRoleByCode(
+                Objects.isNull(parentAgent) ? RoleCodeEnum.FIRST_LEVEL_AGENT.getCode() : RoleCodeEnum.SECOND_LEVEL_AGENT.getCode());
+        permissionApi.assignUserRole(userId, Sets.newHashSet(role.getId()));
         // 新增用户账户
         userBalanceService.createUserBalance(userId);
         // 新增代理商
@@ -220,9 +229,22 @@ public class AgentController {
                 .setFromAgUserId(loginUser.getId()).setFromUserName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
                 .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName()).setCheckFrom(false)
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
+                .setCreateId(loginUser.getId()).setCreateName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
+                .setDeptId(MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID, null))
                 .setRemarks(reqVO.getRemarks()));
         return success(true);
     }
+
+    @Operation(summary = "财务充值一级代理商")
+    @PostMapping("/test")
+    @Transactional(rollbackFor = Exception.class)
+    public CommonResult<Boolean> test(@RequestBody EditAgUserBalanceDetailReq req) {
+        // 转账操作
+        userBalanceService.changeBalance(req);
+        return success(true);
+    }
+
+
 
     @Operation(summary = "一级代理商充值二级代理商")
     @PostMapping("/recharge-second-level")
@@ -249,6 +271,8 @@ public class AgentController {
                 .setFromAgUserId(loginUser.getId()).setFromUserName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
                 .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName())
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
+                .setCreateId(loginUser.getId()).setCreateName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
+                        .setDeptId(MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID, null))
                 .setRemarks(reqVO.getRemarks()));
         return success(true);
     }
