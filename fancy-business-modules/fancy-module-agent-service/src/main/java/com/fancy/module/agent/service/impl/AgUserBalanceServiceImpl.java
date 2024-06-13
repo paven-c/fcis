@@ -61,6 +61,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
         RLock from = redissonClient.getLock(AG_USER_CHANGE_BALANCE +req.getFromAgUserId());
         if (to.tryLock() && from.tryLock()) {
             try {
+                LocalDateTime now = LocalDateTime.now();
                 List<AgUserBalanceDetail> agUserBalanceDetailList = new ArrayList<>();
                 //查询入账用户余额
                 if (req.getCheckTo()) {
@@ -82,6 +83,8 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     }
                     //入账明细
                     AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, 0, nowPrice, add);
+                    agUserBalanceDetail.setCreateTime(now);
+                    agUserBalanceDetail.setUpdateTime(now);
                     agUserBalanceDetailList.add(agUserBalanceDetail);
                 }
                 //查询出账用户余额
@@ -109,6 +112,8 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     req.setToAgUserId(fromAgUserId);
                     req.setFromAgUserId(toAgUserId);
                     AgUserBalanceDetail agUserBalanceDetail1 = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, 1, paymentOut.getNowPrice(), sub);
+                    agUserBalanceDetail1.setCreateTime(now);
+                    agUserBalanceDetail1.setUpdateTime(now);
                     agUserBalanceDetailList.add(agUserBalanceDetail1);
                 }
                 if (ObjectUtil.isNotEmpty(agUserBalanceDetailList)) {

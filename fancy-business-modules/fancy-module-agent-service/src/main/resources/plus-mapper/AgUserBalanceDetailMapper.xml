@@ -4,7 +4,7 @@
 
 <update id="updateBalance">
     update ag_user_balance set
-    before_price = now_price,
+    before_price = now_price,update_time = now(),
      <if test="billType == 0">
        now_price = now_price + #{balance}
      </if>

@@ -235,6 +235,17 @@ public class AgentController {
         return success(true);
     }
 
+    @Operation(summary = "财务充值一级代理商")
+    @PostMapping("/test")
+    @Transactional(rollbackFor = Exception.class)
+    public CommonResult<Boolean> test(@RequestBody EditAgUserBalanceDetailReq req) {
+        // 转账操作
+        userBalanceService.changeBalance(req);
+        return success(true);
+    }
+
+
+
     @Operation(summary = "一级代理商充值二级代理商")
     @PostMapping("/recharge-second-level")
     @PreAuthorize("@ss.hasPermission('agent:agent:recharge-second-level')")
