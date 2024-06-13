@@ -35,11 +35,6 @@ public class AgOrderTask implements Serializable {
     private Long merchantId;
 
     /**
-     * 导入任务id
-     */
-    private Long taskId;
-
-    /**
      * 内容id
      */
     private Long contentId;
