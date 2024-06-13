@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.Set;
 import lombok.Data;
 
+/**
+ * @author paven
+ */
 @Schema(description = "赋予用户角色RequestVO")
 @Data
 public class PermissionAssignUserRoleReqVO {

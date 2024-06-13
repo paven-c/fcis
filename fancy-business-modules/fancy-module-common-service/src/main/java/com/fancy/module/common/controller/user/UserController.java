@@ -104,7 +104,7 @@ public class UserController {
 
     @GetMapping("/page")
     @Operation(summary = "获得用户分页列表")
-    @PreAuthorize("@ss.hasPermission('common:user:list')")
+    @PreAuthorize("@ss.hasRole('super_admin')")
     public CommonResult<PageResult<UserRespVO>> getUserPage(@Valid UserPageReqVO pageReqVO) {
         // 获得用户分页列表
         PageResult<User> pageResult = userService.getUserPage(pageReqVO);

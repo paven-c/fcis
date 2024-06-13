@@ -89,17 +89,17 @@ public class PermissionController {
         return success(true);
     }
 
-    @Operation(summary = "获得管理员拥有的角色编号列表")
+    @Operation(summary = "用户角色列表")
     @Parameter(name = "userId", description = "用户编号", required = true)
-    @GetMapping("/list-user-roles")
-    @PreAuthorize("@ss.hasPermission('common:permission:assign-user-role')")
-    public CommonResult<Set<Long>> listAdminRoles(@RequestParam("userId") Long userId) {
+    @GetMapping("/user-roles")
+    @PreAuthorize("@ss.hasRole('super_admin')")
+    public CommonResult<Set<Long>> userRoles(@RequestParam("userId") Long userId) {
         return success(permissionService.getUserRoleIdListByUserId(userId));
     }
 
     @Operation(summary = "赋予用户角色")
     @PostMapping("/assign-user-role")
-    @PreAuthorize("@ss.hasPermission('common:permission:assign-user-role')")
+    @PreAuthorize("@ss.hasRole('super_admin')")
     public CommonResult<Boolean> assignUserRole(@Validated @RequestBody PermissionAssignUserRoleReqVO reqVO) {
         permissionService.assignUserRole(reqVO.getUserId(), reqVO.getRoleIds());
         return success(true);
