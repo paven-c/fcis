@@ -32,7 +32,7 @@ public class QueryAgUserBalanceDetailReq extends PageParam{
     private String agUsername;
 
     /**
-     * 变更类型
+     * 账单类型 0出账 1入账
      */
     private Integer billType;
 

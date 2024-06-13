@@ -5,6 +5,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.math.BigDecimal;
 
 /**
  * <p>
@@ -17,4 +20,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface AgUserBalanceDetailMapper extends BaseMapperX<AgUserBalanceDetail> {
 
+    int updateBalance(@Param("id") Long id,@Param("balance") BigDecimal balance,@Param("billType") Integer billType);
 }

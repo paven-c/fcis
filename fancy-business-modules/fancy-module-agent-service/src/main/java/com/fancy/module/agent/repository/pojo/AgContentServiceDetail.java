@@ -30,12 +30,12 @@ public class AgContentServiceDetail implements Serializable {
     private Long id;
 
     /**
-     * 主表id
+     * 数据从属的主表id
      */
     private Long mainId;
 
     /**
-     * 所选内容id
+     * 所选内容的主表id
      */
     private Long contentId;
 
@@ -68,11 +68,5 @@ public class AgContentServiceDetail implements Serializable {
      * 是否删除0启用1删除
      */
     private Integer deleted;
-
-    /**
-     * 跳转平台 0不跳转 1内容平台
-     */
-    private Integer toPlatform;
-
 
 }
