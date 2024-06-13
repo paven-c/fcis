@@ -27,7 +27,8 @@ public interface PermissionService {
     /**
      * 判断是否有角色，任一一个即可
      *
-     * @param roles 角色数组
+     * @param userId 用户编号
+     * @param roles  角色数组
      * @return 是否
      */
     boolean hasAnyRoles(Long userId, String... roles);
@@ -114,6 +115,7 @@ public interface PermissionService {
      * @return 角色编号集合
      */
     Set<Long> getUserRoleIdListByUserId(Long userId);
+
     Set<String> getUserRoleCodeListByUserId(Long userId);
 
     /**

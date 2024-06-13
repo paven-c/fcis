@@ -57,6 +57,14 @@ public interface RoleService {
     Role getRole(Long id);
 
     /**
+     * 获得角色
+     *
+     * @param code 角色code
+     * @return 角色
+     */
+    Role getRoleByCode(String code);
+
+    /**
      * 获得角色，从缓存中
      *
      * @param id 角色编号

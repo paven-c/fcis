@@ -30,9 +30,12 @@ import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.dept.DeptApi;
 import com.fancy.module.common.api.dept.dto.DeptSaveReqDTO;
 import com.fancy.module.common.api.permission.PermissionApi;
+import com.fancy.module.common.api.permission.RoleApi;
+import com.fancy.module.common.api.permission.dto.RoleRespDTO;
 import com.fancy.module.common.api.user.UserApi;
 import com.fancy.module.common.api.user.dto.UserSaveReqDTO;
 import com.fancy.module.common.enums.permission.RoleCodeEnum;
+import com.google.common.collect.Sets;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -74,6 +77,8 @@ public class AgentController {
     @Resource
     private DeptApi deptApi;
     @Resource
+    private RoleApi roleApi;
+    @Resource
     private AgentService agentService;
     @Resource
     private PermissionApi permissionApi;
@@ -93,6 +98,10 @@ public class AgentController {
         // 新增用户
         Long userId = userApi.createUser(UserSaveReqDTO.builder().username(reqVO.getMobile()).nickname(reqVO.getContactorName()).deptId(deptId)
                 .mobile(reqVO.getMobile()).password(reqVO.getPassword()).status(CommonStatusEnum.DISABLE.getStatus()).build());
+        // 设置用户角色
+        RoleRespDTO role = roleApi.getRoleByCode(
+                Objects.isNull(parentAgent) ? RoleCodeEnum.FIRST_LEVEL_AGENT.getCode() : RoleCodeEnum.SECOND_LEVEL_AGENT.getCode());
+        permissionApi.assignUserRole(userId, Sets.newHashSet(role.getId()));
         // 新增用户账户
         userBalanceService.createUserBalance(userId);
         // 新增代理商

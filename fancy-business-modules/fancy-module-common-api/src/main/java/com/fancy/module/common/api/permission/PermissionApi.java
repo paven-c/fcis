@@ -21,6 +21,7 @@ public interface PermissionApi {
 
     /**
      * 获取用户角色code
+     *
      * @param userId
      * @return
      */
@@ -29,7 +30,7 @@ public interface PermissionApi {
     /**
      * 判断是否有权限，任一一个即可
      *
-     * @param userId 用户编号
+     * @param userId      用户编号
      * @param permissions 权限
      * @return 是否
      */
@@ -39,7 +40,7 @@ public interface PermissionApi {
      * 判断是否有角色，任一一个即可
      *
      * @param userId 用户编号
-     * @param roles 角色数组
+     * @param roles  角色数组
      * @return 是否
      */
     boolean hasAnyRoles(Long userId, String... roles);
@@ -51,5 +52,13 @@ public interface PermissionApi {
      * @return 部门数据权限
      */
     DeptDataPermissionRespDTO getDeptDataPermission(Long userId);
+
+    /**
+     * 赋予用户角色
+     *
+     * @param userId  用户编号
+     * @param roleIds 角色编号数组
+     */
+    void assignUserRole(Long userId, Set<Long> roleIds);
 
 }
