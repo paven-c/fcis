@@ -203,7 +203,8 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                 for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
                     AgContentServiceMain agContentServiceMain = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
                     Optional.ofNullable(agContentServiceMain).orElseThrow(()->new SecurityException("服务内容不存在"));
-
+                    Optional.ofNullable(orderDetail.getCoverageNumber()).orElseThrow(()->new SecurityException("服务覆盖数不能为空"));
+                    Optional.ofNullable(orderDetail.getNumberOfGenerations()).orElseThrow(()->new SecurityException("生成数不能为空"));
                     //计算总数
                     int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber(), 2).intValue();
                     orderDetail.setServiceTotalNum(i)
