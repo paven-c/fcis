@@ -1,7 +1,10 @@
 package com.fancy.module.agent.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fancy.module.agent.api.task.dto.ContentServiceMainListDTO;
+import com.fancy.module.agent.controller.vo.ContentServiceMainListVo;
 import com.fancy.module.agent.repository.pojo.AgContentServiceMain;
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,6 @@ import com.fancy.module.agent.repository.pojo.AgContentServiceMain;
  */
 public interface AgContentServiceMainService extends IService<AgContentServiceMain> {
 
+
+    List<ContentServiceMainListVo> listMain(ContentServiceMainListDTO contentServiceMainListDTO);
 }
