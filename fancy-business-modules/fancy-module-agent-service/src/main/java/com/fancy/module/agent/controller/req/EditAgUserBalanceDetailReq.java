@@ -28,15 +28,18 @@ public class EditAgUserBalanceDetailReq implements Serializable {
      * 代理商id
      */
     private Long toAgUserId;
-    /**
-     * 来源用户Id
-     */
-    private Long fromAgUserId;
 
     /**
      * 代理商名称
      */
     private String toAgUsername;
+
+    /**
+     * 来源用户Id
+     */
+    private Long fromAgUserId;
+
+
     /**
      * 来源用户名称
      */
@@ -45,8 +48,10 @@ public class EditAgUserBalanceDetailReq implements Serializable {
     /**
      * 是否检查 来源账号余额
      */
-    private Boolean checkFrom = false;
-    
+    private Boolean checkFrom = true;
+    private Boolean checkTo = true;
+
+
     /**
      * 变更金额
      */
@@ -60,9 +65,33 @@ public class EditAgUserBalanceDetailReq implements Serializable {
     /**
      * 关联的Id
      */
-    private String object; 
+    private String object;
 
-    
+    /**
+     * 关联服务类型
+     */
+    private Integer objectSubType;
+
+    /**
+     * 关联服务名称
+     */
+    private String objectSubName;
+
+    /**
+     * 操作人Id
+     */
+    private Long  createId;
+
+    /**
+     * 操作人名称
+     */
+    private String createName;
+
+    /**
+     * 部门id
+     */
+    private Long deptId;
+
     /**
      * 备注
      */

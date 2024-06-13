@@ -3,6 +3,7 @@ package com.fancy.module.agent.controller;
 
 import com.fancy.common.pojo.CommonResult;
 import com.fancy.common.pojo.PageResult;
+import com.fancy.module.agent.controller.req.EditAgMerchantOrderReq;
 import com.fancy.module.agent.controller.req.QueryAgMerchantOrderReq;
 import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.agent.controller.vo.AgMerchantOrderOverviewVo;
@@ -62,8 +63,9 @@ public class AgMerchantOrderController {
     }
 
     @PostMapping("/add")
-    public CommonResult<AgMerchantOrderVo> add(@RequestBody QueryAgMerchantOrderReq req){
-        return CommonResult.success(agMerchantOrderservice.info(req));
+    public CommonResult<?> add(@RequestBody EditAgMerchantOrderReq req){
+        agMerchantOrderservice.add(req);
+        return CommonResult.success("成功");
     }
 
 }

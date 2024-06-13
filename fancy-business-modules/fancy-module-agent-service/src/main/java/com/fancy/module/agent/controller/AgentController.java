@@ -3,6 +3,7 @@ package com.fancy.module.agent.controller;
 
 import static com.fancy.common.exception.util.ServiceExceptionUtil.exception;
 import static com.fancy.common.pojo.CommonResult.success;
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_NOT_EXISTS;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_STATUS_NOT_ACTIVITY;
 
@@ -11,14 +12,13 @@ import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.pojo.CommonResult;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.core.util.ExcelUtils;
-import com.fancy.module.agent.controller.vo.AgentPageReqVO;
-import com.fancy.module.agent.controller.vo.AgentRechargeReqVO;
-import com.fancy.module.agent.controller.vo.AgentRespVO;
-import com.fancy.module.agent.controller.vo.AgentSaveReqVO;
+import com.fancy.module.agent.controller.req.QueryAgUserBalanceDetailReq;
+import com.fancy.module.agent.controller.vo.*;
 import com.fancy.module.agent.convert.agent.AgentConvert;
 import com.fancy.module.agent.enums.AgentLevelEnum;
 import com.fancy.module.agent.enums.AgentStatusEnum;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
+import com.fancy.module.agent.service.AgUserBalanceDetailService;
 import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.dept.DeptApi;
 import com.fancy.module.common.api.dept.dto.DeptSaveReqDTO;
@@ -33,8 +33,11 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
+
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +71,9 @@ public class AgentController {
     private AgentService agentService;
     @Resource
     private PermissionApi permissionApi;
+
+    @Resource
+    private AgUserBalanceDetailService agUserBalanceDetailService;
 
     @Operation(summary = "新增代理商")
     @PostMapping("/create")
@@ -238,6 +244,18 @@ public class AgentController {
         List<Agent> list = agentService.getAgentPage(exportReqVO).getList();
         ExcelUtils.write(response, "代理商数据.xls", "代理商", AgentRespVO.class, AgentConvert.INSTANCE.convertList(list));
     }
+
+
+    @Operation(summary = "我的交易")
+    @PostMapping("/myTransactionPageList")
+    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList(@RequestBody QueryAgUserBalanceDetailReq req)  {
+        Set<String> userRoleCodeListByUserIds = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
+        //是否代理商角色
+        boolean b = userRoleCodeListByUserIds.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
+        req.setCreatorIds(b ? Collections.singletonList(getLoginUserId()) : null);
+        return CommonResult.success(agUserBalanceDetailService.myTransactionPageList(req));
+    }
+
 
     /**
      * 获取父级代理商

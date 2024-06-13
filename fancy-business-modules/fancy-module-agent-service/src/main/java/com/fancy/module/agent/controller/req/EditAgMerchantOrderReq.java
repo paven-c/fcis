@@ -1,6 +1,5 @@
 package com.fancy.module.agent.controller.req;
 
-import com.fancy.module.agent.repository.pojo.AgMerchant;
 import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
 import com.fancy.module.agent.repository.pojo.AgMerchantOrderDetail;
 import lombok.Data;
