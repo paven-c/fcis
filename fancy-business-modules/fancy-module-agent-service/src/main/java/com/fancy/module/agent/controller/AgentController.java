@@ -229,6 +229,8 @@ public class AgentController {
                 .setFromAgUserId(loginUser.getId()).setFromUserName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
                 .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName()).setCheckFrom(false)
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
+                .setCreateId(loginUser.getId()).setCreateName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
+                .setDeptId(MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID, null))
                 .setRemarks(reqVO.getRemarks()));
         return success(true);
     }
@@ -258,6 +260,8 @@ public class AgentController {
                 .setFromAgUserId(loginUser.getId()).setFromUserName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
                 .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName())
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
+                .setCreateId(loginUser.getId()).setCreateName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
+                        .setDeptId(MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID, null))
                 .setRemarks(reqVO.getRemarks()));
         return success(true);
     }

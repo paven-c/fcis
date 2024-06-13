@@ -16,6 +16,7 @@ import com.fancy.module.agent.service.AgUserBalanceDetailService;
 import com.fancy.module.common.api.user.dto.UserRespDTO;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,5 +46,10 @@ public class AgUserBalanceDetailServiceImpl extends ServiceImpl<AgUserBalanceDet
         List<AgUserBalanceDetailVo> agUserBalanceDetailVos = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetailVo(agUserBalanceDetailPageResult.getList());
 
         return new PageResult<>(agUserBalanceDetailVos, agUserBalanceDetailPageResult.getTotal(), req.getPageNum(), req.getPageSize());
+    }
+
+    @Override
+    public int updateBalance(Long id, BigDecimal balance, Integer billType) {
+        return baseMapper.updateBalance(id, balance, billType);
     }
 }
