@@ -64,14 +64,6 @@ public class PermissionController {
         return success(AuthConvert.INSTANCE.convertTree(menuList, menuIds));
     }
 
-    @Operation(summary = "获得角色拥有的菜单编号")
-    @Parameter(name = "roleId", description = "角色编号", required = true)
-    @GetMapping("/role-menus")
-    @PreAuthorize("@ss.hasRole('super_admin')")
-    public CommonResult<Set<Long>> getRoleMenuList(Long roleId) {
-        return success(permissionService.getRoleMenuListByRoleId(roleId));
-    }
-
     @Operation(summary = "赋予角色菜单")
     @PostMapping("/assign-role-menu")
     @PreAuthorize("@ss.hasRole('super_admin')")
@@ -79,6 +71,14 @@ public class PermissionController {
         // 执行菜单的分配
         permissionService.assignRoleMenu(reqVO.getRoleId(), reqVO.getMenuIds());
         return success(true);
+    }
+
+    @Operation(summary = "获得角色拥有的菜单编号")
+    @Parameter(name = "roleId", description = "角色编号", required = true)
+    @GetMapping("/role-menus")
+    @PreAuthorize("@ss.hasRole('super_admin')")
+    public CommonResult<Set<Long>> getRoleMenuList(Long roleId) {
+        return success(permissionService.getRoleMenuListByRoleId(roleId));
     }
 
     @PostMapping("/assign-role-data-scope")
