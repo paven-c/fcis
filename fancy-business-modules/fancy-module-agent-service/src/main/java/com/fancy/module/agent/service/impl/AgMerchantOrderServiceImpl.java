@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import jakarta.validation.Valid;
@@ -122,8 +123,6 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
         AgMerchantOrder agMerchantOrder = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrder(req,loginUserId,loginUserDeptId);
         agMerchantOrder.setAgMerchantId(agMerchant.getId()).setName(agMerchant.getName()).setMerchantId(agMerchant.getMerchantId());
         List<AgMerchantOrderDetail> agMerchantOrderDetails = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrder(req.getOrderDetailList());
-        List<AgMerchantOrder.AgMerchantOrderDetailVo> agMerchantOrderDetailVos = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrderDetailVo(agMerchantOrderDetails);
-        agMerchantOrder.setServiceJson(agMerchantOrderDetailVos);
         save(agMerchantOrder);
         agMerchantOrderDetails.forEach(orderDetail -> orderDetail.setAgMerchantOrderId(agMerchantOrder.getId())
                 .setAgMerchantId(agMerchantOrder.getAgMerchantId())
@@ -159,42 +158,68 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
      * 计算订单金额数据
      */
     private void builderEditAgMerchantOrder(EditAgMerchantOrderReq req){
+
         List<EditAgMerchantOrderReq.OrderDetail> orderDetailList = req.getOrderDetailList();
         Optional.ofNullable(orderDetailList).orElseThrow(()->new SecurityException("订单详情不能为空"));
         //订单明细 一条一条计算
         switch (req.getOrderType()) {
-            case 0://套餐类型
+            case 0 -> {//套餐类型
                 for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
                     AgContentServiceMain agContentServiceMains = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
                     //套餐内容信息
                     List<AgContentServiceDetail> agContentServiceDetails = agContentServiceDetailMapper.selectList(Wrappers.lambdaQuery(AgContentServiceDetail.class)
                             .eq(AgContentServiceDetail::getMainId, orderDetail.getContentServiceId())
                             .eq(AgContentServiceDetail::getDeleted, 0));
+                    Optional.ofNullable(agContentServiceMains).orElseThrow(()->new SecurityException("服务内容不存在"));
+                    //内容对应的信息
+                    Set<Long> collect = agContentServiceDetails.stream().map(AgContentServiceDetail::getContentId).collect(Collectors.toSet());
+                    Map<Long, AgContentServiceMain> agContentServiceMainMap = agContentServiceMainMapper.selectBatchIds(collect)
+                            .stream().collect(Collectors.toMap(AgContentServiceMain::getId, Function.identity(), (v1, v2) -> v1));
+                    if (ObjectUtil.isEmpty(agContentServiceMainMap)) {
+                        throw new SecurityException("服务内容不存在");
+                    }
+
+                    List<AgMerchantOrder.AgMerchantOrderDetailVo> collect1 = agContentServiceDetails.stream().map(a -> {
+                        return new AgMerchantOrder.AgMerchantOrderDetailVo()
+                                .setServiceName(agContentServiceMainMap.get(a.getContentId()).getContentName())
+                                .setServiceTotalNum(NumberUtil.mul(a.getCoverageNum(), a.getCoverageSkuNum(), 2).intValue())
+                                .setCoverageNum(a.getCoverageNum())
+                                .setCoverageSkuNum(a.getCoverageSkuNum());
+
+                    }).toList();
+                    req.getServiceJson().addAll(collect1);
                     //计算任务数
-                    Integer serviceTotalNum = agContentServiceDetails.stream().map(agContentServiceDetail -> {
-                        return NumberUtil.mul(agContentServiceDetail.getCoverageNum(), agContentServiceDetail.getCoverageSkuNum(),2).intValue();
-                    }).reduce(Integer::sum).orElse(0);
+                    Integer serviceTotalNum = agContentServiceDetails.stream()
+                            .map(agContentServiceDetail -> NumberUtil.mul(agContentServiceDetail.getCoverageNum(), agContentServiceDetail.getCoverageSkuNum(), 2).intValue())
+                            .reduce(Integer::sum).orElse(0);
                     orderDetail.setServiceTotalNum(serviceTotalNum)
                             .setOrderUnitPrice(BigDecimal.valueOf(agContentServiceMains.getConsumePoint()))
                             .setOrderSubMoney(BigDecimal.valueOf(agContentServiceMains.getConsumePoint()))
                             .setOrderName(agContentServiceMains.getContentName())
                             .setServiceType(agContentServiceMains.getContentType());
                 }
-                break;
-            case 1: //服务内容
+            }
+            case 1 -> { //服务内容
                 for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
                     AgContentServiceMain agContentServiceMain = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
+                    Optional.ofNullable(agContentServiceMain).orElseThrow(()->new SecurityException("服务内容不存在"));
+
                     //计算总数
-                    int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber(),2).intValue();
+                    int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber(), 2).intValue();
                     orderDetail.setServiceTotalNum(i)
                             .setOrderUnitPrice(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()))
-                            .setOrderSubMoney(NumberUtil.mul(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()), BigDecimal.valueOf(i),2))
+                            .setOrderSubMoney(NumberUtil.mul(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()), BigDecimal.valueOf(i), 2))
                             .setOrderName(agContentServiceMain.getContentName())
                             .setServiceType(agContentServiceMain.getContentType());
+
+                    req.getServiceJson().add(new AgMerchantOrder.AgMerchantOrderDetailVo()
+                            .setServiceName(orderDetail.getOrderName())
+                            .setServiceTotalNum(orderDetail.getServiceTotalNum())
+                            .setCoverageNum(orderDetail.getNumberOfGenerations())
+                            .setCoverageSkuNum(orderDetail.getCoverageNumber()));
                 }
-                break;
-            default:
-                throw new SecurityException("订单类型错误");
+            }
+            default -> throw new SecurityException("订单类型错误");
         }
         //总金额 总任务数
         BigDecimal orderSubMoney = orderDetailList.stream()
