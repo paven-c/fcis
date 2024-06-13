@@ -3,16 +3,25 @@ package com.fancy.module.common.controller.permission;
 
 import static com.fancy.common.pojo.CommonResult.success;
 
+import com.fancy.common.enums.DeleteStatusEnum;
 import com.fancy.common.pojo.CommonResult;
+import com.fancy.module.common.controller.auth.vo.AuthPermissionInfoRespVO;
 import com.fancy.module.common.controller.permission.vo.permission.PermissionAssignRoleDataScopeReqVO;
 import com.fancy.module.common.controller.permission.vo.permission.PermissionAssignRoleMenuReqVO;
 import com.fancy.module.common.controller.permission.vo.permission.PermissionAssignUserRoleReqVO;
+import com.fancy.module.common.convert.auth.AuthConvert;
+import com.fancy.module.common.repository.pojo.permission.Menu;
+import com.fancy.module.common.repository.pojo.permission.Role;
+import com.fancy.module.common.service.permission.MenuService;
 import com.fancy.module.common.service.permission.PermissionService;
+import com.fancy.module.common.service.permission.RoleService;
+import com.google.common.collect.Lists;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
+import java.util.List;
 import java.util.Set;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -36,18 +45,36 @@ public class PermissionController {
 
     @Resource
     private PermissionService permissionService;
+    @Resource
+    private RoleService roleService;
+    @Resource
+    private MenuService menuService;
+
+    @Operation(summary = "获取系统的权限信息")
+    @Parameter(name = "roleId", description = "角色编号", required = true)
+    @GetMapping("/menus-tree")
+    @PreAuthorize("@ss.hasRole('super_admin')")
+    public CommonResult<AuthPermissionInfoRespVO> getPermissionTree(@RequestParam("roleId") Long roleId) {
+        Role role = roleService.getRole(roleId);
+        // 角色菜单
+        Set<Long> menuIds = permissionService.getRoleMenuListByRoleId(Lists.newArrayList(role.getId()));
+        // 全部菜单
+        List<Menu> menuList = menuService.getMenuList();
+        menuList.removeIf(menu -> DeleteStatusEnum.DELETED.getStatus().equals(menu.getDeleted()));
+        return success(AuthConvert.INSTANCE.convertTree(menuList, menuIds));
+    }
 
     @Operation(summary = "获得角色拥有的菜单编号")
     @Parameter(name = "roleId", description = "角色编号", required = true)
-    @GetMapping("/list-role-menus")
-    @PreAuthorize("@ss.hasPermission('common:permission:assign-role-menu')")
+    @GetMapping("/role-menus")
+    @PreAuthorize("@ss.hasRole('super_admin')")
     public CommonResult<Set<Long>> getRoleMenuList(Long roleId) {
         return success(permissionService.getRoleMenuListByRoleId(roleId));
     }
 
-    @PostMapping("/assign-role-menu")
     @Operation(summary = "赋予角色菜单")
-    @PreAuthorize("@ss.hasPermission('common:permission:assign-role-menu')")
+    @PostMapping("/assign-role-menu")
+    @PreAuthorize("@ss.hasRole('super_admin')")
     public CommonResult<Boolean> assignRoleMenu(@Validated @RequestBody PermissionAssignRoleMenuReqVO reqVO) {
         // 执行菜单的分配
         permissionService.assignRoleMenu(reqVO.getRoleId(), reqVO.getMenuIds());

@@ -31,6 +31,7 @@ public class LoginUser {
      * 关联 {@link UserTypeEnum}
      */
     private Integer userType;
+
     /**
      * 额外的用户信息
      */
