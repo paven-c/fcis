@@ -108,7 +108,6 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     agUserBalanceDetailService.saveBatch(agUserBalanceDetailList);
                 }
                 if (ObjectUtil.isNotEmpty(agUserBalanceList)) {
-                    //数据库锁更新
                     updateBatchById(agUserBalanceList);
                 }
                 return true;
