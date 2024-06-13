@@ -29,7 +29,7 @@ public class AgentPageReqVO extends PageParam {
     @Schema(description = "展示状态, AgentStatusEnum", example = "1")
     private Integer status;
 
-    @Schema(description = "部门编号，同时筛选子部门", example = "")
-    private Long deptId;
+    @Schema(description = "代理等级", example = "")
+    private Integer level;
 
 }

@@ -235,17 +235,6 @@ public class AgentController {
         return success(true);
     }
 
-    @Operation(summary = "财务充值一级代理商")
-    @PostMapping("/test")
-    @Transactional(rollbackFor = Exception.class)
-    public CommonResult<Boolean> test(@RequestBody EditAgUserBalanceDetailReq req) {
-        // 转账操作
-        userBalanceService.changeBalance(req);
-        return success(true);
-    }
-
-
-
     @Operation(summary = "一级代理商充值二级代理商")
     @PostMapping("/recharge-second-level")
     @PreAuthorize("@ss.hasPermission('agent:agent:recharge-second-level')")
@@ -270,7 +259,7 @@ public class AgentController {
         userBalanceService.changeBalance(new EditAgUserBalanceDetailReq()
                 .setFromAgUserId(loginUser.getId()).setFromUserName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
                 .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName())
-                .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
+                .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.SECONDARY_AGENT_RECHARGE)
                 .setCreateId(loginUser.getId()).setCreateName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
                         .setDeptId(MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID, null))
                 .setRemarks(reqVO.getRemarks()));
@@ -298,17 +287,15 @@ public class AgentController {
         ExcelUtils.write(response, "代理商数据.xls", "代理商", AgentRespVO.class, AgentConvert.INSTANCE.convertList(list));
     }
 
-
     @Operation(summary = "我的交易")
     @PostMapping("/myTransactionPageList")
-    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList(@RequestBody QueryAgUserBalanceDetailReq req)  {
-        Set<String> userRoleCodeListByUserIds = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
-        //是否代理商角色
-        boolean b = userRoleCodeListByUserIds.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
+    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList(@RequestBody QueryAgUserBalanceDetailReq req) {
+        Set<String> roleCodes = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
+        // 是否代理商角色
+        boolean b = roleCodes.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
         req.setCreatorIds(b ? Collections.singletonList(getLoginUserId()) : null);
         return CommonResult.success(agUserBalanceDetailService.myTransactionPageList(req));
     }
-
 
     /**
      * 获取父级代理商

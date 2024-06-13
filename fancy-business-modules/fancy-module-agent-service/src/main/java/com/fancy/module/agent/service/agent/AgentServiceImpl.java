@@ -29,8 +29,6 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
 
     @Resource
     private AgentMapper agentMapper;
-    @Resource
-    private DeptApi deptApi;
 
     @Override
     public PageResult<Agent> getAgentPage(AgentPageReqVO reqVO) {
@@ -38,7 +36,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 .likeIfPresent(Agent::getAgentName, reqVO.getAgentName())
                 .eqIfPresent(Agent::getMobile, reqVO.getMobile())
                 .eqIfPresent(Agent::getStatus, reqVO.getStatus())
-                .inIfPresent(Agent::getDeptId, deptApi.getChildDeptList(reqVO.getDeptId()))
+                .eqIfPresent(Agent::getLevel, reqVO.getLevel())
                 .orderByDesc(Agent::getId));
     }
 
