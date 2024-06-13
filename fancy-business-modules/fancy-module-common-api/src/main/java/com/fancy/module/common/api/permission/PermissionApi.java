@@ -20,6 +20,13 @@ public interface PermissionApi {
     Set<Long> getUserRoleIdListByRoleIds(Collection<Long> roleIds);
 
     /**
+     * 获取用户角色code
+     * @param userId
+     * @return
+     */
+    Set<String> getUserRoleCodeListByUserIds(Long userId);
+
+    /**
      * 判断是否有权限，任一一个即可
      *
      * @param userId 用户编号
