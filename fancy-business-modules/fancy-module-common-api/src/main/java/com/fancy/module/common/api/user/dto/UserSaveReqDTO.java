@@ -10,12 +10,17 @@ import lombok.Data;
 @Builder
 public class UserSaveReqDTO {
 
-    private String id;
+    private Long id;
 
     /**
      * 用户账号
      */
     private String username;
+
+    /**
+     * 密码
+     */
+    private String password;
 
     /**
      * 用户昵称
@@ -53,11 +58,6 @@ public class UserSaveReqDTO {
      * 用户头像
      */
     private String avatar;
-
-    /**
-     * 密码
-     */
-    private String password;
 
     /**
      * 状态

@@ -11,6 +11,11 @@ import lombok.Data;
 public class DeptSaveReqDTO {
 
     /**
+     * 部门编号
+     */
+    private Long id;
+
+    /**
      * 部门名称
      */
     private String name;

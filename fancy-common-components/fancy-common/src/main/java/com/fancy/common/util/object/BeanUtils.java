@@ -52,7 +52,7 @@ public class BeanUtils {
         if (peek != null) {
             list.forEach(peek);
         }
-        return new PageResult<>(list, source.getTotal());
+        return new PageResult<>(list, source.getTotal(), source.getPageNum(), source.getPageSize());
     }
 
 }

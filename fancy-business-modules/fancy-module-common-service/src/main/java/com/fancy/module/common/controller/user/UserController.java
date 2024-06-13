@@ -109,11 +109,12 @@ public class UserController {
         // 获得用户分页列表
         PageResult<User> pageResult = userService.getUserPage(pageReqVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
-            return success(new PageResult<>(pageResult.getTotal()));
+            return success(new PageResult<>(pageResult.getTotal(), pageReqVO.getPageNum(), pageResult.getPageSize()));
         }
         // 拼接数据
         Map<Long, Dept> deptMap = deptService.getDeptMap(convertList(pageResult.getList(), User::getDeptId));
-        return success(new PageResult<>(UserConvert.INSTANCE.convertList(pageResult.getList(), deptMap), pageResult.getTotal()));
+        return success(new PageResult<>(UserConvert.INSTANCE.convertList(pageResult.getList(), deptMap), pageResult.getTotal(), pageResult.getPageNum(),
+                pageResult.getPageSize()));
     }
 
     @GetMapping({"/list-all-simple", "/simple-list"})

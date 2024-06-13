@@ -1,4 +1,4 @@
-package com.fancy.module.common.config.datapermission.rule.dept;
+package com.fancy.component.datapermission.core.rule.dept;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;

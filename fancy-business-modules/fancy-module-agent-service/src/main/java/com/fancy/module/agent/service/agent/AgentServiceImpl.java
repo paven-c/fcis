@@ -6,6 +6,7 @@ import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_NAME_DUPLIC
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_NOT_EXISTS;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.enums.DeleteStatusEnum;
 import com.fancy.common.pojo.PageResult;
@@ -37,7 +38,6 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 .likeIfPresent(Agent::getAgentName, reqVO.getAgentName())
                 .eqIfPresent(Agent::getMobile, reqVO.getMobile())
                 .eqIfPresent(Agent::getStatus, reqVO.getStatus())
-                .betweenIfPresent(Agent::getCreateTime, reqVO.getCreateTime())
                 .inIfPresent(Agent::getDeptId, deptApi.getChildDeptList(reqVO.getDeptId()))
                 .orderByDesc(Agent::getId));
     }
@@ -47,7 +47,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     public Long createAgent(AgentSaveReqVO reqVO) {
         validateAgent4CreateOrUpdate(null, reqVO.getAgentName(), reqVO.getMobile());
         // 代理商信息
-        Agent agent = Agent.builder().agentName(reqVO.getAgentName()).provinceId(reqVO.getProvinceId()).cityId(reqVO.getCityId())
+        Agent agent = Agent.builder().agentName(reqVO.getAgentName()).provinceId(reqVO.getProvinceId()).cityId(reqVO.getCityId()).status(reqVO.getStatus())
                 // 联系人信息
                 .level(reqVO.getLevel()).parentId(reqVO.getParentAgentId()).mobile(reqVO.getMobile()).contactor(reqVO.getContactorName())
                 // 身份证信息
@@ -55,7 +55,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 // 营业执照、合同信息
                 .businessLicense(reqVO.getBusinessLicense()).contractLink(reqVO.getContractLink()).introduction(reqVO.getIntroduction())
                 // 合作起始时间 & 合作状态
-                .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).deptId(reqVO.getDeptId()).status(reqVO.getStatus()).build();
+                .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).userId(reqVO.getUserId()).deptId(reqVO.getDeptId()).build();
         agentMapper.insert(agent);
         return agent.getId();
     }
@@ -64,7 +64,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     public void updateAgent(AgentSaveReqVO reqVO) {
         validateAgent4CreateOrUpdate(reqVO.getId(), reqVO.getAgentName(), reqVO.getMobile());
         // 代理商信息
-        Agent agent = Agent.builder().agentName(reqVO.getAgentName()).provinceId(reqVO.getProvinceId()).cityId(reqVO.getCityId())
+        Agent updateAgent = Agent.builder().id(reqVO.getId()).agentName(reqVO.getAgentName()).provinceId(reqVO.getProvinceId()).cityId(reqVO.getCityId())
                 // 联系人信息
                 .parentId(reqVO.getParentAgentId()).mobile(reqVO.getMobile()).contactor(reqVO.getContactorName())
                 // 身份证信息
@@ -73,7 +73,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 .businessLicense(reqVO.getBusinessLicense()).contractLink(reqVO.getContractLink()).introduction(reqVO.getIntroduction())
                 // 合作起始时间 & 合作状态
                 .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).build();
-        agentMapper.insert(agent);
+        agentMapper.updateById(updateAgent);
     }
 
     @Override
@@ -81,7 +81,9 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
         if (agentMapper.selectCountByParentId(agentId) > 0) {
             throw exception(AGENT_NOT_EXISTS);
         }
-        agentMapper.deleteById(agentId);
+        agentMapper.update(Wrappers.lambdaUpdate(Agent.class)
+                .set(Agent::getDeleted, DeleteStatusEnum.DELETED.getStatus())
+                .eq(Agent::getId, agentId));
     }
 
     @Override

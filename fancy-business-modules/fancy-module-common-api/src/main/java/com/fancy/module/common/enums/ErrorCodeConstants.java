@@ -62,6 +62,7 @@ public interface ErrorCodeConstants {
     ErrorCode AGENT_NAME_DUPLICATE = new ErrorCode(1_002_005_000, "代理商名称已存在");
     ErrorCode AGENT_MOBILE_DUPLICATE = new ErrorCode(1_002_005_001, "代理商手机号已存在");
     ErrorCode AGENT_NOT_EXISTS = new ErrorCode(1_002_005_002, "代理商不存在");
+    ErrorCode AGENT_STATUS_NOT_ACTIVITY = new ErrorCode(1_002_005_003, "代理商未审核");
 
 
 

@@ -1,5 +1,6 @@
 package com.fancy.module.common.controller.auth.vo;
 
+import cn.hutool.json.JSONObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 import java.util.Set;
@@ -67,6 +68,9 @@ public class AuthPermissionInfoRespVO {
         @Schema(description = "菜单名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "")
         private String menuName;
 
+        @Schema(description = "菜单标题", requiredMode = Schema.RequiredMode.REQUIRED, example = "")
+        private String title;
+
         @Schema(description = "路由地址,仅菜单类型为菜单或者目录时，才需要传", example = "post")
         private String path;
 
@@ -87,6 +91,9 @@ public class AuthPermissionInfoRespVO {
 
         @Schema(description = "是否总是显示", example = "false")
         private Boolean alwaysShow;
+
+        @Schema(description = "元信息", example = "")
+        private JSONObject meta;
 
         /**
          * 子路由

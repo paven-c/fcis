@@ -2,12 +2,14 @@ package com.fancy.module.agent.controller.vo;
 
 import com.fancy.module.agent.enums.AgentStatusEnum;
 import java.time.LocalDateTime;
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * @author paven
  */
 @Data
+@Builder
 public class AgentSaveReqVO {
 
     /**
@@ -41,13 +43,6 @@ public class AgentSaveReqVO {
     private String contactorName;
 
     /**
-     * 状态
-     * <p>
-     * {@link AgentStatusEnum}
-     */
-    private Integer status;
-
-    /**
      * 手机号码
      */
     private String mobile;
@@ -56,11 +51,6 @@ public class AgentSaveReqVO {
      * 密码
      */
     private String password;
-
-    /**
-     * 部门编号
-     */
-    private Long deptId;
 
     /**
      * 上级代理ID
@@ -101,5 +91,22 @@ public class AgentSaveReqVO {
      * 合作结束时间
      */
     private LocalDateTime endTime;
+
+    /**
+     * 状态
+     * <p>
+     * {@link AgentStatusEnum}
+     */
+    private Integer status;
+
+    /**
+     * 关联用户ID
+     */
+    private Long userId;
+
+    /**
+     * 部门编号
+     */
+    private Long deptId;
 
 }

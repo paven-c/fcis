@@ -23,10 +23,12 @@ public interface AgentConvert {
     @Mapping(target = "deptId", source = "deptId")
     AgentSaveReqVO convert(AgentSaveReqDTO bean, Long deptId, Long parentAgentId);
 
+    @Mapping(target = "contactorName", source = "contactor")
     AgentRespVO convertVO(Agent bean);
 
     default List<AgentRespVO> convertList(List<Agent> list) {
         return CollectionUtils.convertList(list, this::convertVO);
     }
 
+    Agent convertBean(AgentSaveReqVO reqVO);
 }

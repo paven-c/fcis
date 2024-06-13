@@ -29,7 +29,7 @@ public class MyBatisUtils {
 
     public static <T> Page<T> buildPage(PageParam pageParam, Collection<SortingField> sortingFields) {
         // 页码 + 数量
-        Page<T> page = new Page<>(pageParam.getPageNo(), pageParam.getPageSize());
+        Page<T> page = new Page<>(pageParam.getPageNum(), pageParam.getPageSize());
         // 排序字段
         if (!CollectionUtil.isEmpty(sortingFields)) {
             page.addOrder(sortingFields.stream().map(sortingField -> SortingField.ORDER_ASC.equals(sortingField.getOrder()) ?

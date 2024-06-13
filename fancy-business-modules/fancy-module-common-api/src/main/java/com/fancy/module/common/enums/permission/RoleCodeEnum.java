@@ -19,6 +19,11 @@ public enum RoleCodeEnum {
     SUPER_ADMIN("super_admin", "超级管理员"),
 
     /**
+     * 财务
+     */
+    FINANCE("finance", "财务"),
+
+    /**
      * 项目经理
      */
     PROJECT_MANAGER("project_manager", "项目经理"),

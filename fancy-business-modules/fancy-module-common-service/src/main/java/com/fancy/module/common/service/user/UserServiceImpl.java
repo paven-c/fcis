@@ -86,11 +86,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateUser(UserSaveReqVO updateReqVO) {
-        updateReqVO.setPassword(null);
-        User oldUser = validateUserForCreateOrUpdate(
-                updateReqVO.getId(), updateReqVO.getUsername(), updateReqVO.getMobile(), updateReqVO.getEmail(), updateReqVO.getDeptId());
-        User updateObj = BeanUtils.toBean(updateReqVO, User.class);
+    public void updateUser(UserSaveReqVO reqVO) {
+        reqVO.setPassword(null);
+        User oldUser = validateUserForCreateOrUpdate(reqVO.getId(), reqVO.getUsername(), reqVO.getMobile(), reqVO.getEmail(), reqVO.getDeptId());
+        User updateObj = BeanUtils.toBean(reqVO, User.class);
         userMapper.updateById(updateObj);
     }
 

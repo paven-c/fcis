@@ -82,7 +82,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
             }
             orderTaskListVOS.add(orderTaskListVO);
         }
-        PageResult<OrderTaskListVO> orderTaskListVOPageResult = new PageResult<>();
+        PageResult<OrderTaskListVO> orderTaskListVOPageResult = new PageResult<>(orderTaskListDTO.getPageNum(), orderTaskListDTO.getPageSize());
         BeanUtil.copyProperties(agOrderTaskPageResult, orderTaskListVOPageResult);
         orderTaskListVOPageResult.setList(orderTaskListVOS);
         return orderTaskListVOPageResult;

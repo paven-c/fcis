@@ -1,4 +1,4 @@
-package com.fancy.module.common.config.datapermission.rule.dept;
+package com.fancy.component.datapermission.core.rule.dept;
 
 /**
  * {@link DeptDataPermissionRule} 的自定义配置接口

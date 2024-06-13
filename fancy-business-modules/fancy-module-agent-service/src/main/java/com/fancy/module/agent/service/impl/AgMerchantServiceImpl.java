@@ -74,11 +74,13 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
                 .eq(ObjectUtil.isNotEmpty(req.getAuthStatus()), AgMerchant::getAuthStatus, req.getAuthStatus())
                 .like(ObjectUtil.isNotEmpty(req.getName()), AgMerchant::getName, req.getName())
                 .in(ObjectUtil.isNotEmpty(req.getCreatorIds()), AgMerchant::getCreatorId, req.getCreatorIds())
-                .between(ObjectUtil.isNotEmpty(req.getStartTime()) && ObjectUtil.isNotEmpty(req.getEndTime()), AgMerchant::getCreateTime, req.getStartTime(), req.getEndTime())
-                .eq(AgMerchant::getDeleted,0)
+                .between(
+                        ObjectUtil.isNotEmpty(req.getStartTime()) && ObjectUtil.isNotEmpty(req.getEndTime()), AgMerchant::getCreateTime, req.getStartTime(),
+                        req.getEndTime())
+                .eq(AgMerchant::getDeleted, 0)
                 .orderByDesc(AgMerchant::getCreateTime));
         if (CollUtil.isEmpty(agMerchantPageResult.getList())) {
-            return new PageResult<>(agMerchantPageResult.getTotal());
+            return new PageResult<>(agMerchantPageResult.getTotal(), req.getPageNum(), req.getPageSize());
         }
         List<AgMerchantVo> agMerchantVos = AgMerchantConvert.INSTANCE.convertList(agMerchantPageResult.getList());
         List<Long> collect = agMerchantVos.stream().map(AgMerchant::getCreatorId).collect(Collectors.toList());
@@ -89,6 +91,6 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
                 agMerchantVo.setAgUserName(userMap.get(agMerchantVo.getCreatorId()));
             }
         });
-        return new PageResult<>(agMerchantVos, agMerchantPageResult.getTotal());
+        return new PageResult<>(agMerchantVos, agMerchantPageResult.getTotal(), req.getPageNum(), req.getPageSize());
     }
 }

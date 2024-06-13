@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import lombok.Data;
 
+/**
+ * @author paven
+ */
 @Data
 public class PageParam implements Serializable {
 
@@ -20,7 +23,7 @@ public class PageParam implements Serializable {
 
     @NotNull(message = "页码不能为空")
     @Min(value = 1, message = "页码最小值为 1")
-    private Integer pageNo = PAGE_NO;
+    private Integer pageNum = PAGE_NO;
 
     @NotNull(message = "分页条数不能为空")
     @Min(value = 1, message = "分页条数最小值为 1")

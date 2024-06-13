@@ -26,8 +26,12 @@ public class DeptApiImpl implements DeptApi {
 
     @Override
     public Long createDept(DeptSaveReqDTO createReqDTO) {
-        Long deptId = deptService.createDept(DeptConvert.INSTANCE.convert(createReqDTO));
-        return deptId;
+        return deptService.createDept(DeptConvert.INSTANCE.convert(createReqDTO));
+    }
+
+    @Override
+    public void updateDept(DeptSaveReqDTO reqDTO) {
+        deptService.updateDept(DeptConvert.INSTANCE.convert(reqDTO));
     }
 
     @Override

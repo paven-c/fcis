@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 
 /**
@@ -15,6 +16,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
+@Accessors(chain = true)
 @TableName("ag_agent")
 public class Agent extends BasePojo {
 
@@ -99,6 +101,11 @@ public class Agent extends BasePojo {
      * {@link AgentStatusEnum}
      */
     private Integer status;
+
+    /**
+     * 关联用户ID
+     */
+    private Long userId;
 
     /**
      * 部门编号

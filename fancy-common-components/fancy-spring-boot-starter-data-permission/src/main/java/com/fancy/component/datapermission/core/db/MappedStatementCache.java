@@ -15,6 +15,7 @@ import org.apache.ibatis.mapping.MappedStatement;
  *
  * @author paven
  */
+@Getter
 public class MappedStatementCache {
 
     /**
@@ -22,7 +23,6 @@ public class MappedStatementCache {
      * <p>
      * value：{@link MappedStatement#getId()} 编号
      */
-    @Getter
     private final Map<Class<? extends DataPermissionRule>, Set<String>> noRewritableMappedStatements = new ConcurrentHashMap<>();
 
     /**

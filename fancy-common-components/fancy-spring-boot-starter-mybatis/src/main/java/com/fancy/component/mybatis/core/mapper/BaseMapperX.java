@@ -47,35 +47,35 @@ public interface BaseMapperX<T> extends MPJBaseMapper<T> {
         // 特殊：不分页，直接查询全部
         if (PageParam.PAGE_SIZE_NONE.equals(pageParam.getPageSize())) {
             List<T> list = selectList(queryWrapper);
-            return new PageResult<>(list, (long) list.size());
+            return new PageResult<>(list, list.size(), pageParam.getPageNum(), pageParam.getPageSize());
         }
 
         // MyBatis Plus 查询
         IPage<T> mpPage = MyBatisUtils.buildPage(pageParam, sortingFields);
         selectPage(mpPage, queryWrapper);
         // 转换返回
-        return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
+        return new PageResult<>(mpPage.getRecords(), Math.toIntExact(mpPage.getTotal()), pageParam.getPageNum(), pageParam.getPageSize());
     }
 
     default <D> PageResult<D> selectJoinPage(PageParam pageParam, Class<D> clazz, MPJLambdaWrapper<T> lambdaWrapper) {
         // 特殊：不分页，直接查询全部
-        if (PageParam.PAGE_SIZE_NONE.equals(pageParam.getPageNo())) {
+        if (PageParam.PAGE_SIZE_NONE.equals(pageParam.getPageNum())) {
             List<D> list = selectJoinList(clazz, lambdaWrapper);
-            return new PageResult<>(list, (long) list.size());
+            return new PageResult<>(list, list.size(), pageParam.getPageNum(), pageParam.getPageSize());
         }
 
         // MyBatis Plus Join 查询
         IPage<D> mpPage = MyBatisUtils.buildPage(pageParam);
         mpPage = selectJoinPage(mpPage, clazz, lambdaWrapper);
         // 转换返回
-        return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
+        return new PageResult<>(mpPage.getRecords(), Math.toIntExact(mpPage.getTotal()), pageParam.getPageNum(), pageParam.getPageSize());
     }
 
     default <DTO> PageResult<DTO> selectJoinPage(PageParam pageParam, Class<DTO> resultTypeClass, MPJBaseJoin<T> joinQueryWrapper) {
         IPage<DTO> mpPage = MyBatisUtils.buildPage(pageParam);
         selectJoinPage(mpPage, resultTypeClass, joinQueryWrapper);
         // 转换返回
-        return new PageResult<>(mpPage.getRecords(), mpPage.getTotal());
+        return new PageResult<>(mpPage.getRecords(), Math.toIntExact(mpPage.getTotal()), pageParam.getPageNum(), pageParam.getPageSize());
     }
 
     default T selectOne(String field, Object value) {

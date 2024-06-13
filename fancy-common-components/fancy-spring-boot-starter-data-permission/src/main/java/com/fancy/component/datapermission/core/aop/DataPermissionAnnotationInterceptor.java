@@ -17,6 +17,7 @@ import org.springframework.core.annotation.AnnotationUtils;
  *
  * @author paven
  */
+@Getter
 @DataPermission
 public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
 
@@ -25,7 +26,6 @@ public class DataPermissionAnnotationInterceptor implements MethodInterceptor {
      */
     static final DataPermission DATA_PERMISSION_NULL = DataPermissionAnnotationInterceptor.class.getAnnotation(DataPermission.class);
 
-    @Getter
     private final Map<MethodClassKey, DataPermission> dataPermissionCache = new ConcurrentHashMap<>();
 
     @Override

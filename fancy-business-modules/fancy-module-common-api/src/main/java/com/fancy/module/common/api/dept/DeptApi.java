@@ -15,16 +15,23 @@ public interface DeptApi {
     /**
      * 新增部门
      *
-     * @param createReqDTO 新增部门参数
+     * @param reqDTO 新增部门参数
      * @return 部门编号
      */
-    Long createDept(@Valid DeptSaveReqDTO createReqDTO);
+    Long createDept(@Valid DeptSaveReqDTO reqDTO);
+
+    /**
+     * 更新部门
+     *
+     * @param reqDTO 更新部门参数
+     */
+    void updateDept(DeptSaveReqDTO reqDTO);
 
     /**
      * 获取部门
      *
-     * @param deptId
-     * @return
+     * @param deptId 部门ID
+     * @return 部门
      */
     DeptRespDTO getDept(Long deptId);
 
@@ -35,4 +42,5 @@ public interface DeptApi {
      * @return 部门列表
      */
     Set<Long> getChildDeptList(Long deptId);
+
 }

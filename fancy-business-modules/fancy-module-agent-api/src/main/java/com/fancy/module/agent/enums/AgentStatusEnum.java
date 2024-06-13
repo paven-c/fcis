@@ -1,5 +1,7 @@
 package com.fancy.module.agent.enums;
 
+import com.google.common.collect.Lists;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -36,4 +38,9 @@ public enum AgentStatusEnum {
 
     private final String desc;
 
+    private static final List<Integer> ACTIVITY_STATUS = Lists.newArrayList(APPROVED.getStatus());
+
+    public static boolean isActivityStatus(Integer status) {
+        return ACTIVITY_STATUS.contains(status);
+    }
 }

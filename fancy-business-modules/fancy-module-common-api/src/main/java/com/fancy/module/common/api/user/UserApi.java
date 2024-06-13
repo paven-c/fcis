@@ -16,10 +16,17 @@ public interface UserApi {
     /**
      * 创建用户
      *
-     * @param createReqDTO 用户信息
+     * @param reqDTO 用户信息
      * @return 用户编号
      */
-    Long createUser(@Valid UserSaveReqDTO createReqDTO);
+    Long createUser(@Valid UserSaveReqDTO reqDTO);
+
+    /**
+     * 更新用户
+     *
+     * @param reqDTO 用户信息
+     */
+    void updateUser(UserSaveReqDTO reqDTO);
 
     /**
      * 获得用户信息

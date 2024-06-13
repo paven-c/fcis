@@ -22,6 +22,12 @@
 
     <dependency>
       <groupId>com.fancy</groupId>
+      <artifactId>fancy-spring-boot-starter-security</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fancy</groupId>
       <artifactId>fancy-spring-boot-starter-mybatis</artifactId>
       <version>${project.version}</version>
     </dependency>

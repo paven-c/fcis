@@ -7,6 +7,8 @@ import static com.fancy.module.common.repository.pojo.permission.Menu.ID_ROOT;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.fancy.common.util.object.BeanUtils;
 import com.fancy.module.common.controller.auth.vo.AuthLoginRespVO;
 import com.fancy.module.common.controller.auth.vo.AuthPermissionInfoRespVO;
@@ -22,6 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +47,12 @@ public interface AuthConvert {
                 .build();
     }
 
+    @Mapping(target = "meta",expression = "java(stringToJsonNode(menu.getMeta()))")
     AuthPermissionInfoRespVO.MenuVO convertTreeNode(Menu menu);
+
+    default JSONObject stringToJsonNode(String json) {
+        return JSONUtil.parseObj(json);
+    }
 
     /**
      * 将菜单列表，构建成菜单树

@@ -33,6 +33,11 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
+    public void updateUser(UserSaveReqDTO reqDTO) {
+        userService.updateUser(UserConvert.INSTANCE.convert(reqDTO));
+    }
+
+    @Override
     public UserRespDTO getUser(Long userId) {
         User user = userService.getUser(userId);
         if (user == null) {
