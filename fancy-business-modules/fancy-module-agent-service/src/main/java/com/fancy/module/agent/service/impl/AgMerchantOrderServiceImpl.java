@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.security.core.util.SecurityFrameworkUtils;
+import com.fancy.module.agent.controller.req.EditAgMerchantOrderReq;
 import com.fancy.module.agent.controller.req.QueryAgMerchantOrderReq;
 import com.fancy.module.agent.controller.vo.AgMerchantOrderDetailVo;
 import com.fancy.module.agent.controller.vo.AgMerchantOrderOverviewVo;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -85,5 +87,15 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
             }
         });
         return new PageResult<>(agMerchantOrderVos, agMerchantOrderPageResult.getTotal(), req.getPageNum(), req.getPageSize());
+    }
+
+    @Override
+    @Transactional
+    public void add(EditAgMerchantOrderReq req) {
+        //计算消耗
+        //创建订单
+        //扣减代理商户余额
+
+
     }
 }

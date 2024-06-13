@@ -1,5 +1,8 @@
 package com.fancy.module.agent.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import static com.fancy.component.redis.constant.RedisConstant.AG_USER_CHANGE_BALANCE;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,6 +16,12 @@ import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 import com.fancy.module.agent.service.AgUserBalanceDetailService;
 import com.fancy.module.agent.service.AgUserBalanceService;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -33,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @since 2024-06-07
  */
 @Service
+@Slf4j
 public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, AgUserBalance> implements AgUserBalanceService {
 
     @Resource
@@ -47,28 +57,30 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
     @Transactional
     public boolean changeBalance(EditAgUserBalanceDetailReq req) {
         //分布式锁 变更用户Id
-        RLock lock = redissonClient.getLock(AG_USER_CHANGE_BALANCE + req.getToAgUserId() + "_" + req.getFromAgUserId());
-        if (lock.tryLock()) {
+        RLock to = redissonClient.getLock(AG_USER_CHANGE_BALANCE + req.getToAgUserId());
+        RLock from = redissonClient.getLock(AG_USER_CHANGE_BALANCE +req.getFromAgUserId());
+        if (to.tryLock() && from.tryLock()) {
             try {
                 List<AgUserBalance> agUserBalanceList = new ArrayList<>();
                 List<AgUserBalanceDetail> agUserBalanceDetailList = new ArrayList<>();
                 //查询入账用户余额
-                AgUserBalance accounting = lambdaQuery()
-                        .eq(AgUserBalance::getAgUserId, req.getToAgUserId())
-                        .eq(AgUserBalance::getDeleted, 0)
-                        .last("limit 1").one();
-                Optional.ofNullable(accounting).orElseThrow(() -> new SecurityException("用户不存在"));
-                agUserBalanceList.add(accounting);
-                Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new SecurityException("未知的变更类型"));
-                //入账
-                BigDecimal nowPrice = accounting.getNowPrice();
-                accounting.setBeforePrice(nowPrice);
-                BigDecimal add = nowPrice.add(req.getPrice());
-                accounting.setNowPrice(add);
-                //入账明细
-                AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, 0, nowPrice, add);
-                agUserBalanceDetailList.add(agUserBalanceDetail);
-
+                if (req.getCheckTo()) {
+                    AgUserBalance accounting = lambdaQuery()
+                            .eq(AgUserBalance::getAgUserId, req.getToAgUserId())
+                            .eq(AgUserBalance::getDeleted, 0)
+                            .last("limit 1").one();
+                    Optional.ofNullable(accounting).orElseThrow(() -> new SecurityException("用户不存在"));
+                    agUserBalanceList.add(accounting);
+                    Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new SecurityException("未知的变更类型"));
+                    //入账
+                    BigDecimal nowPrice = accounting.getNowPrice();
+                    accounting.setBeforePrice(nowPrice);
+                    BigDecimal add = nowPrice.add(req.getPrice());
+                    accounting.setNowPrice(add);
+                    //入账明细
+                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, 0, nowPrice, add);
+                    agUserBalanceDetailList.add(agUserBalanceDetail);
+                }
                 //查询出账用户余额
                 if (req.getCheckFrom()) {
                     AgUserBalance paymentOut = lambdaQuery()
@@ -92,13 +104,19 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     AgUserBalanceDetail agUserBalanceDetail1 = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, 1, paymentOut.getNowPrice(), sub);
                     agUserBalanceDetailList.add(agUserBalanceDetail1);
                 }
-                agUserBalanceDetailService.saveBatch(agUserBalanceDetailList);
-                updateBatchById(agUserBalanceList);
+                if (ObjectUtil.isNotEmpty(agUserBalanceDetailList)) {
+                    agUserBalanceDetailService.saveBatch(agUserBalanceDetailList);
+                }
+                if (ObjectUtil.isNotEmpty(agUserBalanceList)) {
+                    updateBatchById(agUserBalanceList);
+                }
                 return true;
             } catch (Exception e) {
+                log.error("修改用户余额异常,params:{},error:{}",JSONUtil.toJsonStr(req),e.getMessage(),e);
                 throw new SecurityException(e);
             } finally {
-                lock.unlock();
+                to.unlock();
+                from.unlock();
             }
         }
         return false;

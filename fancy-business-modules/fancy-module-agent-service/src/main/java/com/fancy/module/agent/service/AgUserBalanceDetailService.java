@@ -2,6 +2,9 @@ package com.fancy.module.agent.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.fancy.common.pojo.PageResult;
+import com.fancy.module.agent.controller.req.QueryAgUserBalanceDetailReq;
+import com.fancy.module.agent.controller.vo.AgUserBalanceDetailVo;
 import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 
 /**
@@ -14,4 +17,5 @@ import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
  */
 public interface AgUserBalanceDetailService extends IService<AgUserBalanceDetail> {
 
+    PageResult<AgUserBalanceDetailVo> myTransactionPageList(QueryAgUserBalanceDetailReq req);
 }

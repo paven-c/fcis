@@ -34,15 +34,19 @@ public class AgUserBalanceDetail implements Serializable {
      * 代理商名称
      */
     private String name;
+    /**
+     * 账单类型 0出账 1入账
+     */
+    private Integer billType;
 
     /**
-     * 来源用户Id
+     * 账单类型用户Id
      */
-    private Long fromAgUserId;
+    private Long billTypeAgUserId;
     /**
-     * 来源用户名称
+     * 账单类型用户名称
      */
-    private String fromUserName;
+    private String billTypeAgUserName;
 
 
     /**
@@ -58,7 +62,9 @@ public class AgUserBalanceDetail implements Serializable {
     /**
      * 变更金额
      */
-    private BigDecimal price; 
+    private BigDecimal price;
+
+
     
     /**
      * 变更类型
@@ -66,15 +72,35 @@ public class AgUserBalanceDetail implements Serializable {
     private Integer objectType;
 
     /**
-     * 账单类型 0出账 1入账
-     */
-    private Integer billType;
-
-    /**
      * 关联的Id
      */
-    private String object; 
-    
+    private String object;
+
+    /**
+     * 关联服务类型
+     */
+    private Integer objectSubType;
+
+    /**
+     * 关联服务名称
+     */
+    private String objectSubName;
+
+    /**
+     * 操作人Id
+     */
+    private Long  createId;
+
+    /**
+     * 操作人名称
+     */
+    private String createName;
+
+    /**
+     * 部门id
+     */
+    private Long deptId;
+
     /**
      * 状态 0正常 1停用 2完成
      */
