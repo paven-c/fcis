@@ -21,9 +21,13 @@ import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserDeptId;
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 
 /**
  * <p>
@@ -45,10 +49,13 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
     @Transactional
     public void addMerchant(EditAgMerchantReq req) {
         //先保存代理商户 再更新
-        Long loginUserId = SecurityFrameworkUtils.getLoginUserId();
-        Long loginUserDeptId = SecurityFrameworkUtils.getLoginUserDeptId();
+        Long loginUserId = getLoginUserId();
+        Long loginUserDeptId = getLoginUserDeptId();
         req.setCreatorId(loginUserId);
         req.setDeptId(loginUserDeptId);
+        LocalDateTime now = LocalDateTime.now();
+        req.setCreateTime(now);
+        req.setUpdateTime(now);
         AgMerchant agMerchant = AgMerchantConvert.INSTANCE.convertAgMerchant(req);
         //登录人Id和部门Id
         save(agMerchant);
@@ -62,6 +69,7 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
     @Override
     public void updateMerchant(EditAgMerchantReq req) {
         AgMerchant agMerchant = AgMerchantConvert.INSTANCE.convertAgMerchant(req);
+        req.setUpdateTime(LocalDateTime.now());
         updateById(agMerchant);
         CmsMerchantReqDto cmsMerchantReqDto = AgMerchantConvert.INSTANCE.convertCmsMerchantReqDto(req);
         cmsMerchantApi.agentCreateMerchant(cmsMerchantReqDto).getCheckedData();

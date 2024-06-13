@@ -52,10 +52,9 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
     }
 
     @Override
-    public AgMerchantOrderOverviewVo overview() {
+    public AgMerchantOrderOverviewVo overview(List<Long> creatorIds) {
         //获取登录人Id和部门Id
-        Long loginUserId = SecurityFrameworkUtils.getLoginUserId();
-        return baseMapper.countAgMerchantOrderOverviewVo(Collections.singletonList(loginUserId), null);
+        return baseMapper.countAgMerchantOrderOverviewVo(creatorIds, null);
     }
 
     @Override
