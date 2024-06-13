@@ -1,5 +1,6 @@
 package com.fancy.module.agent.controller.req;
 
+import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -9,6 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -61,6 +63,11 @@ public class EditAgMerchantOrderReq  {
      */
     @NotNull(message = "下单方式不能为空")
     private Integer orderType;
+
+    /**
+     * 套餐服务内容
+     */
+    private List<AgMerchantOrder.AgMerchantOrderDetailVo> serviceJson = new ArrayList<>();
 
     @Data
     @Accessors(chain = true)
