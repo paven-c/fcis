@@ -72,17 +72,15 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     Optional.ofNullable(accounting).orElseThrow(() -> new SecurityException("用户不存在"));
                     Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new SecurityException("未知的变更类型"));
                     //入账
-                    BigDecimal nowPrice = accounting.getNowPrice();
-                    accounting.setBeforePrice(nowPrice);
-                    BigDecimal add = nowPrice.add(req.getPrice());
-                    accounting.setNowPrice(add);
+                    //变更后金额
+                    BigDecimal add = accounting.getNowPrice().add(req.getPrice());
                     //更新
                     int i = agUserBalanceDetailService.updateBalance(accounting.getId(), req.getPrice(), 0);
                     if (i < 1){
                         throw new SecurityException("更新失败");
                     }
                     //入账明细
-                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, 0, nowPrice, add);
+                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, 0, accounting.getNowPrice(), add);
                     agUserBalanceDetail.setCreateTime(now);
                     agUserBalanceDetail.setUpdateTime(now);
                     agUserBalanceDetailList.add(agUserBalanceDetail);
@@ -103,9 +101,8 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                         throw new SecurityException("更新失败");
                     }
                     //出账
-                    paymentOut.setBeforePrice(paymentOut.getNowPrice());
+                    //变更后金额
                     BigDecimal sub = paymentOut.getNowPrice().subtract(req.getPrice());
-                    paymentOut.setNowPrice(sub);
                     //出账明细
                     Long fromAgUserId = req.getFromAgUserId();
                     Long toAgUserId = req.getToAgUserId();

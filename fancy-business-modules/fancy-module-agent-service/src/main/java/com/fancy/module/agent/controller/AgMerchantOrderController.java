@@ -5,12 +5,13 @@ import com.fancy.common.pojo.CommonResult;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.module.agent.controller.req.EditAgMerchantOrderReq;
 import com.fancy.module.agent.controller.req.QueryAgMerchantOrderReq;
-import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.agent.controller.vo.AgMerchantOrderOverviewVo;
 import com.fancy.module.agent.controller.vo.AgMerchantOrderVo;
+import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.common.api.permission.PermissionApi;
 import com.fancy.module.common.enums.permission.RoleCodeEnum;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +64,7 @@ public class AgMerchantOrderController {
     }
 
     @PostMapping("/add")
-    public CommonResult<?> add(@RequestBody EditAgMerchantOrderReq req){
+    public CommonResult<?> add(@Valid @RequestBody EditAgMerchantOrderReq req){
         agMerchantOrderservice.add(req);
         return CommonResult.success("成功");
     }

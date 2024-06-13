@@ -1,5 +1,6 @@
 package com.fancy.module.agent.repository.pojo;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -86,7 +87,7 @@ public class AgMerchantOrderDetail implements Serializable {
      * 服务版本json
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private String serviceJson; 
+    private JSONObject serviceJson;
     
     /**
      * 订单状态 0正常 1停用 2完成
