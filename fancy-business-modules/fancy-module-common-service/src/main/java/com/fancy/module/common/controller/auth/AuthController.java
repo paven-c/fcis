@@ -6,11 +6,13 @@ import static com.fancy.common.util.collection.CollectionUtils.convertSet;
 import static com.fancy.component.web.core.util.WebFrameworkUtils.getLoginUserId;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.StrUtil;
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.pojo.CommonResult;
 import com.fancy.component.security.config.SecurityProperties;
 import com.fancy.component.security.core.util.SecurityFrameworkUtils;
+import com.fancy.module.common.api.content.CmsAuthApi;
 import com.fancy.module.common.controller.auth.vo.AuthLoginReqVO;
 import com.fancy.module.common.controller.auth.vo.AuthLoginRespVO;
 import com.fancy.module.common.controller.auth.vo.AuthPermissionInfoRespVO;
@@ -66,6 +68,8 @@ public class AuthController {
     private PermissionService permissionService;
     @Resource
     private SecurityProperties securityProperties;
+    @Resource
+    private CmsAuthApi cmsAuthApi;
 
     @PostMapping("/login")
     @PermitAll
@@ -115,6 +119,17 @@ public class AuthController {
         return success(AuthConvert.INSTANCE.convert(user, roles, menuList));
     }
 
+    @PostMapping("/loginByMerchantId")
+    @Operation(summary = "根据MerchantId登录")
+    public CommonResult loginByMerchantId(@RequestBody Long merchantId) {
+        Assert.notNull(merchantId, "merchantId不能为空");
+        CommonResult<String> result = cmsAuthApi.loginByMerchantId(merchantId);
+        if (result.getCode() == 200) {
+            return success(result.getData());
+        } else {
+            return success("");
+        }
+    }
 
 
 }
