@@ -1,6 +1,7 @@
 package com.fancy.module.agent.controller;
 
 
+import com.fancy.common.pojo.CommonResult;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.module.agent.api.task.dto.OrderTaskListDTO;
 import com.fancy.module.agent.controller.vo.OrderTaskListVO;
@@ -28,8 +29,8 @@ public class AgOrderTaskController {
     private AgOrderTaskService agOrderTaskService;
 
     @PostMapping("/listOrderTask")
-    public PageResult<OrderTaskListVO> listOrderTask(@RequestBody OrderTaskListDTO orderTaskListDTO) {
-        return agOrderTaskService.listOrderTask(orderTaskListDTO);
+    public CommonResult<PageResult<OrderTaskListVO>> listOrderTask(@RequestBody OrderTaskListDTO orderTaskListDTO) {
+        return CommonResult.success(agOrderTaskService.listOrderTask(orderTaskListDTO));
     }
 
 }
