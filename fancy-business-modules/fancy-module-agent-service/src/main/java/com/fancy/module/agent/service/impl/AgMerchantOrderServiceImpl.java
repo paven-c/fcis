@@ -1,6 +1,7 @@
 package com.fancy.module.agent.service.impl;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -16,9 +17,7 @@ import com.fancy.module.agent.controller.vo.AgMerchantOrderVo;
 import com.fancy.module.agent.convert.merchant.AgMerchantOrderConvert;
 import com.fancy.module.agent.enums.AgUserBalanceDetailType;
 import com.fancy.module.agent.repository.mapper.*;
-import com.fancy.module.agent.repository.pojo.AgMerchant;
-import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
-import com.fancy.module.agent.repository.pojo.AgMerchantOrderDetail;
+import com.fancy.module.agent.repository.pojo.*;
 import com.fancy.module.agent.service.AgMerchantOrderDetailService;
 import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.agent.service.AgUserBalanceService;
@@ -26,10 +25,14 @@ import com.fancy.module.common.api.user.UserApi;
 import com.fancy.module.common.api.user.dto.UserRespDTO;
 import jakarta.annotation.Resource;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -118,14 +121,16 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
         //创建订单
         AgMerchantOrder agMerchantOrder = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrder(req,loginUserId,loginUserDeptId);
         agMerchantOrder.setAgMerchantId(agMerchant.getId()).setName(agMerchant.getName()).setMerchantId(agMerchant.getMerchantId());
-        List<AgMerchantOrderDetail> agMerchantOrderDetails = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrder(req.getOrderDetailList(),loginUserId,loginUserDeptId);
+        List<AgMerchantOrderDetail> agMerchantOrderDetails = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrder(req.getOrderDetailList());
         List<AgMerchantOrder.AgMerchantOrderDetailVo> agMerchantOrderDetailVos = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrderDetailVo(agMerchantOrderDetails);
         agMerchantOrder.setServiceJson(agMerchantOrderDetailVos);
         save(agMerchantOrder);
         agMerchantOrderDetails.forEach(orderDetail -> orderDetail.setAgMerchantOrderId(agMerchantOrder.getId())
                 .setAgMerchantId(agMerchantOrder.getAgMerchantId())
                 .setName(agMerchantOrder.getName())
-                .setMerchantId(agMerchantOrder.getMerchantId()));
+                .setMerchantId(agMerchantOrder.getMerchantId())
+                .setCreatorId(loginUserId)
+                .setDeptId(loginUserDeptId));
         agMerchantOrderDetailService.saveBatch(agMerchantOrderDetails);
         //扣减代理商户余额
         boolean b = agUserBalanceService.changeBalance(new EditAgUserBalanceDetailReq()
@@ -154,6 +159,52 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
      * 计算订单金额数据
      */
     private void builderEditAgMerchantOrder(EditAgMerchantOrderReq req){
-
+        List<EditAgMerchantOrderReq.OrderDetail> orderDetailList = req.getOrderDetailList();
+        Optional.ofNullable(orderDetailList).orElseThrow(()->new SecurityException("订单详情不能为空"));
+        //订单明细 一条一条计算
+        switch (req.getOrderType()) {
+            case 0://套餐类型
+                for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
+                    AgContentServiceMain agContentServiceMains = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
+                    //套餐内容信息
+                    List<AgContentServiceDetail> agContentServiceDetails = agContentServiceDetailMapper.selectList(Wrappers.lambdaQuery(AgContentServiceDetail.class)
+                            .eq(AgContentServiceDetail::getMainId, orderDetail.getContentServiceId())
+                            .eq(AgContentServiceDetail::getDeleted, 0));
+                    //计算任务数
+                    Integer serviceTotalNum = agContentServiceDetails.stream().map(agContentServiceDetail -> {
+                        return NumberUtil.mul(agContentServiceDetail.getCoverageNum(), agContentServiceDetail.getCoverageSkuNum(),2).intValue();
+                    }).reduce(Integer::sum).orElse(0);
+                    orderDetail.setServiceTotalNum(serviceTotalNum)
+                            .setOrderUnitPrice(BigDecimal.valueOf(agContentServiceMains.getConsumePoint()))
+                            .setOrderSubMoney(BigDecimal.valueOf(agContentServiceMains.getConsumePoint()))
+                            .setOrderName(agContentServiceMains.getContentName())
+                            .setServiceType(agContentServiceMains.getContentType());
+                }
+                break;
+            case 1: //服务内容
+                for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
+                    AgContentServiceMain agContentServiceMain = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
+                    //计算总数
+                    int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber(),2).intValue();
+                    orderDetail.setServiceTotalNum(i)
+                            .setOrderUnitPrice(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()))
+                            .setOrderSubMoney(NumberUtil.mul(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()), BigDecimal.valueOf(i),2))
+                            .setOrderName(agContentServiceMain.getContentName())
+                            .setServiceType(agContentServiceMain.getContentType());
+                }
+                break;
+            default:
+                throw new SecurityException("订单类型错误");
+        }
+        //总金额 总任务数
+        BigDecimal orderSubMoney = orderDetailList.stream()
+                .map(EditAgMerchantOrderReq.OrderDetail::getOrderSubMoney)
+                .reduce(BigDecimal::add)
+                .orElse(BigDecimal.ZERO);
+        int sum = orderDetailList.stream()
+                .mapToInt(EditAgMerchantOrderReq.OrderDetail::getServiceTotalNum)
+                .sum();
+        req.setOrderMoney(orderSubMoney)
+                .setServiceTotalNum(sum);
     }
 }

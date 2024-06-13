@@ -22,11 +22,9 @@ public interface AgMerchantOrderConvert {
     @Mapping(target = "serviceName", source = "orderName")
     AgMerchantOrder.AgMerchantOrderDetailVo convertAgMerchantOrderDetailVo(AgMerchantOrderDetail agMerchantOrderDetail);
     List<AgMerchantOrder.AgMerchantOrderDetailVo> convertAgMerchantOrderDetailVo(List<AgMerchantOrderDetail> agMerchantOrderDetails);
-    @Mapping(target = "status", defaultValue = "0")
     AgMerchantOrder convertAgMerchantOrder(EditAgMerchantOrderReq req,Long creatorId,Long deptId);
-    @Mapping(target = "serviceStatus", defaultValue = "0")
     AgMerchantOrderDetail convertAgMerchantOrder(EditAgMerchantOrderReq.OrderDetail orderDetail,Long creatorId,Long deptId);
-    List<AgMerchantOrderDetail> convertAgMerchantOrder(List<EditAgMerchantOrderReq.OrderDetail> orderDetails,Long creatorId,Long deptId);
+    List<AgMerchantOrderDetail> convertAgMerchantOrder(List<EditAgMerchantOrderReq.OrderDetail> orderDetails);
 
     List<AgMerchantOrderVo> convertAgMerchantOrderVo(List<AgMerchantOrder> agMerchantOrders);
     @Mapping(target = "agMerchantName", source = "name")
