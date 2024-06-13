@@ -5,21 +5,16 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.module.agent.controller.req.QueryAgUserBalanceDetailReq;
-import com.fancy.module.agent.controller.vo.AgMerchantOrderVo;
 import com.fancy.module.agent.controller.vo.AgUserBalanceDetailVo;
 import com.fancy.module.agent.convert.balance.AgUserBalanceConvert;
-import com.fancy.module.agent.convert.merchant.AgMerchantOrderConvert;
+import com.fancy.module.agent.enums.AgUserBalanceDetailBillType;
 import com.fancy.module.agent.repository.mapper.AgUserBalanceDetailMapper;
-import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
 import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 import com.fancy.module.agent.service.AgUserBalanceDetailService;
-import com.fancy.module.common.api.user.dto.UserRespDTO;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -50,7 +45,7 @@ public class AgUserBalanceDetailServiceImpl extends ServiceImpl<AgUserBalanceDet
     }
 
     @Override
-    public int updateBalance(Long id, BigDecimal balance, Integer billType) {
-        return baseMapper.updateBalance(id, balance, billType);
+    public int updateBalance(Long id, BigDecimal balance, AgUserBalanceDetailBillType billType) {
+        return baseMapper.updateBalance(id, balance, billType.getType());
     }
 }

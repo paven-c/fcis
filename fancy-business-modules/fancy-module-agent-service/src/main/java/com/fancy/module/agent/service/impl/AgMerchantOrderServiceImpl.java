@@ -16,6 +16,7 @@ import com.fancy.module.agent.controller.vo.AgMerchantOrderOverviewVo;
 import com.fancy.module.agent.controller.vo.AgMerchantOrderVo;
 import com.fancy.module.agent.convert.merchant.AgMerchantOrderConvert;
 import com.fancy.module.agent.enums.AgUserBalanceDetailType;
+import com.fancy.module.agent.enums.ContentFortTypeEnum;
 import com.fancy.module.agent.repository.mapper.*;
 import com.fancy.module.agent.repository.pojo.*;
 import com.fancy.module.agent.service.AgMerchantOrderDetailService;
@@ -160,9 +161,10 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
 
         List<EditAgMerchantOrderReq.OrderDetail> orderDetailList = req.getOrderDetailList();
         Optional.ofNullable(orderDetailList).orElseThrow(()->new SecurityException("订单详情不能为空"));
+        ContentFortTypeEnum contentFortTypeEnum = Optional.ofNullable(ContentFortTypeEnum.transToContentService(req.getOrderType())).orElseThrow(() -> new SecurityException("订单类型不存在"));
         //订单明细 一条一条计算
-        switch (req.getOrderType()) {
-            case 0 -> {//套餐类型
+        switch (contentFortTypeEnum) {
+            case PACKAGE -> {//套餐类型
                 for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
                     AgContentServiceMain agContentServiceMains = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
                     //套餐内容信息
@@ -198,7 +200,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                             .setServiceType(agContentServiceMains.getContentType());
                 }
             }
-            case 1 -> { //服务内容
+            case CONTENT -> { //服务内容
                 for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
                     AgContentServiceMain agContentServiceMain = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
                     Optional.ofNullable(agContentServiceMain).orElseThrow(()->new SecurityException("服务内容不存在"));

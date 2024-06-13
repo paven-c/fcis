@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.module.agent.controller.req.QueryAgUserBalanceDetailReq;
 import com.fancy.module.agent.controller.vo.AgUserBalanceDetailVo;
+import com.fancy.module.agent.enums.AgUserBalanceDetailBillType;
 import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 
 import java.math.BigDecimal;
@@ -28,5 +29,5 @@ public interface AgUserBalanceDetailService extends IService<AgUserBalanceDetail
      * @param billType 账单类型 0出账 1入账
      * @return
      */
-    int updateBalance(Long id , BigDecimal balance,Integer billType);
+    int updateBalance(Long id , BigDecimal balance, AgUserBalanceDetailBillType billType);
 }

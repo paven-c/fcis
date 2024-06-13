@@ -36,6 +36,7 @@ public class AgUserBalanceDetail implements Serializable {
     private String name;
     /**
      * 账单类型 0出账 1入账
+     * @see com.fancy.module.agent.enums.AgUserBalanceDetailBillType
      */
     private Integer billType;
 
