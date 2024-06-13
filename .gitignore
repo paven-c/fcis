@@ -41,3 +41,4 @@ build/
 /.idea/uiDesigner.xml
 /.idea/vcs.xml
 /.idea/workspace.xml
+/fancy-agent-app/logs/fancy-agent.log
