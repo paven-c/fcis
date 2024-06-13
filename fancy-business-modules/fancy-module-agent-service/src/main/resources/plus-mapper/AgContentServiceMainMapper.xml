@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fancy.module.agent.repository.mapper.AgContentServiceMainMapper">
+
+  <resultMap id="RelationResultMap"
+    type="com.fancy.module.agent.controller.vo.ContentServiceMainListVo">
+    <id column="id" jdbcType="BIGINT" property="id"/>
+    <result column="content_type" jdbcType="INTEGER" property="contentType"/>
+    <result column="content_name" jdbcType="VARCHAR" property="contentName"/>
+    <result column="content_status" jdbcType="INTEGER" property="contentStatus"/>
+    <result column="consume_point" jdbcType="VARCHAR" property="consumePoint"/>
+    <result column="content_desc" jdbcType="VARCHAR" property="contentDesc"/>
+    <result column="content_assets_desc" jdbcType="VARCHAR" property="contentAssetsDesc"/>
+    <result column="content_show_url" jdbcType="VARCHAR" property="contentShowUrl"/>
+    <result column="content_desc_url" jdbcType="VARCHAR" property="contentDescUrl"/>
+    <collection property="contentServiceDetailListVo"
+      javaType="list" ofType="com.fancy.module.agent.controller.vo.ContentServiceDetailListVo">
+      <result column="detail_id" jdbcType="BIGINT" property="detailId"/>
+      <result column="detail_content_type" jdbcType="INTEGER" property="detailContentType"/>
+      <result column="detail_content_name" jdbcType="VARCHAR" property="detailContentName"/>
+      <result column="coverage_area" jdbcType="INTEGER" property="coverageArea"/>
+      <result column="coverage_sku_num" jdbcType="INTEGER" property="coverageSkuNum"/>
+      <result column="coverage_num" jdbcType="INTEGER" property="coverageNum"/>
+    </collection>
+  </resultMap>
+
+
+  <select id="listMain" resultMap="RelationResultMap">
+    select m.id, m.content_type, m.content_name, m.content_status, m.consume_point, m.content_desc, m.content_assets_desc, m.content_show_url, m.content_desc_url,
+           d.id detail_id, d.coverage_area, d.coverage_sku_num, d.coverage_num, a.content_type detail_content_type, a.content_name detail_content_name
+    from ag_content_service_main m
+           left join ag_content_service_detail d on m.id = d.main_id
+           inner join ag_content_service_main a on a.id = d.content_id
+    where
+        m.deleted = 0
+    and d.deleted = 0
+    and a.deleted = 0
+    and m.content_status = 1
+    <if test="contentServiceMainListDTO.contentType != null">
+      <if test="contentServiceMainListDTO.contentType = 0">
+        AND m.contentType in (3)
+      </if>
+      <if test="contentServiceMainListDTO.contentType = 1">
+        AND m.contentType in (1,2)
+      </if>
+    </if>
+    ORDER BY m.id DESC
+  </select>
+
 
 </mapper>

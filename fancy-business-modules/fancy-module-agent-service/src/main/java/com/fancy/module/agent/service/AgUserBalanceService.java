@@ -29,4 +29,12 @@ public interface AgUserBalanceService extends IService<AgUserBalance> {
      * @param userId 用户id
      */
     void createUserBalance(Long userId);
+
+    /**
+     * 获取用户余额
+     *
+     * @param userId 用户id
+     * @return 用户余额
+     */
+    AgUserBalance getUserBalance(Long userId);
 }
