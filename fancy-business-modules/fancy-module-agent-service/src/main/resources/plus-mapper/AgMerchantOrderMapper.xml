@@ -17,11 +17,5 @@
                 #{id}
             </foreach>
         </if>
-    <if test="deptIds != null and deptIds.size > 0">
-        and deptId in
-        <foreach item="id" index="index" collection="deptIds" open="(" separator="," close=")">
-            #{id}
-        </foreach>
-    </if>
   </select>
 </mapper>
