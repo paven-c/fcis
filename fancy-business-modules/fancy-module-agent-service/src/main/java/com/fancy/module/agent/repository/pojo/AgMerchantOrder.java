@@ -65,10 +65,6 @@ public class AgMerchantOrder implements Serializable {
      */
     private BigDecimal orderMoney; 
     
-    /**
-     * 单价金额
-     */
-    private BigDecimal orderUnitPrice; 
 
     /**
      * 服务版本json

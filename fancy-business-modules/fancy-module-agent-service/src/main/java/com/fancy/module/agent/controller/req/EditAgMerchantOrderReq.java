@@ -41,9 +41,26 @@ public class EditAgMerchantOrderReq  {
     private List<@Valid OrderDetail> orderDetailList;
 
     /**
-     * 订单金额
+     * 订单总金额
      */
     private BigDecimal orderMoney;
+
+    /**
+     * 服务总任务数
+     */
+    private Integer serviceTotalNum;
+
+    /**
+     * 订单名称
+     */
+    @NotBlank(message = "订单名称不能为空")
+    private String orderName;
+
+    /**
+     * 下单方式 0套餐 1服务内容
+     */
+    @NotNull(message = "下单方式不能为空")
+    private Integer orderType;
 
     @Data
     @Accessors(chain = true)
@@ -83,5 +100,10 @@ public class EditAgMerchantOrderReq  {
          * 服务任务数
          */
         private Integer serviceTotalNum;
+
+        /**
+         * 订单名称
+         */
+        private String orderName;
     }
 }
