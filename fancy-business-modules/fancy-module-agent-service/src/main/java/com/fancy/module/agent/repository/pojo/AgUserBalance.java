@@ -46,7 +46,7 @@ public class AgUserBalance  implements Serializable {
     private BigDecimal beforePrice; 
     
     /**
-     * 0正常 1停用
+     * 0停用 1启用
      */
     private Integer status;
 

@@ -4,7 +4,6 @@ package com.fancy.module.agent.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fancy.module.agent.controller.req.EditAgUserBalanceDetailReq;
 import com.fancy.module.agent.repository.pojo.AgUserBalance;
-import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 
 /**
  * <p>
@@ -22,6 +21,12 @@ public interface AgUserBalanceService extends IService<AgUserBalance> {
      * @param req 变更明细
      * @return 是否成功
      */
-    boolean changeBalance(EditAgUserBalanceDetailReq req );
+    boolean changeBalance(EditAgUserBalanceDetailReq req);
 
+    /**
+     * 创建用户余额
+     *
+     * @param userId 用户id
+     */
+    void createUserBalance(Long userId);
 }

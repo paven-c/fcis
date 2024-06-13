@@ -28,9 +28,9 @@ public enum AgentStatusEnum {
     APPROVED(3, "审核通过"),
 
     /**
-     * 审核不通过
+     * 审核拒绝
      */
-    REJECTED(4, "审核不通过"),
+    REJECTED(4, "审核拒绝"),
 
     ;
 

@@ -95,6 +95,9 @@ public class AuthPermissionInfoRespVO {
         @Schema(description = "元信息", example = "")
         private JSONObject meta;
 
+        @Schema(description = "选中标记", example = "")
+        private Boolean checked;
+
         /**
          * 子路由
          */

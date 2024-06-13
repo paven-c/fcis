@@ -1,7 +1,7 @@
 package com.fancy.module.agent.repository.mapper;
 
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.fancy.component.mybatis.core.mapper.BaseMapperX;
 import com.fancy.module.agent.repository.pojo.AgUserBalance;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2024-06-07
  */
 @Mapper
-public interface AgUserBalanceMapper extends BaseMapper<AgUserBalance> {
+public interface AgUserBalanceMapper extends BaseMapperX<AgUserBalance> {
 
 }

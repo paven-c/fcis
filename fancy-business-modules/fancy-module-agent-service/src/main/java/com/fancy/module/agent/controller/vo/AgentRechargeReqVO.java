@@ -19,4 +19,9 @@ public class AgentRechargeReqVO {
      * 充值金额
      */
     private Long amount;
+
+    /**
+     * 评论
+     */
+    private String remarks;
 }

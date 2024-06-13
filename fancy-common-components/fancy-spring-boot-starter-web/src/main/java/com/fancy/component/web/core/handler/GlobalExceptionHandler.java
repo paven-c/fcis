@@ -5,6 +5,7 @@ import static com.fancy.common.exception.enums.GlobalErrorCodeConstants.FORBIDDE
 import static com.fancy.common.exception.enums.GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR;
 import static com.fancy.common.exception.enums.GlobalErrorCodeConstants.METHOD_NOT_ALLOWED;
 import static com.fancy.common.exception.enums.GlobalErrorCodeConstants.NOT_FOUND;
+import static com.fancy.common.exception.enums.GlobalErrorCodeConstants.UNAUTHORIZED;
 
 import com.fancy.common.exception.ServiceException;
 import com.fancy.common.pojo.CommonResult;
@@ -17,6 +18,7 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -78,6 +80,9 @@ public class GlobalExceptionHandler {
         }
         if (ex instanceof AccessDeniedException) {
             return accessDeniedExceptionHandler(request, (AccessDeniedException) ex);
+        }
+        if (ex instanceof AuthenticationException) {
+            return authenticationExceptionHandler(request, (AuthenticationException) ex);
         }
         return defaultExceptionHandler(request, ex);
     }
@@ -158,6 +163,13 @@ public class GlobalExceptionHandler {
         log.warn("[accessDeniedExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getLoginUserId(req),
                 req.getRequestURL(), ex);
         return CommonResult.error(FORBIDDEN);
+    }
+
+    @ExceptionHandler(value = AuthenticationException.class)
+    private CommonResult<?> authenticationExceptionHandler(HttpServletRequest req, AuthenticationException ex) {
+        log.warn("[authenticationExceptionHandler][userId({}) 无法访问 url({})]", WebFrameworkUtils.getLoginUserId(req),
+                req.getRequestURL(), ex);
+        return CommonResult.error(UNAUTHORIZED);
     }
 
     /**

@@ -45,5 +45,5 @@ public abstract class BasePojo implements Serializable, TransPojo {
      * 是否删除
      */
     @TableLogic
-    private Boolean deleted;
+    private Integer deleted;
 }
