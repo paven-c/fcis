@@ -4,6 +4,8 @@ import com.fancy.common.util.object.ObjectUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
 /**
  * 角色标识枚举
  *
@@ -61,6 +63,10 @@ public enum RoleCodeEnum {
 
     public static boolean isSuperAdmin(String code) {
         return ObjectUtils.equalsAny(code, SUPER_ADMIN.getCode());
+    }
+
+    public static List<String> getAgent() {
+        return List.of(FIRST_LEVEL_AGENT.getCode(), SECOND_LEVEL_AGENT.getCode());
     }
 
 }

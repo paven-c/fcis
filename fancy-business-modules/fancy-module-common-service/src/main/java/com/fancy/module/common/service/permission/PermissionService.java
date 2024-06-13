@@ -114,6 +114,7 @@ public interface PermissionService {
      * @return 角色编号集合
      */
     Set<Long> getUserRoleIdListByUserId(Long userId);
+    Set<String> getUserRoleCodeListByUserId(Long userId);
 
     /**
      * 获得用户拥有的角色编号集合，从缓存中获取
