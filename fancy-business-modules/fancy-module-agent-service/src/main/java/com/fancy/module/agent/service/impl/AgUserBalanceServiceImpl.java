@@ -1,10 +1,9 @@
 package com.fancy.module.agent.service.impl;
 
-import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import static com.fancy.component.redis.constant.RedisConstant.AG_USER_CHANGE_BALANCE;
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.enums.DeleteStatusEnum;
@@ -16,18 +15,13 @@ import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 import com.fancy.module.agent.service.AgUserBalanceDetailService;
 import com.fancy.module.agent.service.AgUserBalanceService;
 import jakarta.annotation.Resource;
-import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
@@ -58,7 +52,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
     public boolean changeBalance(EditAgUserBalanceDetailReq req) {
         //分布式锁 变更用户Id
         RLock to = redissonClient.getLock(AG_USER_CHANGE_BALANCE + req.getToAgUserId());
-        RLock from = redissonClient.getLock(AG_USER_CHANGE_BALANCE +req.getFromAgUserId());
+        RLock from = redissonClient.getLock(AG_USER_CHANGE_BALANCE + req.getFromAgUserId());
         if (to.tryLock() && from.tryLock()) {
             try {
                 LocalDateTime now = LocalDateTime.now();
@@ -76,7 +70,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     BigDecimal add = accounting.getNowPrice().add(req.getPrice());
                     //更新
                     int i = agUserBalanceDetailService.updateBalance(accounting.getId(), req.getPrice(), 0);
-                    if (i < 1){
+                    if (i < 1) {
                         throw new SecurityException("更新失败");
                     }
                     //入账明细
@@ -97,7 +91,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     }
                     //更新
                     int i = agUserBalanceDetailService.updateBalance(paymentOut.getId(), req.getPrice(), 1);
-                    if (i < 1){
+                    if (i < 1) {
                         throw new SecurityException("更新失败");
                     }
                     //出账
@@ -118,7 +112,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                 }
                 return true;
             } catch (Exception e) {
-                log.error("修改用户余额异常,params:{},error:{}",JSONUtil.toJsonStr(req),e.getMessage(),e);
+                log.error("修改用户余额异常,params:{},error:{}", JSONUtil.toJsonStr(req), e.getMessage(), e);
                 throw new SecurityException(e);
             } finally {
                 to.unlock();
@@ -137,6 +131,11 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     .setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()).setDeleted(DeleteStatusEnum.ACTIVATED.getStatus());
             userBalanceMapper.insert(userBalance);
         }
+    }
+
+    @Override
+    public AgUserBalance getUserBalance(Long userId) {
+        return getByUserId(userId);
     }
 
     private AgUserBalance getByUserId(Long userId) {

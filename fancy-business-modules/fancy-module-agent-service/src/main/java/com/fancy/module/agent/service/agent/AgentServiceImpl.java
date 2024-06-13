@@ -16,7 +16,6 @@ import com.fancy.module.agent.controller.vo.AgentPageReqVO;
 import com.fancy.module.agent.controller.vo.AgentSaveReqVO;
 import com.fancy.module.agent.repository.mapper.agent.AgentMapper;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
-import com.fancy.module.common.api.dept.DeptApi;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +32,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     @Override
     public PageResult<Agent> getAgentPage(AgentPageReqVO reqVO) {
         return agentMapper.selectPage(reqVO, new LambdaQueryWrapperX<Agent>()
+                .eqIfPresent(Agent::getId, reqVO.getAgentId())
                 .likeIfPresent(Agent::getAgentName, reqVO.getAgentName())
                 .eqIfPresent(Agent::getMobile, reqVO.getMobile())
                 .eqIfPresent(Agent::getStatus, reqVO.getStatus())
@@ -70,7 +70,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 // 营业执照、合同信息
                 .businessLicense(reqVO.getBusinessLicense()).contractLink(reqVO.getContractLink()).introduction(reqVO.getIntroduction())
                 // 合作起始时间 & 合作状态
-                .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).build();
+                .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).approveTime(reqVO.getApproveTime()).build();
         agentMapper.updateById(updateAgent);
     }
 

@@ -15,7 +15,7 @@ public class AgentRespVO {
     /**
      * 代理商ID
      */
-    @ExcelProperty("代理商编号")
+    @ExcelProperty("代理商ID")
     private Long id;
 
     /**
@@ -25,22 +25,16 @@ public class AgentRespVO {
     private String agentName;
 
     /**
-     * 代理省份
-     */
-    @ExcelProperty("代理区域-省")
-    private Long provinceId;
-
-    /**
-     * 代理城市
-     */
-    @ExcelProperty("代理区域-城市")
-    private Long cityId;
-
-    /**
      * 代理商等级
      */
     @ExcelProperty("代理商等级")
     private Integer level;
+
+    /**
+     * 上级代理名称
+     */
+    @ExcelProperty("上级代理商")
+    private String parentAgentName;
 
     /**
      * 联系人姓名
@@ -51,53 +45,20 @@ public class AgentRespVO {
     /**
      * 手机号码
      */
-    @ExcelProperty("手机号码")
+    @ExcelProperty("手机号")
     private String mobile;
 
     /**
-     * 密码
+     * 创建时间
      */
-    private String password;
+    @ExcelProperty("创建时间")
+    private LocalDateTime createTime;
 
     /**
-     * 部门编号
+     * 审核通过时间
      */
-    private Long deptId;
-
-    /**
-     * 上级代理ID
-     */
-    private Long parentAgentId;
-
-    /**
-     * 身份证正面图片链接
-     */
-    @ExcelProperty("身份证正面图片链接")
-    private String idCardFrontSide;
-
-    /**
-     * 身份证反面图片链接
-     */
-    @ExcelProperty("身份证反面图片链接")
-    private String idCardBackSide;
-
-    /**
-     * 营业执照图片链接
-     */
-    @ExcelProperty("营业执照图片链接")
-    private String businessLicense;
-
-    /**
-     * 代理合同图片链接
-     */
-    @ExcelProperty("代理合同图片链接")
-    private String contractLink;
-
-    /**
-     * 公司介绍
-     */
-    @ExcelProperty("公司介绍")
-    private String introduction;
+    @ExcelProperty("审核通过时间")
+    private LocalDateTime approveTime;
 
     /**
      * 合作开始时间
@@ -110,5 +71,66 @@ public class AgentRespVO {
      */
     @ExcelProperty("合作结束时间")
     private LocalDateTime endTime;
+
+    /**
+     * 状态
+     */
+    @ExcelProperty("状态")
+    private Integer status;
+
+    /**
+     * 代理省份
+     */
+    private Long provinceId;
+
+    /**
+     * 代理城市
+     */
+    private Long cityId;
+
+    /**
+     * 上级代理ID
+     */
+    private Long parentAgentId;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 用户编号
+     */
+    private Long userId;
+
+    /**
+     * 部门编号
+     */
+    private Long deptId;
+
+    /**
+     * 身份证正面图片链接
+     */
+    private String idCardFrontSide;
+
+    /**
+     * 身份证反面图片链接
+     */
+    private String idCardBackSide;
+
+    /**
+     * 营业执照图片链接
+     */
+    private String businessLicense;
+
+    /**
+     * 代理合同图片链接
+     */
+    private String contractLink;
+
+    /**
+     * 公司介绍
+     */
+    private String introduction;
 
 }

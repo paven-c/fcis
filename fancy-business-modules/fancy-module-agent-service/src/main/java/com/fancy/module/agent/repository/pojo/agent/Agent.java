@@ -96,6 +96,11 @@ public class Agent extends BasePojo {
     private LocalDateTime endTime;
 
     /**
+     * 审核通过时间
+     */
+    private LocalDateTime approveTime;
+
+    /**
      * 合作状态
      * <p>
      * {@link AgentStatusEnum}

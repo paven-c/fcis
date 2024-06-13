@@ -93,6 +93,11 @@ public class AgentSaveReqVO {
     private LocalDateTime endTime;
 
     /**
+     * 审核通过时间
+     */
+    private LocalDateTime approveTime;
+
+    /**
      * 状态
      * <p>
      * {@link AgentStatusEnum}

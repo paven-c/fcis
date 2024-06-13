@@ -3,8 +3,8 @@ package com.fancy.module.agent.controller;
 
 import static com.fancy.common.exception.util.ServiceExceptionUtil.exception;
 import static com.fancy.common.pojo.CommonResult.success;
-import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUser;
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_NOT_EXISTS;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_STATUS_NOT_ACTIVITY;
 
@@ -15,10 +15,10 @@ import com.fancy.common.exception.NeedLoginException;
 import com.fancy.common.pojo.CommonResult;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.core.util.ExcelUtils;
-import com.fancy.module.agent.controller.req.QueryAgUserBalanceDetailReq;
-import com.fancy.module.agent.controller.vo.*;
 import com.fancy.component.security.core.LoginUser;
 import com.fancy.module.agent.controller.req.EditAgUserBalanceDetailReq;
+import com.fancy.module.agent.controller.req.QueryAgUserBalanceDetailReq;
+import com.fancy.module.agent.controller.vo.AgUserBalanceDetailVo;
 import com.fancy.module.agent.controller.vo.AgentPageReqVO;
 import com.fancy.module.agent.controller.vo.AgentRechargeReqVO;
 import com.fancy.module.agent.controller.vo.AgentRespVO;
@@ -47,13 +47,13 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
-import java.util.Collections;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,7 +91,6 @@ public class AgentController {
     private PermissionApi permissionApi;
     @Resource
     private AgUserBalanceService userBalanceService;
-
     @Resource
     private AgUserBalanceDetailService agUserBalanceDetailService;
 
@@ -161,7 +160,7 @@ public class AgentController {
     @Operation(summary = "代理商详情")
     @Parameter(name = "id", description = "编号", required = true, example = "")
     @GetMapping("/detail")
-    @PreAuthorize("@ss.hasPermission('agent:agent:detail')")
+    @PreAuthorize("@ss.hasAnyPermissions('agent:agent:list','agent:agent:detail')")
     public CommonResult<AgentRespVO> getAgent(@RequestParam("id") Long id) {
         Agent agent = agentService.getAgent(id);
         if (agent == null) {
@@ -181,7 +180,8 @@ public class AgentController {
             throw exception(AGENT_NOT_EXISTS);
         }
         // 审批代理商
-        agentService.updateAgent(AgentSaveReqVO.builder().id(agent.getId()).status(AgentStatusEnum.APPROVED.getStatus()).build());
+        agentService.updateAgent(
+                AgentSaveReqVO.builder().id(agent.getId()).status(AgentStatusEnum.APPROVED.getStatus()).approveTime(LocalDateTime.now()).build());
         // 启用部门
         deptApi.updateDept(DeptSaveReqDTO.builder().id(agent.getDeptId()).status(CommonStatusEnum.ENABLE.getStatus()).build());
         // 启用用户
@@ -261,7 +261,7 @@ public class AgentController {
                 .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName())
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.SECONDARY_AGENT_RECHARGE)
                 .setCreateId(loginUser.getId()).setCreateName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
-                        .setDeptId(MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID, null))
+                .setDeptId(MapUtil.getLong(loginUser.getInfo(), LoginUser.INFO_KEY_DEPT_ID, null))
                 .setRemarks(reqVO.getRemarks()));
         return success(true);
     }
