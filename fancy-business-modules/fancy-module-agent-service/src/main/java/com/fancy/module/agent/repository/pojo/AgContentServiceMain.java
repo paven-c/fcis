@@ -104,5 +104,9 @@ public class AgContentServiceMain implements Serializable {
      */
     private String updateName;
 
+    /**
+     * 跳转平台 0不跳转 1内容平台
+     */
+    private Integer toPlatform;
 
 }
