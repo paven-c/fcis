@@ -44,6 +44,7 @@ public class AgMerchantOrderDetailServiceImpl extends ServiceImpl<AgMerchantOrde
                     for (AgContentServiceMain serviceMain : serviceMainList) {
                         if (Objects.equals(merchantTaskNumListVO.getContentServiceId(), serviceMain.getId())) {
                             merchantTaskNumListVO.setContentServiceName(serviceMain.getContentName());
+                            merchantTaskNumListVO.setToPlatform(serviceMain.getToPlatform());
                         }
                     }
                 }
