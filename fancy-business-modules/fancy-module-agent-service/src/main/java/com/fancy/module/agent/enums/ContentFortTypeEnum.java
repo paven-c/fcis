@@ -16,7 +16,7 @@ public enum ContentFortTypeEnum {
     private final Integer type;
     private final String name;
 
-    public static ContentFortTypeEnum transToContentService(Integer type) {
+    public static ContentFortTypeEnum getByType(Integer type) {
         for (ContentFortTypeEnum value : values()) {
             if (value.getType().equals(type)) {
                 return value;
