@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 代理客户订单表(AgMerchantOrder)实体类
@@ -69,12 +70,11 @@ public class AgMerchantOrder implements Serializable {
      */
     private BigDecimal orderUnitPrice; 
 
-    
     /**
      * 服务版本json
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
-    private JSONObject serviceJson;
+    private List<AgMerchantOrderDetailVo> serviceJson;
     
     /**
      * 订单状态 0正常 1停用 2完成
@@ -115,8 +115,22 @@ public class AgMerchantOrder implements Serializable {
      * 是否删除0启用1删除
      */
     private Integer deleted;
-    
-    
+
+    @Data
+    @Accessors(chain = true)
+    @EqualsAndHashCode(callSuper = false)
+    public static class AgMerchantOrderDetailVo {
+
+        /**
+         * 服务内容
+         */
+        private String serviceName;
+        /**
+         * 服务任务总数
+         */
+        private Long serviceTotalNum;
+
+    }
 
 }
 

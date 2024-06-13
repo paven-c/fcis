@@ -58,11 +58,6 @@ public class AgMerchantOrderController {
         return CommonResult.success(agMerchantOrderservice.pageList(req));
     }
 
-    @PostMapping("/info")
-    public CommonResult<AgMerchantOrderVo> info(@RequestBody QueryAgMerchantOrderReq req){
-        return CommonResult.success(agMerchantOrderservice.info(req));
-    }
-
     @PostMapping("/add")
     public CommonResult<?> add(@Valid @RequestBody EditAgMerchantOrderReq req){
         agMerchantOrderservice.add(req);

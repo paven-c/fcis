@@ -43,15 +43,6 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
     @Resource
     private UserApi userApi;
 
-    @Override
-    public AgMerchantOrderVo info(QueryAgMerchantOrderReq req) {
-        List<AgMerchantOrderDetailVo> collect = agMerchantOrderDetailMapper.selectList(Wrappers.lambdaQuery(AgMerchantOrderDetail.class)
-                        .eq(AgMerchantOrderDetail::getAgMerchantOrderId, req.getAgMerchantOrderId())
-                        .eq(AgMerchantOrderDetail::getDeleted, 0))
-                .stream().map(AgMerchantOrderConvert.INSTANCE::convertAgMerchantOrderDetailVo)
-                .collect(Collectors.toList());
-        return new AgMerchantOrderVo().setOrderDetailList(collect);
-    }
 
     @Override
     public AgMerchantOrderOverviewVo overview(List<Long> creatorIds) {

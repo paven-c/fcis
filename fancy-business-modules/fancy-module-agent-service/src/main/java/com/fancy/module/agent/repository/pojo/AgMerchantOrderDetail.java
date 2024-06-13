@@ -83,12 +83,7 @@ public class AgMerchantOrderDetail implements Serializable {
      */
     private Integer serviceType;
 
-    /**
-     * 服务版本json
-     */
-    @TableField(typeHandler = JacksonTypeHandler.class)
-    private JSONObject serviceJson;
-    
+
     /**
      * 订单状态 0正常 1停用 2完成
      */

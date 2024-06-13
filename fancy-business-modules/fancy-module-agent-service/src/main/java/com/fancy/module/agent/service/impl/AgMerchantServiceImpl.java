@@ -101,4 +101,13 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
         });
         return new PageResult<>(agMerchantVos, agMerchantPageResult.getTotal(), req.getPageNum(), req.getPageSize());
     }
+
+    @Override
+    public List<AgMerchantVo> listMerchant(QueryAgMerchantReq req) {
+        List<AgMerchant> list = lambdaQuery()
+                .in(ObjectUtil.isNotEmpty(req.getCreatorIds()), AgMerchant::getCreatorId, req.getCreatorIds())
+                .eq(AgMerchant::getDeleted, 0)
+                .orderByDesc(AgMerchant::getCreateTime).list();
+        return AgMerchantConvert.INSTANCE.convertList(list);
+    }
 }

@@ -74,6 +74,10 @@ public class EditAgMerchantOrderReq  {
          * 订单金额
          */
         private BigDecimal orderSubMoney;
+        /**
+         * 订单单价
+         */
+        private  BigDecimal orderUnitPrice;
 
         /**
          * 服务任务数

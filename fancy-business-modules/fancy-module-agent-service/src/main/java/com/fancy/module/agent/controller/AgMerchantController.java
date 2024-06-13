@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
@@ -58,5 +59,15 @@ public class AgMerchantController {
         req.setCreatorIds(b ? Collections.singletonList(getLoginUserId()) : null);
         return CommonResult.success(agMerchantService.pageListMerchant(req));
     }
+
+    @PostMapping("/list")
+    public CommonResult<List<AgMerchantVo>> listMerchant(@RequestBody QueryAgMerchantReq req){
+        Set<String> userRoleCodeListByUserIds = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
+        //是否代理商角色
+        boolean b = userRoleCodeListByUserIds.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
+        req.setCreatorIds(b ? Collections.singletonList(getLoginUserId()) : null);
+        return CommonResult.success(agMerchantService.listMerchant(req));
+    }
+
 
 }

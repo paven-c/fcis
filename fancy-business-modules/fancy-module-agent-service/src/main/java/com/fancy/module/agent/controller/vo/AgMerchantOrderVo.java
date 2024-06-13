@@ -1,5 +1,6 @@
 package com.fancy.module.agent.controller.vo;
 
+import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,5 +52,5 @@ public class AgMerchantOrderVo {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String createTime;
 
-    private List<AgMerchantOrderDetailVo> orderDetailList; //<订单明细>
+    private List<AgMerchantOrder.AgMerchantOrderDetailVo> serviceJson;
 }

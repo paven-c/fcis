@@ -21,8 +21,6 @@ import java.util.List;
  */
 public interface AgMerchantOrderService extends IService<AgMerchantOrder> {
 
-    AgMerchantOrderVo info(QueryAgMerchantOrderReq req);
-
     AgMerchantOrderOverviewVo overview(List<Long> creatorIds);
 
     PageResult<AgMerchantOrderVo> pageList(QueryAgMerchantOrderReq req);
