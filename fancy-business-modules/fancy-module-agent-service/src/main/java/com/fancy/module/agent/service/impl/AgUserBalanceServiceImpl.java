@@ -3,10 +3,13 @@ package com.fancy.module.agent.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import static com.fancy.component.redis.constant.RedisConstant.AG_USER_CHANGE_BALANCE;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fancy.common.enums.CommonStatusEnum;
+import com.fancy.common.enums.DeleteStatusEnum;
 import com.fancy.module.agent.controller.req.EditAgUserBalanceDetailReq;
 import com.fancy.module.agent.convert.balance.AgUserBalanceConvert;
-import com.fancy.module.agent.enums.AgUserBalanceDetailType;
 import com.fancy.module.agent.repository.mapper.AgUserBalanceMapper;
 import com.fancy.module.agent.repository.pojo.AgUserBalance;
 import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
@@ -23,9 +26,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-
-import static com.fancy.component.redis.constant.RedisConstant.AG_USER_CHANGE_BALANCE;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -41,6 +47,8 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
 
     @Resource
     private AgUserBalanceDetailService agUserBalanceDetailService;
+    @Resource
+    private AgUserBalanceMapper userBalanceMapper;
 
     @Resource
     private RedissonClient redissonClient;
@@ -114,5 +122,19 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
         }
         return false;
 
+    }
+
+    @Override
+    public void createUserBalance(Long userId) {
+        AgUserBalance userBalance = getByUserId(userId);
+        if (Objects.isNull(userBalance)) {
+            userBalance = new AgUserBalance().setAgUserId(userId).setNowPrice(BigDecimal.ZERO).setStatus(CommonStatusEnum.ENABLE.getStatus())
+                    .setCreateTime(LocalDateTime.now()).setUpdateTime(LocalDateTime.now()).setDeleted(DeleteStatusEnum.ACTIVATED.getStatus());
+            userBalanceMapper.insert(userBalance);
+        }
+    }
+
+    private AgUserBalance getByUserId(Long userId) {
+        return userBalanceMapper.selectOne(AgUserBalance::getAgUserId, userId, AgUserBalance::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus());
     }
 }

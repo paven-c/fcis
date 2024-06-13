@@ -4,21 +4,32 @@ package com.fancy.module.agent.controller;
 import static com.fancy.common.exception.util.ServiceExceptionUtil.exception;
 import static com.fancy.common.pojo.CommonResult.success;
 import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUser;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_NOT_EXISTS;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_STATUS_NOT_ACTIVITY;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import com.fancy.common.enums.CommonStatusEnum;
+import com.fancy.common.exception.NeedLoginException;
 import com.fancy.common.pojo.CommonResult;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.core.util.ExcelUtils;
 import com.fancy.module.agent.controller.req.QueryAgUserBalanceDetailReq;
 import com.fancy.module.agent.controller.vo.*;
+import com.fancy.component.security.core.LoginUser;
+import com.fancy.module.agent.controller.req.EditAgUserBalanceDetailReq;
+import com.fancy.module.agent.controller.vo.AgentPageReqVO;
+import com.fancy.module.agent.controller.vo.AgentRechargeReqVO;
+import com.fancy.module.agent.controller.vo.AgentRespVO;
+import com.fancy.module.agent.controller.vo.AgentSaveReqVO;
 import com.fancy.module.agent.convert.agent.AgentConvert;
+import com.fancy.module.agent.enums.AgUserBalanceDetailType;
 import com.fancy.module.agent.enums.AgentLevelEnum;
 import com.fancy.module.agent.enums.AgentStatusEnum;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
 import com.fancy.module.agent.service.AgUserBalanceDetailService;
+import com.fancy.module.agent.service.AgUserBalanceService;
 import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.dept.DeptApi;
 import com.fancy.module.common.api.dept.dto.DeptSaveReqDTO;
@@ -34,10 +45,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.Collections;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import java.util.Optional;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +84,8 @@ public class AgentController {
     private AgentService agentService;
     @Resource
     private PermissionApi permissionApi;
+    @Resource
+    private AgUserBalanceService userBalanceService;
 
     @Resource
     private AgUserBalanceDetailService agUserBalanceDetailService;
@@ -88,6 +103,8 @@ public class AgentController {
         // 新增用户
         Long userId = userApi.createUser(UserSaveReqDTO.builder().username(reqVO.getMobile()).nickname(reqVO.getContactorName()).deptId(deptId)
                 .mobile(reqVO.getMobile()).password(reqVO.getPassword()).status(CommonStatusEnum.DISABLE.getStatus()).build());
+        // 新增用户账户
+        userBalanceService.createUserBalance(userId);
         // 新增代理商
         reqVO.setUserId(userId);
         reqVO.setDeptId(deptId);
@@ -148,9 +165,9 @@ public class AgentController {
     @PutMapping("/approve")
     @PreAuthorize("@ss.hasPermission('agengt:agent:approve')")
     @Transactional(rollbackFor = Exception.class)
-    public CommonResult<Boolean> approveAgent(@Valid @RequestBody AgentSaveReqVO reqVO) {
+    public CommonResult<Boolean> approveAgent(@RequestParam("agentId") Long agentId) {
         // 获取代理商
-        Agent agent = agentService.getAgent(reqVO.getId());
+        Agent agent = agentService.getAgent(agentId);
         if (Objects.isNull(agent)) {
             throw exception(AGENT_NOT_EXISTS);
         }
@@ -167,9 +184,9 @@ public class AgentController {
     @PutMapping("/reject")
     @PreAuthorize("@ss.hasPermission('agengt:agent:reject')")
     @Transactional(rollbackFor = Exception.class)
-    public CommonResult<Boolean> rejectAgent(@Valid @RequestBody AgentSaveReqVO reqVO) {
+    public CommonResult<Boolean> rejectAgent(@RequestParam("agentId") Long agentId) {
         // 获取代理商
-        Agent agent = agentService.getAgent(reqVO.getId());
+        Agent agent = agentService.getAgent(agentId);
         if (Objects.isNull(agent)) {
             throw exception(AGENT_NOT_EXISTS);
         }
@@ -178,26 +195,32 @@ public class AgentController {
         return success(true);
     }
 
-    @Operation(summary = "一级代理商充值")
+    @Operation(summary = "财务充值一级代理商")
     @PostMapping("/recharge-first-level")
     @PreAuthorize("@ss.hasPermission('agent:agent:recharge-first-level')")
     @Transactional(rollbackFor = Exception.class)
     public CommonResult<Boolean> rechargeAgent(@Valid @RequestBody AgentRechargeReqVO reqVO) {
+        LoginUser loginUser = Optional.ofNullable(getLoginUser()).orElseThrow(NeedLoginException::new);
         // 获取目标代理商
-        Agent agent = agentService.getAgent(reqVO.getAgentId());
-        if (Objects.isNull(agent)) {
+        Agent targetAgent = agentService.getAgent(reqVO.getAgentId());
+        if (Objects.isNull(targetAgent)) {
             throw exception(AGENT_NOT_EXISTS);
         }
         // 校验代理商状态
-        if (!AgentStatusEnum.isActivityStatus(agent.getStatus())) {
+        if (!AgentStatusEnum.isActivityStatus(targetAgent.getStatus())) {
             throw exception(AGENT_STATUS_NOT_ACTIVITY);
         }
         // 校验财务角色
-        boolean isFinance = permissionApi.hasAnyRoles(agent.getUserId(), RoleCodeEnum.FINANCE.getCode());
+        boolean isFinance = permissionApi.hasAnyRoles(loginUser.getId(), RoleCodeEnum.FINANCE.getCode());
         if (!isFinance) {
             throw new AccessDeniedException("仅限财务操作");
         }
         // 转账操作
+        userBalanceService.changeBalance(new EditAgUserBalanceDetailReq()
+                .setFromAgUserId(loginUser.getId()).setFromUserName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
+                .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName()).setCheckFrom(false)
+                .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
+                .setRemarks(reqVO.getRemarks()));
         return success(true);
     }
 
@@ -206,21 +229,27 @@ public class AgentController {
     @PreAuthorize("@ss.hasPermission('agent:agent:recharge-second-level')")
     @Transactional(rollbackFor = Exception.class)
     public CommonResult<Boolean> rechargeSecondAgent(@Valid @RequestBody AgentRechargeReqVO reqVO) {
+        LoginUser loginUser = Optional.ofNullable(getLoginUser()).orElseThrow(NeedLoginException::new);
         // 获取目标代理商
-        Agent agent = agentService.getAgent(reqVO.getAgentId());
-        if (Objects.isNull(agent)) {
+        Agent targetAgent = agentService.getAgent(reqVO.getAgentId());
+        if (Objects.isNull(targetAgent)) {
             throw exception(AGENT_NOT_EXISTS);
         }
         // 校验代理商状态
-        if (!AgentStatusEnum.isActivityStatus(agent.getStatus())) {
+        if (!AgentStatusEnum.isActivityStatus(targetAgent.getStatus())) {
             throw exception(AGENT_STATUS_NOT_ACTIVITY);
         }
         // 校验一级代理商角色
-        boolean isFirstLevelAgent = permissionApi.hasAnyRoles(agent.getUserId(), RoleCodeEnum.FIRST_LEVEL_AGENT.getCode());
+        boolean isFirstLevelAgent = permissionApi.hasAnyRoles(loginUser.getId(), RoleCodeEnum.FIRST_LEVEL_AGENT.getCode());
         if (!isFirstLevelAgent) {
             throw new AccessDeniedException("一级代理商操作");
         }
         // 转账操作
+        userBalanceService.changeBalance(new EditAgUserBalanceDetailReq()
+                .setFromAgUserId(loginUser.getId()).setFromUserName(MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, ""))
+                .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName())
+                .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
+                .setRemarks(reqVO.getRemarks()));
         return success(true);
     }
 
