@@ -161,7 +161,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
 
         List<EditAgMerchantOrderReq.OrderDetail> orderDetailList = req.getOrderDetailList();
         Optional.ofNullable(orderDetailList).orElseThrow(()->new SecurityException("订单详情不能为空"));
-        ContentFortTypeEnum contentFortTypeEnum = Optional.ofNullable(ContentFortTypeEnum.transToContentService(req.getOrderType())).orElseThrow(() -> new SecurityException("订单类型不存在"));
+        ContentFortTypeEnum contentFortTypeEnum = Optional.ofNullable(ContentFortTypeEnum.getByType(req.getOrderType())).orElseThrow(() -> new SecurityException("订单类型不存在"));
         //订单明细 一条一条计算
         switch (contentFortTypeEnum) {
             case PACKAGE -> {//套餐类型
