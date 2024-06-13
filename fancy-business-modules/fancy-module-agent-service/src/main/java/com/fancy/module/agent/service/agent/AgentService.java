@@ -5,6 +5,8 @@ import com.fancy.common.pojo.PageResult;
 import com.fancy.module.agent.controller.vo.AgentPageReqVO;
 import com.fancy.module.agent.controller.vo.AgentSaveReqVO;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author paven
@@ -57,4 +59,11 @@ public interface AgentService extends IService<Agent> {
      */
     Agent selectById(Long parentAgentId);
 
+    /**
+     * 根据ID查询代理商
+     *
+     * @param parenAgentIds 代理商ID
+     * @return 代理
+     */
+    List<Agent> selectByIds(Set<Long> parenAgentIds);
 }

@@ -17,6 +17,8 @@ import com.fancy.module.agent.controller.vo.AgentSaveReqVO;
 import com.fancy.module.agent.repository.mapper.agent.AgentMapper;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
 import jakarta.annotation.Resource;
+import java.util.List;
+import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,7 +72,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 // 营业执照、合同信息
                 .businessLicense(reqVO.getBusinessLicense()).contractLink(reqVO.getContractLink()).introduction(reqVO.getIntroduction())
                 // 合作起始时间 & 合作状态
-                .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).approveTime(reqVO.getApproveTime()).build();
+                .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).status(reqVO.getStatus()).approveTime(reqVO.getApproveTime()).build();
         agentMapper.updateById(updateAgent);
     }
 
@@ -92,6 +94,11 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     @Override
     public Agent selectById(Long agentId) {
         return agentMapper.selectOne(Agent::getId, agentId, Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus());
+    }
+
+    @Override
+    public List<Agent> selectByIds(Set<Long> parenAgentIds) {
+        return agentMapper.selectList(Wrappers.lambdaQuery(Agent.class).in(Agent::getId, parenAgentIds));
     }
 
     private Agent validateAgent4CreateOrUpdate(Long agentId, String agentName, String mobile) {

@@ -7,6 +7,7 @@ import com.fancy.module.agent.controller.vo.AgentRespVO;
 import com.fancy.module.agent.controller.vo.AgentSaveReqVO;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
 import java.util.List;
+import java.util.Map;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -23,11 +24,12 @@ public interface AgentConvert {
     @Mapping(target = "deptId", source = "deptId")
     AgentSaveReqVO convert(AgentSaveReqDTO bean, Long deptId, Long parentAgentId);
 
-    @Mapping(target = "contactorName", source = "contactor")
-    AgentRespVO convertVO(Agent bean);
+    @Mapping(target = "contactorName", source = "bean.contactor")
+    @Mapping(target = "parentAgentName", expression = "java(agentNames.get(bean.getParentId()))")
+    AgentRespVO convertVO(Agent bean, Map<Long, String> agentNames);
 
-    default List<AgentRespVO> convertList(List<Agent> list) {
-        return CollectionUtils.convertList(list, this::convertVO);
+    default List<AgentRespVO> convertList(List<Agent> list, Map<Long, String> agentNames) {
+        return CollectionUtils.convertList(list, agent -> convertVO(agent, agentNames));
     }
 
     Agent convertBean(AgentSaveReqVO reqVO);

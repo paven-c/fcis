@@ -39,6 +39,8 @@ import com.fancy.module.common.api.permission.dto.RoleRespDTO;
 import com.fancy.module.common.api.user.UserApi;
 import com.fancy.module.common.api.user.dto.UserSaveReqDTO;
 import com.fancy.module.common.enums.permission.RoleCodeEnum;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -51,9 +53,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
@@ -166,7 +170,9 @@ public class AgentController {
         if (agent == null) {
             return success(null);
         }
-        return success(AgentConvert.INSTANCE.convertVO(agent));
+        Map<Long, String> agentNames = Optional.ofNullable(agentService.selectByIds(Sets.newHashSet(agent.getParentId()))).orElse(Lists.newArrayList()).stream()
+                .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
+        return success(AgentConvert.INSTANCE.convertVO(agent, agentNames));
     }
 
     @Operation(summary = "代理商审核通过")
@@ -275,7 +281,13 @@ public class AgentController {
         if (CollUtil.isEmpty(pageResult.getList())) {
             return success(new PageResult<>(pageResult.getTotal(), pageResult.getPageNum(), pageResult.getPageSize()));
         }
-        return success(new PageResult<>(AgentConvert.INSTANCE.convertList(pageResult.getList()), pageResult.getTotal(), pageResult.getPageNum(),
+        Set<Long> parenAgentIds = pageResult.getList().stream().map(Agent::getParentId).filter(Objects::nonNull).collect(Collectors.toSet());
+        Map<Long, String> agentNames = Maps.newHashMap();
+        if (CollUtil.isNotEmpty(parenAgentIds)) {
+            agentNames = Optional.ofNullable(agentService.selectByIds(parenAgentIds)).orElse(Lists.newArrayList()).stream()
+                    .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
+        }
+        return success(new PageResult<>(AgentConvert.INSTANCE.convertList(pageResult.getList(), agentNames), pageResult.getTotal(), pageResult.getPageNum(),
                 pageResult.getPageSize()));
     }
 
@@ -284,7 +296,13 @@ public class AgentController {
     @PreAuthorize("@ss.hasPermission('agent:agent:export')")
     public void exportAgentList(@Validated AgentPageReqVO exportReqVO, HttpServletResponse response) throws IOException {
         List<Agent> list = agentService.getAgentPage(exportReqVO).getList();
-        ExcelUtils.write(response, "代理商数据.xls", "代理商", AgentRespVO.class, AgentConvert.INSTANCE.convertList(list));
+        Set<Long> parenAgentIds = list.stream().map(Agent::getParentId).filter(Objects::nonNull).collect(Collectors.toSet());
+        Map<Long, String> agentNames = Maps.newHashMap();
+        if (CollUtil.isNotEmpty(parenAgentIds)) {
+            agentNames = Optional.ofNullable(agentService.selectByIds(parenAgentIds)).orElse(Lists.newArrayList()).stream()
+                    .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
+        }
+        ExcelUtils.write(response, "代理商数据.xls", "代理商", AgentRespVO.class, AgentConvert.INSTANCE.convertList(list, agentNames));
     }
 
     @Operation(summary = "我的交易")
