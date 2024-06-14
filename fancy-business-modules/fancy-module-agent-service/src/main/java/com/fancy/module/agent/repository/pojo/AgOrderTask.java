@@ -32,7 +32,7 @@ public class AgOrderTask implements Serializable {
     /**
      * 客户id
      */
-    private Long merchantId;
+    private Long agMerchantId;
 
     /**
      * 内容id

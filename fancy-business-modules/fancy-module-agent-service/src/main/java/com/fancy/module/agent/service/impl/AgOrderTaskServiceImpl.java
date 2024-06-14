@@ -10,6 +10,7 @@ import com.fancy.module.agent.controller.req.AgOrderTaskImportReq;
 import com.fancy.module.agent.controller.vo.AgUploadTaskReqVO;
 import com.fancy.module.agent.repository.mapper.AgOrderTaskMapper;
 import com.fancy.module.agent.repository.pojo.AgContentServiceMain;
+import com.fancy.module.agent.repository.pojo.AgMerchant;
 import com.fancy.module.agent.repository.pojo.AgOrderTask;
 import com.fancy.module.agent.controller.vo.OrderTaskListVO;
 import com.fancy.module.agent.service.AgContentServiceMainService;
@@ -67,7 +68,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
         PageResult<AgOrderTask> agOrderTaskPageResult = agOrderTaskMapper.selectPage(orderTaskListDTO, Wrappers.lambdaQuery(AgOrderTask.class)
                 .eq(Objects.nonNull(orderTaskListDTO.getTaskStatus()), AgOrderTask::getTaskStatus, orderTaskListDTO.getTaskStatus())
                 .in(CollectionUtil.isNotEmpty(serviceMainList), AgOrderTask::getContentId, serviceMainList.stream().map(AgContentServiceMain::getId).toList())
-                .eq(Objects.nonNull(orderTaskListDTO.getMerchantId()), AgOrderTask::getMerchantId, orderTaskListDTO.getMerchantId())
+                .eq(Objects.nonNull(orderTaskListDTO.getMerchantId()), AgOrderTask::getAgMerchantId, orderTaskListDTO.getMerchantId())
                 .eq(Objects.nonNull(orderTaskListDTO.getFancyItemId()), AgOrderTask::getFancyItemId, orderTaskListDTO.getFancyItemId())
                 .like(StringUtils.isNotBlank(orderTaskListDTO.getFancyItemName()), AgOrderTask::getFancyItemName, orderTaskListDTO.getFancyItemName())
                 .ge(Objects.nonNull(orderTaskListDTO.getTaskCreateTime()), AgOrderTask::getTaskCreateTime, orderTaskListDTO.getTaskCreateTime())
@@ -112,8 +113,10 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
             Long contentId = agOrderTaskImportReq.getContentId();
             Long fancyItemId = agOrderTaskImportReq.getFancyItemId();
             // 查询部门id
-            Long merchantId = agOrderTaskImportReq.getMerchantId();
-
+            Long merchantId = agOrderTaskImportReq.getAgMerchantId();
+            agMerchantService.list(Wrappers.lambdaQuery(AgMerchant.class)
+                    .eq(AgMerchant::getMerchantId, merchantId)
+            );
             // 查询创建人名称
             UserRespDTO user = userApi.getUser(agOrderTaskImportReq.getCreateId());
             if (user == null) {
@@ -125,6 +128,16 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
             }
             agOrderTask.setCreateName(user.getUsername());
             // 插入任务表,存在更新
+            long taskNum = this.count(Wrappers.lambdaQuery(AgOrderTask.class)
+                    .eq(AgOrderTask::getId, agOrderTask.getId())
+            );
+            if (taskNum > 0) {
+                // 更新
+
+            } else {
+                // 插入
+
+            }
 
             // 判断是否状态为完成,并且不存在流水表中
 

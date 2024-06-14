@@ -30,7 +30,7 @@ public class AgOrderTaskImportReq implements Serializable {
      * 客户ID
      */
     @CsvBindByName(column = "客户ID")
-    private Long merchantId;
+    private Long agMerchantId;
 
     /**
      * 内容服务ID
