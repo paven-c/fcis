@@ -32,6 +32,7 @@ public class AgUserBalanceDetailServiceImpl extends ServiceImpl<AgUserBalanceDet
         PageResult<AgUserBalanceDetail> agUserBalanceDetailPageResult = baseMapper.selectPage(req, Wrappers.lambdaQuery(AgUserBalanceDetail.class)
                 .eq(ObjectUtil.isNotEmpty(req.getBillType()), AgUserBalanceDetail::getBillType, req.getBillType())
                 .eq(ObjectUtil.isNotEmpty(req.getObjectType()), AgUserBalanceDetail::getObjectType, req.getObjectType())
+                .eq(ObjectUtil.isNotEmpty(req.getRecordType()), AgUserBalanceDetail::getRecordType, req.getRecordType())
                 .in(ObjectUtil.isNotEmpty(req.getCreatorIds()), AgUserBalanceDetail::getAgUserId, req.getCreatorIds())
                 .between(ObjectUtil.isNotEmpty(req.getStartTime()) && ObjectUtil.isNotEmpty(req.getEndTime()), AgUserBalanceDetail::getCreateTime, req.getStartTime(), req.getEndTime())
                 .eq(AgUserBalanceDetail::getDeleted, 0)

@@ -1,8 +1,12 @@
 package com.fancy.module.agent.controller.req;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fancy.module.agent.enums.AgUserBalanceDetailType;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -34,7 +38,6 @@ public class EditAgUserBalanceDetailReq implements Serializable {
      */
     private Long fromAgUserId;
 
-
     /**
      * 来源用户名称
      */
@@ -46,7 +49,6 @@ public class EditAgUserBalanceDetailReq implements Serializable {
     private Boolean checkFrom = true;
     private Boolean checkTo = true;
 
-
     /**
      * 变更金额
      */
@@ -56,21 +58,6 @@ public class EditAgUserBalanceDetailReq implements Serializable {
      * 变更类型
      */
     private AgUserBalanceDetailType objectType;
-    
-    /**
-     * 关联的Id
-     */
-    private String object;
-
-    /**
-     * 关联服务类型
-     */
-    private Integer objectSubType;
-
-    /**
-     * 关联服务名称
-     */
-    private String objectSubName;
 
     /**
      * 操作人Id
@@ -91,6 +78,30 @@ public class EditAgUserBalanceDetailReq implements Serializable {
      * 备注
      */
     private String remarks;
+
+
+    
+    /**
+     * 关联的Id ContentFortTypeEnum = 订单id
+     */
+    private String objectId;
+
+    /**
+     * 关联内容服务类型
+     * @see com.fancy.module.agent.enums.ContentFortTypeEnum
+     */
+    private Integer objectSubType;
+
+    /**
+     * 关联内容服务名称 回显字段
+     */
+    private String objectSubTypeName;
+    /**
+     * 关联内容服务明细名称 回显字段
+     */
+    private List<AgMerchantOrder.AgMerchantOrderDetailVo> objectSubTypeDetailName;
+
+
 
 
 }

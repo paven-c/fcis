@@ -1,8 +1,12 @@
 package com.fancy.module.agent.repository.pojo;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -10,6 +14,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 代理商余额明细表(AgUserBalanceDetail)实体类
@@ -41,6 +46,12 @@ public class AgUserBalanceDetail implements Serializable {
     private Integer billType;
 
     /**
+     * 记录类型
+     * @see com.fancy.module.agent.enums.AgUserBalanceDetailRecordType
+     */
+    private Integer recordType;
+
+    /**
      * 账单类型用户Id
      */
     private Long billTypeAgUserId;
@@ -69,23 +80,31 @@ public class AgUserBalanceDetail implements Serializable {
     
     /**
      * 变更类型
+     * @see com.fancy.module.agent.enums.AgUserBalanceDetailType
      */
     private Integer objectType;
 
     /**
-     * 关联的Id
+     * 关联的Id ContentFortTypeEnum = 订单id
      */
-    private String object;
+    private String objectId;
 
     /**
-     * 关联服务类型
+     * 关联内容服务类型
+     * @see com.fancy.module.agent.enums.ContentFortTypeEnum
      */
     private Integer objectSubType;
 
     /**
-     * 关联服务名称
+     * 关联内容服务名称 回显字段
      */
-    private String objectSubName;
+    private String objectSubTypeName;
+
+    /**
+     * 关联内容服务明细名称 回显字段
+     */
+    @TableField(typeHandler = JacksonTypeHandler.class)
+    private List<AgMerchantOrder.AgMerchantOrderDetailVo> objectSubTypeDetailName;
 
     /**
      * 操作人Id
@@ -115,11 +134,13 @@ public class AgUserBalanceDetail implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     /**
      * 修改时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
     /**
