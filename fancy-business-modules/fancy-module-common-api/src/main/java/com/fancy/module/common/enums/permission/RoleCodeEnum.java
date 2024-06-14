@@ -1,10 +1,9 @@
 package com.fancy.module.common.enums.permission;
 
-import com.fancy.common.util.object.ObjectUtils;
+import cn.hutool.core.util.StrUtil;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
-import java.util.List;
 
 /**
  * 角色标识枚举
@@ -61,8 +60,14 @@ public enum RoleCodeEnum {
      */
     private final String name;
 
+    private static final List<String> AGENT_ROLES = List.of(FIRST_LEVEL_AGENT.getCode(), SECOND_LEVEL_AGENT.getCode());
+
     public static boolean isSuperAdmin(String code) {
-        return ObjectUtils.equalsAny(code, SUPER_ADMIN.getCode());
+        return StrUtil.equals(code, SUPER_ADMIN.getCode());
+    }
+
+    public static boolean isAgent(String code) {
+        return AGENT_ROLES.contains(code);
     }
 
     public static List<String> getAgent() {

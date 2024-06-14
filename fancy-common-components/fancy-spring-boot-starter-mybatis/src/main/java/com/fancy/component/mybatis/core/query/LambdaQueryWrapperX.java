@@ -124,6 +124,12 @@ public class LambdaQueryWrapperX<T> extends LambdaQueryWrapper<T> {
     }
 
     @Override
+    public LambdaQueryWrapperX<T> in(boolean condition, SFunction<T, ?> column, Collection<?> coll) {
+        super.in(condition, column, coll);
+        return this;
+    }
+
+    @Override
     public LambdaQueryWrapperX<T> in(SFunction<T, ?> column, Collection<?> coll) {
         super.in(column, coll);
         return this;

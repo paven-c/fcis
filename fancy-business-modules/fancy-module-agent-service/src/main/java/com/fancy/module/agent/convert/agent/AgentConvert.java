@@ -26,6 +26,7 @@ public interface AgentConvert {
 
     @Mapping(target = "contactorName", source = "bean.contactor")
     @Mapping(target = "parentAgentName", expression = "java(agentNames.get(bean.getParentId()))")
+    @Mapping(target = "parentAgentId", source = "bean.parentId")
     AgentRespVO convertVO(Agent bean, Map<Long, String> agentNames);
 
     default List<AgentRespVO> convertList(List<Agent> list, Map<Long, String> agentNames) {

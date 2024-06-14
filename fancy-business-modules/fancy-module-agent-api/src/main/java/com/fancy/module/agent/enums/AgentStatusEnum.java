@@ -1,6 +1,8 @@
 package com.fancy.module.agent.enums;
 
+import com.fancy.common.core.IntArrayValuable;
 import com.google.common.collect.Lists;
+import java.util.Arrays;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,7 +12,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum AgentStatusEnum {
+public enum AgentStatusEnum implements IntArrayValuable {
 
     /**
      * 待提交
@@ -40,7 +42,19 @@ public enum AgentStatusEnum {
 
     private static final List<Integer> ACTIVITY_STATUS = Lists.newArrayList(APPROVED.getStatus());
 
+    /**
+     * 企业角色可见状态
+     */
+    public static final List<Integer> COMPANY_AVAILABLE_STATUS = Lists.newArrayList(PENDING_REVIEW.getStatus(), APPROVED.getStatus(), REJECTED.getStatus());
+
     public static boolean isActivityStatus(Integer status) {
         return ACTIVITY_STATUS.contains(status);
+    }
+
+    public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(AgentStatusEnum::getStatus).toArray();
+
+    @Override
+    public int[] array() {
+        return ARRAYS;
     }
 }

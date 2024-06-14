@@ -1,9 +1,12 @@
 package com.fancy.module.agent.controller.vo;
 
+import com.fancy.common.validation.InEnum;
+import com.fancy.common.validation.Mobile;
 import com.fancy.module.agent.enums.AgentStatusEnum;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * @author paven
@@ -20,6 +23,7 @@ public class AgentSaveReqVO {
     /**
      * 代理商名称
      */
+    @Length(max = 50, message = "代理商名称最多支持50字符")
     private String agentName;
 
     /**
@@ -35,16 +39,19 @@ public class AgentSaveReqVO {
     /**
      * 代理商等级
      */
+    @InEnum(value = AgentStatusEnum.class, message = "代理商类型必须是 {status}")
     private Integer level;
 
     /**
      * 联系人姓名
      */
+    @Length(max = 50, message = "代理商名称最多支持50字符")
     private String contactorName;
 
     /**
      * 手机号码
      */
+    @Mobile
     private String mobile;
 
     /**

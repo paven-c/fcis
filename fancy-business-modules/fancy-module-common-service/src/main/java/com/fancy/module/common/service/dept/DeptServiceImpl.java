@@ -80,6 +80,7 @@ public class DeptServiceImpl implements DeptService {
         validateDeptNameUnique(updateReqVO.getId(), updateReqVO.getParentId(), updateReqVO.getName());
         // 更新部门
         Dept updateObj = BeanUtils.toBean(updateReqVO, Dept.class);
+        updateObj.setDeptName(updateReqVO.getName());
         deptMapper.updateById(updateObj);
     }
 
