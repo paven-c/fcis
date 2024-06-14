@@ -13,8 +13,8 @@ import jakarta.annotation.Resource;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -30,8 +30,8 @@ public class AreaController {
 
     @GetMapping("/list")
     @Operation(summary = "列表查询")
-    public CommonResult<List<AreaRespVO>> list(@RequestBody AreaListReqVO reqVO) {
-        return success(AreaConvert.INSTANCE.convertList(areaService.getAreaList(reqVO)));
+    public CommonResult<List<AreaRespVO>> list(@RequestParam String parentAreaId) {
+        return success(AreaConvert.INSTANCE.convertList(areaService.getAreaList(AreaListReqVO.builder().parentAreaId(parentAreaId).build())));
     }
 
     @GetMapping("/detail")
