@@ -36,11 +36,11 @@
         m.deleted = 0
     and m.content_status = 1
     <if test="contentServiceMainListDTO.contentType != null">
-      <if test="contentServiceMainListDTO.contentType = 0">
-        AND m.contentType in (3)
+      <if test="contentServiceMainListDTO.contentType == 0">
+        AND m.content_type in (3)
       </if>
-      <if test="contentServiceMainListDTO.contentType = 1">
-        AND m.contentType in (1,2)
+      <if test="contentServiceMainListDTO.contentType == 1">
+        AND m.content_type in (1,2)
       </if>
     </if>
     ORDER BY m.id DESC
