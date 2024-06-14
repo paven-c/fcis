@@ -60,6 +60,7 @@ public class EditAgMerchantOrderReq  {
 
     /**
      * 下单方式 0套餐 1服务内容
+     * @see com.fancy.module.agent.enums.ContentFortTypeEnum
      */
     @NotNull(message = "下单方式不能为空")
     private Integer orderType;

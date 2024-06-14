@@ -142,10 +142,11 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                 .setToAgUsername(agMerchant.getName())
                 .setCheckTo(false)
                 .setPrice(agMerchantOrder.getOrderMoney())
-                .setObject(agMerchantOrder.getId().toString())
+                .setObjectId(agMerchantOrder.getId().toString())
                 .setObjectType(AgUserBalanceDetailType.CONTENT_SERVICE_CONSUMPTION)
                 .setObjectSubType(req.getOrderType())
-                .setObjectSubName(agMerchantOrder.getOrderName())
+                .setObjectSubTypeName(req.getOrderName())
+                .setObjectSubTypeDetailName(agMerchantOrder.getServiceJson())
                 .setRemarks("代理商创建客户订单"));
 
         if (!b) {
@@ -188,7 +189,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                                 .setCoverageSkuNum(a.getCoverageSkuNum());
 
                     }).toList();
-                    req.getServiceJson().addAll(collect1);
+                    req.setOrderName(contentFortTypeEnum.getName()).getServiceJson().addAll(collect1);
                     //计算任务数
                     Integer serviceTotalNum = agContentServiceDetails.stream()
                             .map(agContentServiceDetail -> NumberUtil.mul(agContentServiceDetail.getCoverageNum(), agContentServiceDetail.getCoverageSkuNum(), 2).intValue())
@@ -214,7 +215,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                             .setOrderName(agContentServiceMain.getContentName())
                             .setServiceType(agContentServiceMain.getContentType());
 
-                    req.getServiceJson().add(new AgMerchantOrder.AgMerchantOrderDetailVo()
+                    req.setOrderName(contentFortTypeEnum.getName()).getServiceJson().add(new AgMerchantOrder.AgMerchantOrderDetailVo()
                             .setServiceName(orderDetail.getOrderName())
                             .setServiceTotalNum(orderDetail.getServiceTotalNum())
                             .setCoverageNum(orderDetail.getNumberOfGenerations())

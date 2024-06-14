@@ -10,7 +10,7 @@ public enum ContentFortTypeEnum {
      *
      */
     PACKAGE(0,"套餐"),
-    CONTENT(1,"内容"),
+    CONTENT(1,"自定义内容"),
     ;
 
     private final Integer type;
