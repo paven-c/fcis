@@ -71,7 +71,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                         throw new ServiceException("余额不足");
                     }
                     //更新
-                    int i = agUserBalanceDetailService.updateBalance(paymentOut.getId(), req.getPrice(), AgUserBalanceDetailBillType.ACCOUNTING);
+                    int i = agUserBalanceDetailService.updateBalance(paymentOut.getId(), req.getPrice(), AgUserBalanceDetailBillType.PAYMENT_OUT);
                     if (i < 1) {
                         throw new ServiceException("更新失败");
                     }
@@ -82,8 +82,10 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     Long fromAgUserId = req.getFromAgUserId();
                     Long toAgUserId = req.getToAgUserId();
                     req.setToAgUserId(fromAgUserId);
+                    req.setToAgUsername(req.getFromUserName());
                     req.setFromAgUserId(toAgUserId);
-                    AgUserBalanceDetail agUserBalanceDetail1 = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), paymentOut.getNowPrice(), sub);
+                    req.setFromUserName(req.getToAgUsername());
+                    AgUserBalanceDetail agUserBalanceDetail1 = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.PAYMENT_OUT.getType(), paymentOut.getNowPrice(), sub);
                     agUserBalanceDetail1.setCreateTime(now)
                             .setUpdateTime(now)
                             .setRecordType(req.getObjectType().getRecordType().getType());
@@ -102,12 +104,12 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     //变更后金额
                     BigDecimal add = accounting.getNowPrice().add(req.getPrice());
                     //更新
-                    int i = agUserBalanceDetailService.updateBalance(accounting.getId(), req.getPrice(), AgUserBalanceDetailBillType.PAYMENT_OUT);
+                    int i = agUserBalanceDetailService.updateBalance(accounting.getId(), req.getPrice(), AgUserBalanceDetailBillType.ACCOUNTING);
                     if (i < 1) {
                         throw new ServiceException("更新失败");
                     }
                     //入账明细
-                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.PAYMENT_OUT.getType(), accounting.getNowPrice(), add);
+                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), accounting.getNowPrice(), add);
                     agUserBalanceDetail.setCreateTime(now)
                             .setUpdateTime(now)
                             .setRecordType(req.getObjectType().getRecordType().getType());

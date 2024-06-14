@@ -23,4 +23,7 @@ public interface AgMerchantOrderConvert {
     List<AgMerchantOrderDetail> convertAgMerchantOrder(List<EditAgMerchantOrderReq.OrderDetail> orderDetails);
 
     List<AgMerchantOrderVo> convertAgMerchantOrderVo(List<AgMerchantOrder> agMerchantOrders);
+    @Mapping(source = "name",target = "agMerchantName")
+    @Mapping(source = "orderName",target = "serviceName")
+    AgMerchantOrderVo convertAgMerchantOrderVo(AgMerchantOrder agMerchantOrder);
 }

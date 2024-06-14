@@ -6,10 +6,10 @@
     update ag_user_balance set
     before_price = now_price,update_time = now(),
      <if test="billType == 0">
-       now_price = now_price + #{balance}
+       now_price = now_price - #{balance}
      </if>
      <if test="billType == 1">
-        now_price = now_price - #{balance}
+        now_price = now_price + #{balance}
      </if>
     where id = #{id} and deleted = 0;
     </update>

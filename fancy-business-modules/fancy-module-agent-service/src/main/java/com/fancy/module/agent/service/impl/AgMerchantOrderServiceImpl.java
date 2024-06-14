@@ -186,7 +186,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                     List<AgMerchantOrder.AgMerchantOrderDetailVo> collect1 = agContentServiceDetails.stream().map(a -> {
                         return new AgMerchantOrder.AgMerchantOrderDetailVo()
                                 .setServiceName(agContentServiceMainMap.get(a.getContentId()).getContentName())
-                                .setServiceTotalNum(NumberUtil.mul(a.getCoverageNum(), a.getCoverageSkuNum(), 2).intValue())
+                                .setServiceTotalNum(NumberUtil.mul(a.getCoverageNum(), a.getCoverageSkuNum()).intValue())
                                 .setCoverageNum(a.getCoverageNum())
                                 .setCoverageSkuNum(a.getCoverageSkuNum());
 
@@ -194,7 +194,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                     req.setOrderName(contentFortTypeEnum.getName()).getServiceJson().addAll(collect1);
                     //计算任务数
                     Integer serviceTotalNum = agContentServiceDetails.stream()
-                            .map(agContentServiceDetail -> NumberUtil.mul(agContentServiceDetail.getCoverageNum(), agContentServiceDetail.getCoverageSkuNum(), 2).intValue())
+                            .map(agContentServiceDetail -> NumberUtil.mul(agContentServiceDetail.getCoverageNum(), agContentServiceDetail.getCoverageSkuNum()).intValue())
                             .reduce(Integer::sum).orElse(0);
                     orderDetail.setServiceTotalNum(serviceTotalNum)
                             .setOrderUnitPrice(BigDecimal.valueOf(agContentServiceMains.getConsumePoint()))
@@ -210,10 +210,10 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                     Optional.ofNullable(orderDetail.getCoverageNumber()).orElseThrow(()->new ServiceException("服务覆盖数不能为空"));
                     Optional.ofNullable(orderDetail.getNumberOfGenerations()).orElseThrow(()->new ServiceException("生成数不能为空"));
                     //计算总数
-                    int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber(), 2).intValue();
+                    int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber()).intValue();
                     orderDetail.setServiceTotalNum(i)
                             .setOrderUnitPrice(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()))
-                            .setOrderMoney(NumberUtil.mul(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()), BigDecimal.valueOf(i), 2))
+                            .setOrderMoney(NumberUtil.mul(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()), BigDecimal.valueOf(i)))
                             .setOrderName(agContentServiceMain.getContentName())
                             .setServiceType(agContentServiceMain.getContentType());
 
