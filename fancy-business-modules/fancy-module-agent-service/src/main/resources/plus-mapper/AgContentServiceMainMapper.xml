@@ -30,12 +30,10 @@
     select m.id, m.content_type, m.content_name, m.content_status, m.consume_point, m.content_desc, m.content_assets_desc, m.content_show_url, m.content_desc_url,
            d.id detail_id, d.coverage_area, d.coverage_sku_num, d.coverage_num, a.content_type detail_content_type, a.content_name detail_content_name
     from ag_content_service_main m
-           left join ag_content_service_detail d on m.id = d.main_id
-           inner join ag_content_service_main a on a.id = d.content_id
+           left join ag_content_service_detail d on m.id = d.main_id and d.deleted = 0
+           left join ag_content_service_main a on a.id = d.content_id and a.deleted = 0
     where
         m.deleted = 0
-    and d.deleted = 0
-    and a.deleted = 0
     and m.content_status = 1
     <if test="contentServiceMainListDTO.contentType != null">
       <if test="contentServiceMainListDTO.contentType = 0">
