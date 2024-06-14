@@ -13,12 +13,16 @@ import com.fancy.module.agent.repository.pojo.AgContentServiceMain;
 import com.fancy.module.agent.repository.pojo.AgOrderTask;
 import com.fancy.module.agent.controller.vo.OrderTaskListVO;
 import com.fancy.module.agent.service.AgContentServiceMainService;
+import com.fancy.module.agent.service.AgMerchantService;
 import com.fancy.module.agent.service.AgOrderTaskService;
+import com.fancy.module.common.api.user.UserApi;
+import com.fancy.module.common.api.user.dto.UserRespDTO;
 import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +42,12 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
 
     @Resource
     private AgOrderTaskMapper agOrderTaskMapper;
+
+    @Resource
+    private AgMerchantService agMerchantService;
+
+    @Resource
+    private UserApi userApi;
 
 
     @Override
@@ -95,16 +105,33 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
     @Transactional(rollbackFor = Exception.class)
     public List<AgUploadTaskReqVO> csvUploadTask(List<AgOrderTaskImportReq> agOrderTaskImportReqs) {
         List<AgUploadTaskReqVO> agUploadTaskReqVOS = new ArrayList<>();
-        // 查询部门id
+        for (AgOrderTaskImportReq agOrderTaskImportReq : agOrderTaskImportReqs) {
+            AgUploadTaskReqVO agUploadTaskReqVO = new AgUploadTaskReqVO();
+            AgOrderTask agOrderTask = new AgOrderTask();
+            BeanUtil.copyProperties(agOrderTaskImportReq,agOrderTask);
+            Long contentId = agOrderTaskImportReq.getContentId();
+            Long fancyItemId = agOrderTaskImportReq.getFancyItemId();
+            // 查询部门id
+            Long merchantId = agOrderTaskImportReq.getMerchantId();
 
-        // 查询创建人名称
+            // 查询创建人名称
+            UserRespDTO user = userApi.getUser(agOrderTaskImportReq.getCreateId());
+            if (user == null) {
+                agUploadTaskReqVO.setContentId(contentId);
+                agUploadTaskReqVO.setFancyItemId(fancyItemId);
+                agUploadTaskReqVO.setErrorMsg("创建人不存在");
+                agUploadTaskReqVOS.add(agUploadTaskReqVO);
+                continue;
+            }
+            agOrderTask.setCreateName(user.getUsername());
+            // 插入任务表,存在更新
 
-        // 插入任务表
+            // 判断是否状态为完成,并且不存在流水表中
 
-        // 判断是否状态为完成，完成插入流水表，只插入一次
+            // 增加消耗数,订单主表和子表,插入流水表
 
-        // 增加消耗数，订单主表和子表
-
+        }
+        return null;
     }
 
 }
