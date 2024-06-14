@@ -51,6 +51,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
     @Override
     @Transactional
     public boolean changeBalance(EditAgUserBalanceDetailReq req) {
+        Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new SecurityException("变更类型不能为空"));
         //分布式锁 变更用户Id
         RLock to = redissonClient.getLock(AG_USER_CHANGE_BALANCE + req.getToAgUserId());
         RLock from = redissonClient.getLock(AG_USER_CHANGE_BALANCE + req.getFromAgUserId());
@@ -82,8 +83,9 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     req.setToAgUserId(fromAgUserId);
                     req.setFromAgUserId(toAgUserId);
                     AgUserBalanceDetail agUserBalanceDetail1 = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), paymentOut.getNowPrice(), sub);
-                    agUserBalanceDetail1.setCreateTime(now);
-                    agUserBalanceDetail1.setUpdateTime(now);
+                    agUserBalanceDetail1.setCreateTime(now)
+                            .setUpdateTime(now)
+                            .setRecordType(req.getObjectType().getRecordType().getType());
                     agUserBalanceDetailList.add(agUserBalanceDetail1);
                 }
 
@@ -105,8 +107,10 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     }
                     //入账明细
                     AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.PAYMENT_OUT.getType(), accounting.getNowPrice(), add);
-                    agUserBalanceDetail.setCreateTime(now);
-                    agUserBalanceDetail.setUpdateTime(now);
+                    agUserBalanceDetail.setCreateTime(now)
+                            .setUpdateTime(now)
+                            .setRecordType(req.getObjectType().getRecordType().getType());
+
                     agUserBalanceDetailList.add(agUserBalanceDetail);
                 }
                 if (ObjectUtil.isNotEmpty(agUserBalanceDetailList)) {

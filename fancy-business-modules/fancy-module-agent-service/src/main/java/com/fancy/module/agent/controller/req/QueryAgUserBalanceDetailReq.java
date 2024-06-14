@@ -35,6 +35,12 @@ public class QueryAgUserBalanceDetailReq extends PageParam{
      * 账单类型 0出账 1入账
      */
     private Integer billType;
+
+    /**
+     * 账单类型 0充值记录 1消耗记录
+     */
+    private Integer recordType;
+
     /**
      * @see AgUserBalanceDetailType
      */

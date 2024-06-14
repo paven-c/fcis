@@ -42,6 +42,12 @@ public class AgUserBalanceDetail implements Serializable {
     private Integer billType;
 
     /**
+     * 记录类型
+     * @see com.fancy.module.agent.enums.AgUserBalanceDetailRecordType
+     */
+    private Integer recordType;
+
+    /**
      * 账单类型用户Id
      */
     private Long billTypeAgUserId;
