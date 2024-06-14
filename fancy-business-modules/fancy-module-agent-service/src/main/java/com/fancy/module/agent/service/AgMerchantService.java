@@ -36,4 +36,6 @@ public interface AgMerchantService extends IService<AgMerchant> {
      * @return
      */
     List<AgMerchantVo> listMerchant(QueryAgMerchantReq req);
+
+    void updateAuthStatus(EditAgMerchantReq req);
 }

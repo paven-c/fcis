@@ -110,4 +110,12 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
                 .orderByDesc(AgMerchant::getCreateTime).list();
         return AgMerchantConvert.INSTANCE.convertList(list);
     }
+
+    @Override
+    public void updateAuthStatus(EditAgMerchantReq req) {
+        lambdaUpdate()
+                .set(AgMerchant::getAuthStatus, req.getAuthStatus())
+                .eq(AgMerchant::getMerchantId, req.getMerchantId())
+                .update();
+    }
 }

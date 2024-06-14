@@ -10,6 +10,7 @@ import com.fancy.module.agent.controller.vo.AgMerchantVo;
 import com.fancy.module.common.api.permission.PermissionApi;
 import com.fancy.module.common.enums.permission.RoleCodeEnum;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,13 @@ public class AgMerchantController {
     @PostMapping("/update")
     public CommonResult<?> updateMerchant(@RequestBody EditAgMerchantReq req){
         agMerchantService.updateMerchant(req);
+        return CommonResult.success("成功");
+    }
+
+    @PostMapping("/updateAuthStatus")
+    @PermitAll
+    public CommonResult<?> updateAuthStatus(@RequestBody EditAgMerchantReq req){
+        agMerchantService.updateAuthStatus(req);
         return CommonResult.success("成功");
     }
 
