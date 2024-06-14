@@ -15,7 +15,6 @@ import com.fancy.module.common.api.content.CmsAuthApi;
 import com.fancy.module.common.controller.auth.vo.AuthLoginReqVO;
 import com.fancy.module.common.controller.auth.vo.AuthLoginRespVO;
 import com.fancy.module.common.controller.auth.vo.AuthPermissionInfoRespVO;
-import com.fancy.module.common.controller.auth.vo.AuthTokenGetReqVO;
 import com.fancy.module.common.convert.auth.AuthConvert;
 import com.fancy.module.common.enums.LoginLogTypeEnum;
 import com.fancy.module.common.enums.oauth.OAuth2ClientConstants;
