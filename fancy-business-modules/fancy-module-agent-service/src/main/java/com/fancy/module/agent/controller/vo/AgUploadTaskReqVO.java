@@ -2,6 +2,7 @@ package com.fancy.module.agent.controller.vo;
 
 import com.fancy.common.pojo.PageParam;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,13 +14,24 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class AgUploadTaskReqVO extends PageParam {
+public class AgUploadTaskReqVO {
 
-    private Long contentId;
+    private Integer successCount;
 
-    private Long fancyItemId;
+    /**
+     * 错误信息
+     */
+    private List<AgUploadTaskErrorVo> agUploadTaskErrorVoList;
 
-    private String errorMsg;
+    @Data
+    public static class AgUploadTaskErrorVo {
+
+        private Long contentId;
+
+        private Long fancyItemId;
+
+        private String errorMsg;
+
+    }
 
 }

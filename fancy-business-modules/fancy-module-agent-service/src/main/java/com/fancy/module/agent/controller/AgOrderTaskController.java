@@ -2,6 +2,11 @@ package com.fancy.module.agent.controller;
 
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.TypeReference;
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.event.SyncReadListener;
+import com.alibaba.fastjson.JSONObject;
 import com.fancy.common.enums.DeleteStatusEnum;
 import com.fancy.common.pojo.CommonResult;
 import com.fancy.common.pojo.PageResult;
@@ -50,30 +55,26 @@ public class AgOrderTaskController {
 
     @PostMapping("/csv/upload/task")
     @Operation(summary = "导入任务")
-    public CommonResult<List<AgUploadTaskReqVO>> csvUploadTask(@RequestParam("file") MultipartFile file) {
+    public CommonResult<AgUploadTaskReqVO> csvUploadTask(@RequestParam("file") MultipartFile file) {
         // 文件非空判断
         if (file.isEmpty()) {
             throw new RuntimeException("文件不能为空");
         }
-        if (!"text/csv".equals(file.getContentType())) {
-            throw new RuntimeException("只支持上传CSV文件");
-        }
-        try {
-            Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
-            CsvToBean<AgOrderTaskImportReq> csvToBean = new CsvToBeanBuilder<AgOrderTaskImportReq>(reader)
-                    .withType(AgOrderTaskImportReq.class)
-                    .withIgnoreLeadingWhiteSpace(true)
-                    .withIgnoreEmptyLine(true)
-                    .build();
-            List<AgOrderTaskImportReq> agOrderTaskImportReqList = csvToBean.parse();
-            if (CollectionUtil.isNotEmpty(agOrderTaskImportReqList)) {
-                return CommonResult.success(agOrderTaskService.csvUploadTask(agOrderTaskImportReqList));
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename.contains(".xlsx")) {
+            try {
+                SyncReadListener syncReadListener = new SyncReadListener();
+                EasyExcel.read(file.getInputStream(), AgOrderTaskImportReq.class, syncReadListener).sheet().doRead();
+                List<Object> list = syncReadListener.getList();
+                List<AgOrderTaskImportReq> convert = Convert.convert(new TypeReference<>() {
+                }, list);
+                log.info("导入任务:{}", JSONObject.toJSONString(convert));
+                return CommonResult.success(agOrderTaskService.csvUploadTask(convert));
+            } catch (Exception e) {
+                log.info("csvUploadTask,读取数据失败：{}", e.getMessage(), e);
             }
-            return CommonResult.success(null);
-        } catch (Exception ex) {
-            log.error("导入任务失败", ex);
-            throw new RuntimeException("导入任务失败");
         }
+        return CommonResult.error(500, "上传文件失败，请上传execl文件");
     }
 
 }
