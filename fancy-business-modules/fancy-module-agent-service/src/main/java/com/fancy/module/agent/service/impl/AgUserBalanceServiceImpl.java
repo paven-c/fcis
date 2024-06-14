@@ -7,6 +7,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.enums.DeleteStatusEnum;
+import com.fancy.common.exception.ServiceException;
 import com.fancy.module.agent.controller.req.EditAgUserBalanceDetailReq;
 import com.fancy.module.agent.convert.balance.AgUserBalanceConvert;
 import com.fancy.module.agent.enums.AgUserBalanceDetailBillType;
@@ -51,7 +52,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
     @Override
     @Transactional
     public boolean changeBalance(EditAgUserBalanceDetailReq req) {
-        Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new SecurityException("变更类型不能为空"));
+        Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new ServiceException("变更类型不能为空"));
         //分布式锁 变更用户Id
         RLock to = redissonClient.getLock(AG_USER_CHANGE_BALANCE + req.getToAgUserId());
         RLock from = redissonClient.getLock(AG_USER_CHANGE_BALANCE + req.getFromAgUserId());
@@ -64,15 +65,15 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     AgUserBalance paymentOut = lambdaQuery()
                             .eq(AgUserBalance::getAgUserId, req.getFromAgUserId())
                             .last("limit 1").one();
-                    Optional.ofNullable(paymentOut).orElseThrow(() -> new SecurityException("用户不存在"));
+                    Optional.ofNullable(paymentOut).orElseThrow(() -> new ServiceException("用户不存在"));
                     //检查余额是否充足
                     if (paymentOut.getNowPrice().compareTo(req.getPrice()) < 0) {
-                        throw new SecurityException("余额不足");
+                        throw new ServiceException("余额不足");
                     }
                     //更新
                     int i = agUserBalanceDetailService.updateBalance(paymentOut.getId(), req.getPrice(), AgUserBalanceDetailBillType.ACCOUNTING);
                     if (i < 1) {
-                        throw new SecurityException("更新失败");
+                        throw new ServiceException("更新失败");
                     }
                     //出账
                     //变更后金额
@@ -95,15 +96,15 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                             .eq(AgUserBalance::getAgUserId, req.getToAgUserId())
                             .eq(AgUserBalance::getDeleted, 0)
                             .last("limit 1").one();
-                    Optional.ofNullable(accounting).orElseThrow(() -> new SecurityException("用户不存在"));
-                    Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new SecurityException("未知的变更类型"));
+                    Optional.ofNullable(accounting).orElseThrow(() -> new ServiceException("用户不存在"));
+                    Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new ServiceException("未知的变更类型"));
                     //入账
                     //变更后金额
                     BigDecimal add = accounting.getNowPrice().add(req.getPrice());
                     //更新
                     int i = agUserBalanceDetailService.updateBalance(accounting.getId(), req.getPrice(), AgUserBalanceDetailBillType.PAYMENT_OUT);
                     if (i < 1) {
-                        throw new SecurityException("更新失败");
+                        throw new ServiceException("更新失败");
                     }
                     //入账明细
                     AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.PAYMENT_OUT.getType(), accounting.getNowPrice(), add);
@@ -119,7 +120,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                 return true;
             } catch (Exception e) {
                 log.error("修改用户余额异常,params:{},error:{}", JSONUtil.toJsonStr(req), e.getMessage(), e);
-                throw new SecurityException(e);
+                throw new ServiceException("系统异常");
             } finally {
                 to.unlock();
                 from.unlock();

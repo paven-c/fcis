@@ -7,6 +7,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.exception.NeedLoginException;
+import com.fancy.common.exception.ServiceException;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.security.core.LoginUser;
 import com.fancy.module.agent.controller.req.EditAgMerchantOrderReq;
@@ -113,9 +114,9 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
         String nickname = MapUtil.getStr(loginUser.getInfo(), LoginUser.INFO_KEY_NICKNAME, "");
         //查询商户代理商是否登录id 不是登录人不能创建
         AgMerchant agMerchant = agMerchantMapper.selectById(req.getAgMerchantId());
-        Optional.ofNullable(agMerchant).orElseThrow(()->new SecurityException("客户不存在"));
+        Optional.ofNullable(agMerchant).orElseThrow(()->new ServiceException("客户不存在"));
         if (ObjectUtil.equals(agMerchant.getCreatorId(), loginUserId)) {
-            throw  new  SecurityException("不能创建其他代理客户订单");
+            throw  new ServiceException("不能创建其他代理客户订单");
         }
         //计算消耗
         builderEditAgMerchantOrder(req);
@@ -161,8 +162,8 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
     private void builderEditAgMerchantOrder(EditAgMerchantOrderReq req){
 
         List<EditAgMerchantOrderReq.OrderDetail> orderDetailList = req.getOrderDetailList();
-        Optional.ofNullable(orderDetailList).orElseThrow(()->new SecurityException("订单详情不能为空"));
-        ContentFortTypeEnum contentFortTypeEnum = Optional.ofNullable(ContentFortTypeEnum.getByType(req.getOrderType())).orElseThrow(() -> new SecurityException("订单类型不存在"));
+        Optional.ofNullable(orderDetailList).orElseThrow(()->new ServiceException("订单详情不能为空"));
+        ContentFortTypeEnum contentFortTypeEnum = Optional.ofNullable(ContentFortTypeEnum.getByType(req.getOrderType())).orElseThrow(() -> new ServiceException("订单类型不存在"));
         //订单明细 一条一条计算
         switch (contentFortTypeEnum) {
             case PACKAGE -> {//套餐类型
@@ -172,13 +173,13 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                     List<AgContentServiceDetail> agContentServiceDetails = agContentServiceDetailMapper.selectList(Wrappers.lambdaQuery(AgContentServiceDetail.class)
                             .eq(AgContentServiceDetail::getMainId, orderDetail.getContentServiceId())
                             .eq(AgContentServiceDetail::getDeleted, 0));
-                    Optional.ofNullable(agContentServiceMains).orElseThrow(()->new SecurityException("服务内容不存在"));
+                    Optional.ofNullable(agContentServiceMains).orElseThrow(()->new ServiceException("服务内容不存在"));
                     //内容对应的信息
                     Set<Long> collect = agContentServiceDetails.stream().map(AgContentServiceDetail::getContentId).collect(Collectors.toSet());
                     Map<Long, AgContentServiceMain> agContentServiceMainMap = agContentServiceMainMapper.selectBatchIds(collect)
                             .stream().collect(Collectors.toMap(AgContentServiceMain::getId, Function.identity(), (v1, v2) -> v1));
                     if (ObjectUtil.isEmpty(agContentServiceMainMap)) {
-                        throw new SecurityException("服务内容不存在");
+                        throw new ServiceException("服务内容不存在");
                     }
 
                     List<AgMerchantOrder.AgMerchantOrderDetailVo> collect1 = agContentServiceDetails.stream().map(a -> {
@@ -204,9 +205,9 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
             case CONTENT -> { //服务内容
                 for (EditAgMerchantOrderReq.OrderDetail orderDetail : orderDetailList) {
                     AgContentServiceMain agContentServiceMain = agContentServiceMainMapper.selectById(orderDetail.getContentServiceId());
-                    Optional.ofNullable(agContentServiceMain).orElseThrow(()->new SecurityException("服务内容不存在"));
-                    Optional.ofNullable(orderDetail.getCoverageNumber()).orElseThrow(()->new SecurityException("服务覆盖数不能为空"));
-                    Optional.ofNullable(orderDetail.getNumberOfGenerations()).orElseThrow(()->new SecurityException("生成数不能为空"));
+                    Optional.ofNullable(agContentServiceMain).orElseThrow(()->new ServiceException("服务内容不存在"));
+                    Optional.ofNullable(orderDetail.getCoverageNumber()).orElseThrow(()->new ServiceException("服务覆盖数不能为空"));
+                    Optional.ofNullable(orderDetail.getNumberOfGenerations()).orElseThrow(()->new ServiceException("生成数不能为空"));
                     //计算总数
                     int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber(), 2).intValue();
                     orderDetail.setServiceTotalNum(i)
@@ -222,7 +223,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                             .setCoverageSkuNum(orderDetail.getCoverageNumber()));
                 }
             }
-            default -> throw new SecurityException("订单类型错误");
+            default -> throw new ServiceException("订单类型错误");
         }
         //总金额 总任务数
         BigDecimal orderSubMoney = orderDetailList.stream()

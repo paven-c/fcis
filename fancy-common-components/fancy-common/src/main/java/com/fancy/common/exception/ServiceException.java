@@ -1,5 +1,6 @@
 package com.fancy.common.exception;
 
+import com.fancy.common.exception.enums.GlobalErrorCodeConstants;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -28,6 +29,11 @@ public final class ServiceException extends RuntimeException {
     public ServiceException(ErrorCode errorCode) {
         this.code = errorCode.getCode();
         this.message = errorCode.getMsg();
+    }
+
+    public ServiceException(String message) {
+        this.code = GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode();
+        this.message = message;
     }
 
     public ServiceException(Integer code, String message) {
