@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.module.agent.api.task.dto.OrderTaskListDTO;
+import com.fancy.module.agent.controller.req.AgOrderTaskImportReq;
+import com.fancy.module.agent.controller.vo.AgUploadTaskReqVO;
 import com.fancy.module.agent.repository.mapper.AgOrderTaskMapper;
 import com.fancy.module.agent.repository.pojo.AgContentServiceMain;
 import com.fancy.module.agent.repository.pojo.AgOrderTask;
@@ -18,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * <p>
@@ -86,6 +89,22 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
         BeanUtil.copyProperties(agOrderTaskPageResult, orderTaskListVOPageResult);
         orderTaskListVOPageResult.setList(orderTaskListVOS);
         return orderTaskListVOPageResult;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public List<AgUploadTaskReqVO> csvUploadTask(List<AgOrderTaskImportReq> agOrderTaskImportReqs) {
+        List<AgUploadTaskReqVO> agUploadTaskReqVOS = new ArrayList<>();
+        // 查询部门id
+
+        // 查询创建人名称
+
+        // 插入任务表
+
+        // 判断是否状态为完成，完成插入流水表，只插入一次
+
+        // 增加消耗数，订单主表和子表
+
     }
 
 }

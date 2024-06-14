@@ -50,7 +50,7 @@ public class AgOrderFlow implements Serializable {
     private Long orderId;
 
     /**
-     * 扣减点数
+     * 扣减任务数
      */
     private Integer deductPoint;
 

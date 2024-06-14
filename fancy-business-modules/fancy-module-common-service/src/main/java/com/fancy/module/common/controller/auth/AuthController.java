@@ -119,9 +119,9 @@ public class AuthController {
         return success(AuthConvert.INSTANCE.convert(user, roles, menuList));
     }
 
-    @PostMapping("/loginByMerchantId")
+    @GetMapping("/loginByMerchantId")
     @Operation(summary = "根据MerchantId登录")
-    public CommonResult loginByMerchantId(@RequestBody Long merchantId) {
+    public CommonResult loginByMerchantId(@RequestParam Long merchantId) {
         Assert.notNull(merchantId, "merchantId不能为空");
         CommonResult<String> result = cmsAuthApi.loginByMerchantId(merchantId);
         if (result.getCode() == 200) {
