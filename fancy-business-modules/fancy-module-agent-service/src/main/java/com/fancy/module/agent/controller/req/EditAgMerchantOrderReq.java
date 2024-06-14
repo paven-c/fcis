@@ -98,7 +98,7 @@ public class EditAgMerchantOrderReq  {
         /**
          * 订单金额
          */
-        private BigDecimal orderSubMoney;
+        private BigDecimal orderMoney;
         /**
          * 订单单价
          */

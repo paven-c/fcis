@@ -118,6 +118,8 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     agUserBalanceDetailService.saveBatch(agUserBalanceDetailList);
                 }
                 return true;
+            }catch (ServiceException e) {
+                throw new ServiceException(e.getMessage());
             } catch (Exception e) {
                 log.error("修改用户余额异常,params:{},error:{}", JSONUtil.toJsonStr(req), e.getMessage(), e);
                 throw new ServiceException("系统异常");

@@ -115,17 +115,18 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
         //查询商户代理商是否登录id 不是登录人不能创建
         AgMerchant agMerchant = agMerchantMapper.selectById(req.getAgMerchantId());
         Optional.ofNullable(agMerchant).orElseThrow(()->new ServiceException("客户不存在"));
-        if (ObjectUtil.equals(agMerchant.getCreatorId(), loginUserId)) {
+        if (!ObjectUtil.equals(agMerchant.getCreatorId(), loginUserId)) {
             throw  new ServiceException("不能创建其他代理客户订单");
         }
         //计算消耗
         builderEditAgMerchantOrder(req);
         //创建订单
         AgMerchantOrder agMerchantOrder = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrder(req,loginUserId,loginUserDeptId);
-        agMerchantOrder.setAgMerchantId(agMerchant.getId()).setName(agMerchant.getName()).setMerchantId(agMerchant.getMerchantId());
+        agMerchantOrder.setServiceConsumeNum(0L).setAgMerchantId(agMerchant.getId()).setName(agMerchant.getName()).setMerchantId(agMerchant.getMerchantId());
         List<AgMerchantOrderDetail> agMerchantOrderDetails = AgMerchantOrderConvert.INSTANCE.convertAgMerchantOrder(req.getOrderDetailList());
         save(agMerchantOrder);
         agMerchantOrderDetails.forEach(orderDetail -> orderDetail.setAgMerchantOrderId(agMerchantOrder.getId())
+                .setServiceConsumeNum(0L)
                 .setAgMerchantId(agMerchantOrder.getAgMerchantId())
                 .setName(agMerchantOrder.getName())
                 .setMerchantId(agMerchantOrder.getMerchantId())
@@ -197,7 +198,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                             .reduce(Integer::sum).orElse(0);
                     orderDetail.setServiceTotalNum(serviceTotalNum)
                             .setOrderUnitPrice(BigDecimal.valueOf(agContentServiceMains.getConsumePoint()))
-                            .setOrderSubMoney(BigDecimal.valueOf(agContentServiceMains.getConsumePoint()))
+                            .setOrderMoney(BigDecimal.valueOf(agContentServiceMains.getConsumePoint()))
                             .setOrderName(agContentServiceMains.getContentName())
                             .setServiceType(agContentServiceMains.getContentType());
                 }
@@ -212,7 +213,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                     int i = NumberUtil.mul(orderDetail.getNumberOfGenerations(), orderDetail.getCoverageNumber(), 2).intValue();
                     orderDetail.setServiceTotalNum(i)
                             .setOrderUnitPrice(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()))
-                            .setOrderSubMoney(NumberUtil.mul(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()), BigDecimal.valueOf(i), 2))
+                            .setOrderMoney(NumberUtil.mul(BigDecimal.valueOf(agContentServiceMain.getConsumePoint()), BigDecimal.valueOf(i), 2))
                             .setOrderName(agContentServiceMain.getContentName())
                             .setServiceType(agContentServiceMain.getContentType());
 
@@ -227,7 +228,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
         }
         //总金额 总任务数
         BigDecimal orderSubMoney = orderDetailList.stream()
-                .map(EditAgMerchantOrderReq.OrderDetail::getOrderSubMoney)
+                .map(EditAgMerchantOrderReq.OrderDetail::getOrderMoney)
                 .reduce(BigDecimal::add)
                 .orElse(BigDecimal.ZERO);
         int sum = orderDetailList.stream()
