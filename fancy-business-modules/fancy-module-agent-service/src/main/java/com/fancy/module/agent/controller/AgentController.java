@@ -128,7 +128,7 @@ public class AgentController {
 
     @Operation(summary = "编辑代理商")
     @PutMapping("/update")
-    @PreAuthorize("@ss.hasPermission('agengt:agent:update')")
+    @PreAuthorize("@ss.hasPermission('agent:agent:update')")
     @Transactional(rollbackFor = Exception.class)
     public CommonResult<Boolean> updateAgent(@Valid @RequestBody AgentSaveReqVO reqVO) {
         // 编辑代理商
@@ -181,7 +181,7 @@ public class AgentController {
 
     @Operation(summary = "代理商审核通过")
     @PutMapping("/approve")
-    @PreAuthorize("@ss.hasPermission('agengt:agent:approve')")
+    @PreAuthorize("@ss.hasPermission('agent:agent:approve')")
     @Transactional(rollbackFor = Exception.class)
     public CommonResult<Boolean> approveAgent(@RequestParam("agentId") Long agentId) {
         // 获取代理商
@@ -201,7 +201,7 @@ public class AgentController {
 
     @Operation(summary = "代理商审核拒绝")
     @PutMapping("/reject")
-    @PreAuthorize("@ss.hasPermission('agengt:agent:reject')")
+    @PreAuthorize("@ss.hasPermission('agent:agent:reject')")
     @Transactional(rollbackFor = Exception.class)
     public CommonResult<Boolean> rejectAgent(@RequestParam("agentId") Long agentId) {
         // 获取代理商
