@@ -26,6 +26,8 @@ public class QueryAgUserBalanceDetailReq extends PageParam{
      */
     private Long agUserId;
 
+    private List<Long> agUserIds;
+
     /**
      * 代理商名称
      */

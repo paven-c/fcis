@@ -137,7 +137,6 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
         boolean b = agUserBalanceService.changeBalance(new EditAgUserBalanceDetailReq()
                 .setCreateId(loginUserId)
                 .setCreateName(nickname)
-                .setDeptId(loginUserDeptId)
                 .setFromAgUserId(loginUserId)
                 .setFromUserName(nickname)
                 .setToAgUserId(agMerchant.getId())

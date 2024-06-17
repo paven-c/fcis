@@ -242,8 +242,7 @@ public class AgentController {
                 .setFromAgUserId(user.getId()).setFromUserName(user.getNickname())
                 .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName()).setCheckFrom(false)
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
-                .setCreateId(user.getId()).setCreateName(user.getNickname())
-                .setDeptId(user.getDeptId()).setRemarks(reqVO.getRemarks()));
+                .setCreateId(user.getId()).setCreateName(user.getNickname()));
         return success(true);
     }
 
@@ -278,8 +277,7 @@ public class AgentController {
                 .setFromAgUserId(user.getId()).setFromUserName(user.getNickname())
                 .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName()).setCheckFrom(!isFinance)
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.SECONDARY_AGENT_RECHARGE)
-                .setCreateId(user.getId()).setCreateName(user.getNickname())
-                .setDeptId(user.getDeptId()).setRemarks(reqVO.getRemarks()));
+                .setCreateId(user.getId()).setCreateName(user.getNickname()));
         return success(true);
     }
 
@@ -317,19 +315,19 @@ public class AgentController {
     }
 
     @Operation(summary = "代理交易")
-    @PostMapping("/myTransactionPageList")
-    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList(@RequestBody QueryAgUserBalanceDetailReq req) {
+    @PostMapping("/transactionPageList")
+    public CommonResult<PageResult<AgUserBalanceDetailVo>> transactionPageList(@RequestBody QueryAgUserBalanceDetailReq req) {
         return CommonResult.success(agUserBalanceDetailService.myTransactionPageList(req));
     }
 
     @Operation(summary = "我的交易")
-    @PostMapping("/myTransactionPageList1")
+    @PostMapping("/myTransactionPageList")
     @DataPermission(enable = false)
-    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList1(@RequestBody QueryAgUserBalanceDetailReq req) {
+    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList(@RequestBody QueryAgUserBalanceDetailReq req) {
         Set<String> roleCodes = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
         // 是否代理商角色
         boolean b = roleCodes.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
-        req.setCreatorIds(b ? Collections.singletonList(getLoginUserId()) : null);
+        req.setAgUserIds(b ? Collections.singletonList(getLoginUserId()) : null);
         return CommonResult.success(agUserBalanceDetailService.myTransactionPageList(req));
     }
 
