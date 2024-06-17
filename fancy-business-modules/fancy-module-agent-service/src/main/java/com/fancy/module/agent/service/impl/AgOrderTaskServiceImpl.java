@@ -128,6 +128,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
                 .like(StringUtils.isNotBlank(orderTaskListDTO.getFancyItemName()), AgOrderTask::getFancyItemName, orderTaskListDTO.getFancyItemName())
                 .ge(Objects.nonNull(orderTaskListDTO.getTaskCreateTime()), AgOrderTask::getTaskCreateTime, orderTaskListDTO.getTaskCreateTime())
                 .le(Objects.nonNull(orderTaskListDTO.getTaskFinishTime()), AgOrderTask::getTaskCreateTime, orderTaskListDTO.getTaskCreateTime())
+                .in(CollUtil.isNotEmpty(orderTaskListDTO.getDeptIds()), AgOrderTask::getDeptId, orderTaskListDTO.getDeptIds())
                 .orderByDesc(AgOrderTask::getTaskCreateTime)
         );
 
