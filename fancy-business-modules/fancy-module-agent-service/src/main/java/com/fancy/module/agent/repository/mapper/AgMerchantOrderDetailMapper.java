@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.fancy.module.agent.repository.pojo.AgMerchantOrderDetail;
 import com.fancy.module.agent.controller.vo.MerchantTaskNumListVO;
 import java.util.List;
+import java.util.Set;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,6 +19,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface AgMerchantOrderDetailMapper extends BaseMapper<AgMerchantOrderDetail> {
 
-    List<MerchantTaskNumListVO> listMerchantTaskNum(@Param("merchantId") Long merchantId, @Param("deptId") Long deptId);
+    List<MerchantTaskNumListVO> listMerchantTaskNum(@Param("merchantId") Long merchantId, @Param("deptIds") List<Long> deptIds);
 
 }
