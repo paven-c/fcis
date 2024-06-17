@@ -20,9 +20,11 @@ import com.fancy.module.agent.enums.AgUserBalanceDetailType;
 import com.fancy.module.agent.enums.ContentFortTypeEnum;
 import com.fancy.module.agent.repository.mapper.*;
 import com.fancy.module.agent.repository.pojo.*;
+import com.fancy.module.agent.repository.pojo.agent.Agent;
 import com.fancy.module.agent.service.AgMerchantOrderDetailService;
 import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.agent.service.AgUserBalanceService;
+import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.user.UserApi;
 import com.fancy.module.common.api.user.dto.UserRespDTO;
 import jakarta.annotation.Resource;
@@ -66,7 +68,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
     private AgContentServiceDetailMapper agContentServiceDetailMapper;
 
     @Resource
-    private UserApi userApi;
+    private AgentService agentService;
 
 
     @Override
@@ -93,17 +95,21 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                 .map(AgMerchantOrderVo::getCreatorId)
                 .filter(ObjectUtil::isNotEmpty)
                 .collect(Collectors.toList());
-        Map<Long, String> userMap = userApi.getUserByIds(collect)
-                .stream()
-                .collect(Collectors.toMap(UserRespDTO::getId, UserRespDTO::getNickname));
-
+        Map<Long, String> agenMap = getAgentNameByUserId(collect);
         agMerchantOrderVos.forEach(agMerchantOrderVo -> {
             if (ObjectUtil.isNotEmpty(agMerchantOrderVo.getCreatorId())) {
-                agMerchantOrderVo.setAgUserName(userMap.get(agMerchantOrderVo.getCreatorId()));
+                agMerchantOrderVo.setAgUserName(agenMap.get(agMerchantOrderVo.getCreatorId()));
             }
         });
         return new PageResult<>(agMerchantOrderVos, agMerchantOrderPageResult.getTotal(), req.getPageNum(), req.getPageSize());
     }
+
+    private Map<Long, String> getAgentNameByUserId(List<Long> userIds) {
+     return agentService.getAgentByUserId(userIds)
+             .stream()
+             .collect(Collectors.toMap(Agent::getUserId, Agent::getAgentName));
+    }
+
 
     @Override
     @Transactional

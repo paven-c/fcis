@@ -50,6 +50,9 @@ public interface AgentService extends IService<Agent> {
      * @return 代理
      */
     Agent getAgent(Long agentId);
+    Agent getAgentByUserId(Long userId);
+
+    List<Agent> getAgentByUserId(List<Long> userId);
 
     /**
      * 查询代理商列表
