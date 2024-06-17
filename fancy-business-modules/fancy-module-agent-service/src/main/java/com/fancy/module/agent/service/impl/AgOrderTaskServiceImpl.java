@@ -160,6 +160,22 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
                 continue;
             }
             agOrderTask.setDeptId(agMerchants.get(0).getDeptId());
+            // 判断是否是套餐
+            AgContentServiceMain contentServiceMain = agContentServiceMainService.getById(contentId);
+            if (contentServiceMain == null) {
+                agUploadTaskErrorVo.setContentId(contentId);
+                agUploadTaskErrorVo.setFancyItemId(fancyItemId);
+                agUploadTaskErrorVo.setErrorMsg("服务内容不存在");
+                agUploadTaskErrorVos.add(agUploadTaskErrorVo);
+                continue;
+            }
+            if (Objects.equals(contentServiceMain.getContentType(), 3)) {
+                agUploadTaskErrorVo.setContentId(contentId);
+                agUploadTaskErrorVo.setFancyItemId(fancyItemId);
+                agUploadTaskErrorVo.setErrorMsg("内容服务不能是套餐");
+                agUploadTaskErrorVos.add(agUploadTaskErrorVo);
+                continue;
+            }
             // 判断是否超过订单剩余数
             List<AgMerchantOrderDetail> merchantOrderDetailList = agMerchantOrderDetailService.list(Wrappers.lambdaQuery(AgMerchantOrderDetail.class)
                     .eq(AgMerchantOrderDetail::getAgMerchantId, merchantId)
