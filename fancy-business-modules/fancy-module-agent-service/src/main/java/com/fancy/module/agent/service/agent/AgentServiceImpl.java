@@ -108,7 +108,20 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
 
     @Override
     public long selectCountByParentId(Long agentId) {
-        return agentMapper.selectCount(Wrappers.lambdaQuery(Agent.class).eq(Agent::getParentId, agentId).eq(Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
+        return agentMapper.selectCount(
+                Wrappers.lambdaQuery(Agent.class).eq(Agent::getParentId, agentId).eq(Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
+    }
+
+    @Override
+    public List<Agent> getAgentListWithoutDataPermission(AgentPageReqVO reqVO) {
+        return agentMapper.selectList(new LambdaQueryWrapperX<Agent>()
+                .eqIfPresent(Agent::getId, reqVO.getAgentId())
+                .likeIfPresent(Agent::getAgentName, reqVO.getAgentName())
+                .eqIfPresent(Agent::getMobile, reqVO.getMobile())
+                .eqIfPresent(Agent::getStatus, reqVO.getStatus())
+                .eqIfPresent(Agent::getLevel, reqVO.getLevel())
+                .inIfPresent(Agent::getDeptId, reqVO.getDeptIds())
+                .orderByDesc(Agent::getId));
     }
 
     private Agent validateAgent4CreateOrUpdate(Long agentId, String agentName, String mobile) {

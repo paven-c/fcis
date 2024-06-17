@@ -6,7 +6,9 @@ import com.fancy.common.validation.InEnum;
 import com.fancy.module.agent.enums.AgentStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDateTime;
+import java.util.Set;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Builder
 public class AgentPageReqVO extends PageParam {
 
     @Schema(description = "代理商ID，精确匹配", example = "")
@@ -47,5 +50,7 @@ public class AgentPageReqVO extends PageParam {
     private LocalDateTime endTime;
 
     private Boolean isCompanyRole;
+
+    private Set<Long> deptIds;
 
 }

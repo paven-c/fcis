@@ -15,6 +15,7 @@ import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.pojo.CommonResult;
 import com.fancy.common.pojo.PageResult;
 import com.fancy.component.core.util.ExcelUtils;
+import com.fancy.component.datapermission.core.annotation.DataPermission;
 import com.fancy.module.agent.controller.req.EditAgUserBalanceDetailReq;
 import com.fancy.module.agent.controller.req.QueryAgUserBalanceDetailReq;
 import com.fancy.module.agent.controller.vo.AgUserBalanceDetailVo;
@@ -34,6 +35,7 @@ import com.fancy.module.common.api.dept.DeptApi;
 import com.fancy.module.common.api.dept.dto.DeptSaveReqDTO;
 import com.fancy.module.common.api.permission.PermissionApi;
 import com.fancy.module.common.api.permission.RoleApi;
+import com.fancy.module.common.api.permission.dto.DeptDataPermissionRespDTO;
 import com.fancy.module.common.api.permission.dto.RoleRespDTO;
 import com.fancy.module.common.api.user.UserApi;
 import com.fancy.module.common.api.user.dto.UserRespDTO;
@@ -327,6 +329,31 @@ public class AgentController {
         boolean b = roleCodes.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
         req.setCreatorIds(b ? Collections.singletonList(getLoginUserId()) : null);
         return CommonResult.success(agUserBalanceDetailService.myTransactionPageList(req));
+    }
+
+    @Operation(summary = "反选代理商列表")
+    @GetMapping("/list")
+    @DataPermission(enable = false)
+    public CommonResult<List<AgentRespVO>> getAgentList(@Valid AgentPageReqVO pageReqVO) {
+        UserRespDTO user = Optional.ofNullable(userApi.getUser(getLoginUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
+        // 获取可见部门
+        Set<Long> deptIds = Optional.ofNullable(permissionApi.getDeptDataPermission(user.getId()))
+                .map(DeptDataPermissionRespDTO::getDeptIds).orElse(Sets.newHashSet());
+        deptIds.add(user.getDeptId());
+        // 代理商列表
+        pageReqVO.setDeptIds(deptIds);
+        List<Agent> agentList = agentService.getAgentListWithoutDataPermission(pageReqVO);
+        if (CollUtil.isEmpty(agentList)) {
+            return success(Lists.newArrayList());
+        }
+        // 获取父级代理商名称
+        Set<Long> parenAgentIds = agentList.stream().map(Agent::getParentId).filter(Objects::nonNull).collect(Collectors.toSet());
+        Map<Long, String> agentNames = Maps.newHashMap();
+        if (CollUtil.isNotEmpty(parenAgentIds)) {
+            agentNames = Optional.ofNullable(agentService.selectByIds(parenAgentIds)).orElse(Lists.newArrayList()).stream()
+                    .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
+        }
+        return success(AgentConvert.INSTANCE.convertList(agentList, agentNames));
     }
 
     /**

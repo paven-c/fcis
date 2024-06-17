@@ -74,4 +74,13 @@ public interface AgentService extends IService<Agent> {
      * @return 代理
      */
     long selectCountByParentId(Long agentId);
+
+    /**
+     * 查询代理商列表
+     *
+     * @param pageReqVO 分页参数
+     * @return 代理商列表
+     */
+    List<Agent> getAgentListWithoutDataPermission(AgentPageReqVO pageReqVO);
+
 }
