@@ -83,4 +83,11 @@ public interface AgentService extends IService<Agent> {
      */
     List<Agent> getAgentListWithoutDataPermission(AgentPageReqVO pageReqVO);
 
+    /**
+     * 根据代理商ID查询代理商
+     *
+     * @param agentId 代理商ID
+     * @return 代理商
+     */
+    Agent getAgentWithoutDataPermission(Long agentId);
 }

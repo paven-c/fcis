@@ -127,6 +127,19 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 .orderByDesc(Agent::getId));
     }
 
+    @Override
+    @DataPermission(enable = false)
+    public Agent getAgentWithoutDataPermission(Long agentId) {
+        if (agentId == null) {
+            return null;
+        }
+        Agent agent = selectById(agentId);
+        if (agent == null) {
+            throw exception(AGENT_NOT_EXISTS);
+        }
+        return agent;
+    }
+
     private Agent validateAgent4CreateOrUpdate(Long agentId, String agentName, String mobile) {
         return DataPermissionUtils.executeIgnore(() -> {
             // 校验代理商是否存在

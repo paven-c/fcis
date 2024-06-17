@@ -106,7 +106,7 @@ public class AgentController {
     @Transactional(rollbackFor = Exception.class)
     public CommonResult<Long> createAgent(@Valid @RequestBody AgentSaveReqVO reqVO) {
         // 不指定父级代理商为一级代理添加、指定为二级代理添加
-        Agent parentAgent = getParentAgent(reqVO.getParentAgentId());
+        Agent parentAgent = agentService.getAgentWithoutDataPermission(reqVO.getParentAgentId());
         // 新建部门
         Long deptId = deptApi.createDept(DeptSaveReqDTO.builder().name(reqVO.getAgentName()).phone(reqVO.getMobile())
                 .parentId(Objects.isNull(parentAgent) ? ROOT_DEPT_ID : parentAgent.getDeptId()).status(CommonStatusEnum.DISABLE.getStatus()).build());
@@ -363,22 +363,5 @@ public class AgentController {
                     .stream().collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
         }
         return agentNames;
-    }
-
-    /**
-     * 获取父级代理商
-     *
-     * @param agentId 代理商ID
-     * @return 代理商
-     */
-    private Agent getParentAgent(Long agentId) {
-        if (agentId == null) {
-            return null;
-        }
-        Agent agent = agentService.selectById(agentId);
-        if (agent == null) {
-            throw exception(AGENT_NOT_EXISTS);
-        }
-        return agent;
     }
 }
