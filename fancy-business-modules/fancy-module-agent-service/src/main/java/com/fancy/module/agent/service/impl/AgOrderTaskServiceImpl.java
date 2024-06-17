@@ -5,14 +5,17 @@ import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getL
 import static com.fancy.module.common.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.pojo.PageResult;
+import com.fancy.component.datapermission.core.annotation.DataPermission;
 import com.fancy.module.agent.api.task.dto.OrderTaskListDTO;
 import com.fancy.module.agent.controller.req.AgOrderTaskImportReq;
 import com.fancy.module.agent.controller.vo.AgUploadTaskReqVO;
 import com.fancy.module.agent.controller.vo.AgUploadTaskReqVO.AgUploadTaskErrorVo;
+import com.fancy.module.agent.controller.vo.OrderTaskListVO;
 import com.fancy.module.agent.enums.TaskStatusEnum;
 import com.fancy.module.agent.repository.mapper.AgOrderTaskMapper;
 import com.fancy.module.agent.repository.pojo.AgContentServiceMain;
@@ -21,20 +24,25 @@ import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
 import com.fancy.module.agent.repository.pojo.AgMerchantOrderDetail;
 import com.fancy.module.agent.repository.pojo.AgOrderFlow;
 import com.fancy.module.agent.repository.pojo.AgOrderTask;
-import com.fancy.module.agent.controller.vo.OrderTaskListVO;
 import com.fancy.module.agent.service.AgContentServiceMainService;
 import com.fancy.module.agent.service.AgMerchantOrderDetailService;
 import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.agent.service.AgMerchantService;
 import com.fancy.module.agent.service.AgOrderFlowService;
 import com.fancy.module.agent.service.AgOrderTaskService;
+import com.fancy.module.common.api.permission.PermissionApi;
+import com.fancy.module.common.api.permission.dto.DeptDataPermissionRespDTO;
 import com.fancy.module.common.api.user.UserApi;
 import com.fancy.module.common.api.user.dto.UserRespDTO;
+import com.fancy.module.common.enums.permission.RoleCodeEnum;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import jakarta.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +71,9 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
     private UserApi userApi;
 
     @Resource
+    private PermissionApi permissionApi;
+
+    @Resource
     private AgOrderFlowService agOrderFlowService;
 
     @Resource
@@ -73,10 +84,11 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
 
 
     @Override
+    @DataPermission(enable = false)
     public PageResult<OrderTaskListVO> listOrderTask(OrderTaskListDTO orderTaskListDTO) {
+        UserRespDTO user = Optional.ofNullable(userApi.getUser(getLoginUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
         String contentName = orderTaskListDTO.getContentName();
         Integer contentType = orderTaskListDTO.getContentType();
-        UserRespDTO user = Optional.ofNullable(userApi.getUser(getLoginUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
         List<AgContentServiceMain> serviceMainList = new ArrayList<>();
         if (StringUtils.isNotBlank(contentName) || contentType != null) {
             // 查询内容id
@@ -86,6 +98,27 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
             );
         }
 
+        Set<String> roleCodes = permissionApi.getUserRoleCodeListByUserIds(user.getId());
+        if (CollUtil.isEmpty(roleCodes)) {
+            return new PageResult<OrderTaskListVO>(Lists.newArrayList(), 0, orderTaskListDTO.getPageNum(), orderTaskListDTO.getPageSize());
+        }
+        // 判断超管角色
+        boolean isSuperAdmin = roleCodes.contains(RoleCodeEnum.SUPER_ADMIN.getCode());
+        if (!isSuperAdmin) {
+            Set<Long> deptIds = Sets.newHashSet();
+            // 判断公司角色
+            if (RoleCodeEnum.isCompanyRole(roleCodes)) {
+                // 查询本部门及子部门
+                deptIds = Optional.ofNullable(permissionApi.getDeptDataPermission(user.getId())).map(DeptDataPermissionRespDTO::getDeptIds)
+                        .orElse(Sets.newHashSet());
+            }
+            // 判断一级代理/二级代理
+            else if (RoleCodeEnum.isAgent(roleCodes)) {
+                deptIds.add(user.getDeptId());
+            }
+            // 设置数据权限范围
+            orderTaskListDTO.setDeptIds(deptIds);
+        }
         // 分页查询
         PageResult<AgOrderTask> agOrderTaskPageResult = agOrderTaskMapper.selectPage(orderTaskListDTO, Wrappers.lambdaQuery(AgOrderTask.class)
                 .eq(Objects.nonNull(orderTaskListDTO.getTaskStatus()), AgOrderTask::getTaskStatus, orderTaskListDTO.getTaskStatus())
@@ -133,7 +166,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
         for (AgOrderTaskImportReq agOrderTaskImportReq : agOrderTaskImportReqs) {
             AgUploadTaskErrorVo agUploadTaskErrorVo = new AgUploadTaskErrorVo();
             AgOrderTask agOrderTask = new AgOrderTask();
-            BeanUtil.copyProperties(agOrderTaskImportReq,agOrderTask, "taskStatus");
+            BeanUtil.copyProperties(agOrderTaskImportReq, agOrderTask, "taskStatus");
             // 任务状态转换
             TaskStatusEnum taskStatusEnum = TaskStatusEnum.getByName(agOrderTaskImportReq.getTaskStatus());
             if (taskStatusEnum == null) {
@@ -204,6 +237,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
 
     /**
      * 处理流水
+     *
      * @param: agOrderTask
      * @return: void
      * @author xingchen

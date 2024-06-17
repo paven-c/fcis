@@ -66,21 +66,6 @@ public class AgOrderTask extends BasePojo implements Serializable {
     private LocalDateTime taskFinishTime;
 
     /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除0启用1删除
-     */
-    private Integer deleted;
-
-    /**
      * 部门id
      */
     private Long deptId;

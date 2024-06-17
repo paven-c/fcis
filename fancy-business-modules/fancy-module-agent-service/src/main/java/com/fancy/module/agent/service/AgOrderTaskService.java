@@ -22,6 +22,5 @@ public interface AgOrderTaskService extends IService<AgOrderTask> {
 
     PageResult<OrderTaskListVO> listOrderTask(OrderTaskListDTO orderTaskListDTO);
 
-    @Transactional(rollbackFor = Exception.class)
     AgUploadTaskReqVO csvUploadTask(List<AgOrderTaskImportReq> agOrderTaskImportReqs);
 }

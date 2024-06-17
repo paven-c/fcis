@@ -1,19 +1,14 @@
 package com.fancy.module.agent.repository.pojo;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fancy.component.mybatis.core.dataobject.BasePojo;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * 代理客户订单明显表(AgMerchantOrder)实体类
@@ -99,23 +94,6 @@ public class AgMerchantOrderDetail extends BasePojo implements Serializable {
      * 服务消耗任务数
      */
     private Long serviceConsumeNum; 
-
-    /**
-     * 创建时间
-     */
-    private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除0启用1删除
-     */
-    private Integer deleted;
-    
-    
 
 }
 

@@ -306,6 +306,17 @@ public class AgentController {
                 pageResult.getPageSize()));
     }
 
+    @Operation(summary = "查询代理商列表")
+    @GetMapping("/search/list")
+    public CommonResult<List<AgentRespVO>> getSearchAgentList(@Valid AgentPageReqVO pageReqVO) {
+        List<Agent> agentList = agentService.getAgentList(pageReqVO);
+        if (CollUtil.isEmpty(agentList)) {
+            return success(Lists.newArrayList());
+        }
+        // 获取父级代理商名称
+        return success(AgentConvert.INSTANCE.convertList(agentList, getAgentNames(agentList)));
+    }
+
     @Operation(summary = "导出代理商")
     @GetMapping("/export")
     @PreAuthorize("@ss.hasPermission('agent:agent:export')")
@@ -336,12 +347,16 @@ public class AgentController {
     @DataPermission(enable = false)
     public CommonResult<List<AgentRespVO>> getAgentList(@Valid AgentPageReqVO pageReqVO) {
         UserRespDTO user = Optional.ofNullable(userApi.getUser(getLoginUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
-        // 获取可见部门
-        Set<Long> deptIds = Optional.ofNullable(permissionApi.getDeptDataPermission(user.getId()))
-                .map(DeptDataPermissionRespDTO::getDeptIds).orElse(Sets.newHashSet());
-        deptIds.add(user.getDeptId());
-        // 代理商列表
-        pageReqVO.setDeptIds(deptIds);
+        // 判断超管权限
+        boolean isSuperAdmin = permissionApi.hasAnyRoles(user.getId(), RoleCodeEnum.SUPER_ADMIN.getCode());
+        if (!isSuperAdmin) {
+            // 获取可见部门
+            Set<Long> deptIds = Optional.ofNullable(permissionApi.getDeptDataPermission(user.getId()))
+                    .map(DeptDataPermissionRespDTO::getDeptIds).orElse(Sets.newHashSet());
+            deptIds.add(user.getDeptId());
+            // 代理商列表
+            pageReqVO.setDeptIds(deptIds);
+        }
         List<Agent> agentList = agentService.getAgentListWithoutDataPermission(pageReqVO);
         if (CollUtil.isEmpty(agentList)) {
             return success(Lists.newArrayList());

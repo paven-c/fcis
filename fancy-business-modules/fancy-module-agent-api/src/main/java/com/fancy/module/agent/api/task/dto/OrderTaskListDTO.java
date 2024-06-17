@@ -3,6 +3,7 @@ package com.fancy.module.agent.api.task.dto;
 import com.fancy.common.pojo.PageParam;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -54,5 +55,7 @@ public class OrderTaskListDTO extends PageParam {
      * 任务完成时间
      */
     private LocalDateTime taskFinishTime;
+
+    private Set<Long> deptIds;
 
 }

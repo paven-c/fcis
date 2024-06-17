@@ -79,8 +79,9 @@ public class PermissionServiceImpl implements PermissionService {
         if (CollUtil.isEmpty(roles)) {
             return false;
         }
+        Set<String> roleCodes = roles.stream().map(Role::getCode).collect(Collectors.toSet());
         // 超管无需权限拦截
-        boolean isSuperAdmin = roles.stream().anyMatch(role -> RoleCodeEnum.isSuperAdmin(role.getCode()));
+        boolean isSuperAdmin = RoleCodeEnum.isSuperAdmin(roleCodes);
         if (isSuperAdmin) {
             return true;
         }
