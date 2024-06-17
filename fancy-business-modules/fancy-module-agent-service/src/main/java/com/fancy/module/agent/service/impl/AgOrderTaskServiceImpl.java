@@ -144,13 +144,13 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
             // 查询部门id
             Long merchantId = agOrderTaskImportReq.getAgMerchantId();
             List<AgMerchant> agMerchants = agMerchantService.list(Wrappers.lambdaQuery(AgMerchant.class)
-                    .eq(AgMerchant::getMerchantId, merchantId)
+                    .eq(AgMerchant::getId, merchantId)
                     .eq(AgMerchant::getDeleted, 0)
             );
             if (CollectionUtil.isEmpty(agMerchants)) {
                 agUploadTaskErrorVo.setContentId(contentId);
                 agUploadTaskErrorVo.setFancyItemId(fancyItemId);
-                agUploadTaskErrorVo.setErrorMsg("代理商不存在");
+                agUploadTaskErrorVo.setErrorMsg("客户不存在");
                 agUploadTaskErrorVos.add(agUploadTaskErrorVo);
                 continue;
             }

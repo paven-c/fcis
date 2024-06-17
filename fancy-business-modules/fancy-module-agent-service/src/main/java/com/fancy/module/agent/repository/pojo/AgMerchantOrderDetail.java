@@ -98,16 +98,6 @@ public class AgMerchantOrderDetail implements Serializable {
      * 服务消耗任务数
      */
     private Long serviceConsumeNum; 
-    
-    /**
-     * 合同开始时间
-     */
-    private LocalDateTime contractStartTime; 
-    
-    /**
-     * 合同结束时间
-     */
-    private LocalDateTime contractEndTime;
 
     /**
      * 创建时间
