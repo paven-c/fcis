@@ -5,7 +5,6 @@ import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.pojo.PageResult;
-import com.fancy.component.security.core.util.SecurityFrameworkUtils;
 import com.fancy.module.agent.controller.req.EditAgMerchantReq;
 import com.fancy.module.agent.controller.req.QueryAgMerchantReq;
 import com.fancy.module.agent.controller.vo.AgMerchantVo;
@@ -17,8 +16,6 @@ import com.fancy.module.agent.service.AgMerchantService;
 import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.content.CmsMerchantApi;
 import com.fancy.module.common.api.content.Dto.CmsMerchantReqDto;
-import com.fancy.module.common.api.user.UserApi;
-import com.fancy.module.common.api.user.dto.UserRespDTO;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -94,7 +91,7 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
         }
         List<AgMerchantVo> agMerchantVos = AgMerchantConvert.INSTANCE.convertList(agMerchantPageResult.getList());
         List<Long> collect = agMerchantVos.stream().map(AgMerchant::getCreatorId).collect(Collectors.toList());
-        Map<Long, String> userMap = agentService.getAgentByUserId(collect)
+        Map<Long, String> userMap = agentService.getAgentByUserIdWithoutDataPermission(collect)
                 .stream().collect(Collectors.toMap(Agent::getUserId, Agent::getAgentName));
         agMerchantVos.forEach(agMerchantVo -> {
             if (ObjectUtil.isNotEmpty(agMerchantVo.getCreatorId())) {

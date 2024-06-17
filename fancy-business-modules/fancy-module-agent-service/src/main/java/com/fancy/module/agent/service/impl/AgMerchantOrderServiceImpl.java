@@ -3,7 +3,6 @@ package com.fancy.module.agent.service.impl;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.exception.NeedLoginException;
@@ -25,8 +24,6 @@ import com.fancy.module.agent.service.AgMerchantOrderDetailService;
 import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.agent.service.AgUserBalanceService;
 import com.fancy.module.agent.service.agent.AgentService;
-import com.fancy.module.common.api.user.UserApi;
-import com.fancy.module.common.api.user.dto.UserRespDTO;
 import jakarta.annotation.Resource;
 
 import java.math.BigDecimal;
@@ -37,7 +34,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -105,7 +101,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
     }
 
     private Map<Long, String> getAgentNameByUserId(List<Long> userIds) {
-     return agentService.getAgentByUserId(userIds)
+     return agentService.getAgentByUserIdWithoutDataPermission(userIds)
              .stream()
              .collect(Collectors.toMap(Agent::getUserId, Agent::getAgentName));
     }

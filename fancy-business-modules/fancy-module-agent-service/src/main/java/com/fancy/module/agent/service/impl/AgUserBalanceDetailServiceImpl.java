@@ -54,7 +54,7 @@ public class AgUserBalanceDetailServiceImpl extends ServiceImpl<AgUserBalanceDet
         }
         List<AgUserBalanceDetailVo> agUserBalanceDetailVos = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetailVo(agUserBalanceDetailPageResult.getList());
         List<Long> collect = agUserBalanceDetailVos.stream().map(AgUserBalanceDetail::getAgUserId).collect(Collectors.toList());
-        Map<Long, Agent> agentMap = agentService.getAgentByUserId(collect)
+        Map<Long, Agent> agentMap = agentService.getAgentByUserIdWithoutDataPermission(collect)
                 .stream().collect(Collectors.toMap(Agent::getUserId, Function.identity(), (k1, k2) -> k1));
         agUserBalanceDetailVos.forEach(agUserBalanceDetailVo -> {
             Agent agent = agentMap.get(agUserBalanceDetailVo.getAgUserId());

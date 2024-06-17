@@ -2,6 +2,7 @@ package com.fancy.module.agent.service.agent;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fancy.common.pojo.PageResult;
+import com.fancy.component.datapermission.core.annotation.DataPermission;
 import com.fancy.module.agent.controller.vo.AgentPageReqVO;
 import com.fancy.module.agent.controller.vo.AgentSaveReqVO;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
@@ -50,9 +51,16 @@ public interface AgentService extends IService<Agent> {
      * @return 代理
      */
     Agent getAgent(Long agentId);
+
     Agent getAgentByUserId(Long userId);
 
-    List<Agent> getAgentByUserId(List<Long> userId);
+    /**
+     * 获取用户对应的代理商信息 不走数据权限
+     * @param userId
+     * @return
+     */
+    @DataPermission(enable = false)
+    List<Agent> getAgentByUserIdWithoutDataPermission(List<Long> userId);
 
     /**
      * 查询代理商列表
