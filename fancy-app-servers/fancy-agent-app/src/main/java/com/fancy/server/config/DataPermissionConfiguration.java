@@ -21,8 +21,6 @@ public class DataPermissionConfiguration {
         return rule -> {
             rule.addDeptColumn(Agent.class, "dept_id");
             rule.addDeptColumn(AgUserBalanceDetail.class, "dept_id");
-            rule.addDeptColumn(AgOrderTask.class, "dept_id");
-            rule.addDeptColumn(AgMerchantOrderDetail.class, "dept_id");
         };
     }
 
