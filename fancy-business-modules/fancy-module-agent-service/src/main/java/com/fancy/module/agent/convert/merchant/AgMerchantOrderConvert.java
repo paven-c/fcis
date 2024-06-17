@@ -20,7 +20,10 @@ public interface AgMerchantOrderConvert {
     AgMerchantOrderConvert INSTANCE = Mappers.getMapper(AgMerchantOrderConvert.class);
 
     AgMerchantOrder convertAgMerchantOrder(EditAgMerchantOrderReq req,Long creatorId,Long deptId);
-    List<AgMerchantOrderDetail> convertAgMerchantOrder(List<EditAgMerchantOrderReq.OrderDetail> orderDetails);
+    List<AgMerchantOrderDetail> convertAgMerchantOrder(List<AgMerchantOrder.AgMerchantOrderDetailVo> agMerchantOrderDetailVoList);
+
+    @Mapping(source = "serviceName",target = "orderName")
+    AgMerchantOrderDetail convertAgMerchantOrder(AgMerchantOrder.AgMerchantOrderDetailVo agMerchantOrderDetailVo);
 
     List<AgMerchantOrderVo> convertAgMerchantOrderVo(List<AgMerchantOrder> agMerchantOrders);
     @Mapping(source = "name",target = "agMerchantName")
