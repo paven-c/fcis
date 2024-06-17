@@ -1,5 +1,9 @@
 package com.fancy.module.agent.service.impl;
 
+import static com.fancy.common.exception.util.ServiceExceptionUtil.exception;
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.fancy.module.common.enums.ErrorCodeConstants.USER_NOT_EXISTS;
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -72,6 +76,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
     public PageResult<OrderTaskListVO> listOrderTask(OrderTaskListDTO orderTaskListDTO) {
         String contentName = orderTaskListDTO.getContentName();
         Integer contentType = orderTaskListDTO.getContentType();
+        UserRespDTO user = Optional.ofNullable(userApi.getUser(getLoginUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
         List<AgContentServiceMain> serviceMainList = new ArrayList<>();
         if (StringUtils.isNotBlank(contentName) || contentType != null) {
             // 查询内容id
@@ -83,6 +88,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
 
         // 分页查询
         PageResult<AgOrderTask> agOrderTaskPageResult = agOrderTaskMapper.selectPage(orderTaskListDTO, Wrappers.lambdaQuery(AgOrderTask.class)
+                .eq(AgOrderTask::getDeptId, user.getDeptId())
                 .eq(Objects.nonNull(orderTaskListDTO.getTaskStatus()), AgOrderTask::getTaskStatus, orderTaskListDTO.getTaskStatus())
                 .in(CollectionUtil.isNotEmpty(serviceMainList), AgOrderTask::getContentId, serviceMainList.stream().map(AgContentServiceMain::getId).toList())
                 .eq(Objects.nonNull(orderTaskListDTO.getMerchantId()), AgOrderTask::getAgMerchantId, orderTaskListDTO.getMerchantId())
