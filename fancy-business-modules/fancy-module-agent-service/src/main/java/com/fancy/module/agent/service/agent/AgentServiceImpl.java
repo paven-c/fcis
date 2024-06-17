@@ -98,6 +98,16 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     }
 
     @Override
+    public Agent getAgentByUserId(Long userId) {
+        return agentMapper.selectOne(Agent::getUserId, userId, Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus());
+    }
+
+    @Override
+    public List<Agent> getAgentByUserId(List<Long> userId) {
+        return agentMapper.selectList(Wrappers.lambdaQuery(Agent.class).in(Agent::getUserId, userId).eq(Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
+    }
+
+    @Override
     public List<Agent> getAgentList(AgentPageReqVO reqVO) {
         return agentMapper.selectList(new LambdaQueryWrapperX<Agent>()
                 .eqIfPresent(Agent::getId, reqVO.getAgentId())

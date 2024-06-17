@@ -12,7 +12,9 @@ import com.fancy.module.agent.controller.vo.AgMerchantVo;
 import com.fancy.module.agent.convert.merchant.AgMerchantConvert;
 import com.fancy.module.agent.repository.mapper.AgMerchantMapper;
 import com.fancy.module.agent.repository.pojo.AgMerchant;
+import com.fancy.module.agent.repository.pojo.agent.Agent;
 import com.fancy.module.agent.service.AgMerchantService;
+import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.content.CmsMerchantApi;
 import com.fancy.module.common.api.content.Dto.CmsMerchantReqDto;
 import com.fancy.module.common.api.user.UserApi;
@@ -43,7 +45,7 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
     @Resource
     private CmsMerchantApi cmsMerchantApi;
     @Resource
-    private UserApi userApi;
+    private AgentService agentService;
 
     @Override
     @Transactional
@@ -92,8 +94,8 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
         }
         List<AgMerchantVo> agMerchantVos = AgMerchantConvert.INSTANCE.convertList(agMerchantPageResult.getList());
         List<Long> collect = agMerchantVos.stream().map(AgMerchant::getCreatorId).collect(Collectors.toList());
-        Map<Long, String> userMap = userApi.getUserByIds(collect)
-                .stream().collect(Collectors.toMap(UserRespDTO::getId, UserRespDTO::getNickname));
+        Map<Long, String> userMap = agentService.getAgentByUserId(collect)
+                .stream().collect(Collectors.toMap(Agent::getUserId, Agent::getAgentName));
         agMerchantVos.forEach(agMerchantVo -> {
             if (ObjectUtil.isNotEmpty(agMerchantVo.getCreatorId())) {
                 agMerchantVo.setAgUserName(userMap.get(agMerchantVo.getCreatorId()));
