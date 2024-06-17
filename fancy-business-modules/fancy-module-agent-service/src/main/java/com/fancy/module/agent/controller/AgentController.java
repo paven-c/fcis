@@ -183,7 +183,7 @@ public class AgentController {
     }
 
     @Operation(summary = "提交审核")
-    @PutMapping("/submit-review")
+    @PostMapping("/submit-review")
     @PreAuthorize("@ss.hasPermission('agent:agent:submit-review')")
     @Transactional(rollbackFor = Exception.class)
     public CommonResult<Boolean> submitReviewAgent(@RequestParam("agentId") Long agentId) {
@@ -192,7 +192,7 @@ public class AgentController {
         if (Objects.isNull(agent)) {
             throw exception(AGENT_NOT_EXISTS);
         }
-        // 审批代理商
+        // 代理商提交审批
         agentService.updateAgent(AgentSaveReqVO.builder().id(agent.getId()).status(AgentStatusEnum.PENDING_REVIEW.getStatus()).build());
         return success(true);
     }
