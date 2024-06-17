@@ -1,6 +1,9 @@
 package com.fancy.module.agent.service.impl;
 
+import static com.fancy.common.exception.util.ServiceExceptionUtil.exception;
 import static com.fancy.component.redis.constant.RedisConstant.AG_USER_CHANGE_BALANCE;
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
+import static com.fancy.module.common.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
@@ -16,6 +19,8 @@ import com.fancy.module.agent.repository.pojo.AgUserBalance;
 import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 import com.fancy.module.agent.service.AgUserBalanceDetailService;
 import com.fancy.module.agent.service.AgUserBalanceService;
+import com.fancy.module.common.api.user.UserApi;
+import com.fancy.module.common.api.user.dto.UserRespDTO;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -49,6 +54,9 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
     @Resource
     private RedissonClient redissonClient;
 
+    @Resource
+    private UserApi userApi;
+
     @Override
     @Transactional
     public boolean changeBalance(EditAgUserBalanceDetailReq req) {
@@ -79,6 +87,8 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     //变更后金额
                     BigDecimal sub = paymentOut.getNowPrice().subtract(req.getPrice());
                     //出账明细
+                    UserRespDTO fromUser = Optional.ofNullable(userApi.getUser(req.getFromAgUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
+                    req.setDeptId(fromUser.getDeptId());
                     Long fromAgUserId = req.getFromAgUserId();
                     Long toAgUserId = req.getToAgUserId();
                     req.setToAgUserId(fromAgUserId);
@@ -109,6 +119,8 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                         throw new ServiceException("更新失败");
                     }
                     //入账明细
+                    UserRespDTO toUser = Optional.ofNullable(userApi.getUser(req.getToAgUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
+                    req.setDeptId(toUser.getDeptId());
                     AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), accounting.getNowPrice(), add);
                     agUserBalanceDetail.setCreateTime(now)
                             .setUpdateTime(now)
