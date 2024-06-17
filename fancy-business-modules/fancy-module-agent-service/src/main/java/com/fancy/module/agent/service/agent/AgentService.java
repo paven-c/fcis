@@ -54,16 +54,24 @@ public interface AgentService extends IService<Agent> {
     /**
      * 根据ID查询代理商
      *
-     * @param parentAgentId 代理商ID
+     * @param agentId 代理商ID
      * @return 代理
      */
-    Agent selectById(Long parentAgentId);
+    Agent selectById(Long agentId);
 
     /**
      * 根据ID查询代理商
      *
-     * @param parenAgentIds 代理商ID
+     * @param agentIds 代理商ID
      * @return 代理
      */
-    List<Agent> selectByIds(Set<Long> parenAgentIds);
+    List<Agent> selectByIds(Set<Long> agentIds);
+
+    /**
+     * 根据ID查询代理商
+     *
+     * @param agentId 代理商ID
+     * @return 代理
+     */
+    long selectCountByParentId(Long agentId);
 }

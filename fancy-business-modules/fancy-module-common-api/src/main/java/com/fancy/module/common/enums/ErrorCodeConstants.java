@@ -63,7 +63,8 @@ public interface ErrorCodeConstants {
     ErrorCode AGENT_MOBILE_DUPLICATE = new ErrorCode(1_002_005_001, "代理商手机号已存在");
     ErrorCode AGENT_NOT_EXISTS = new ErrorCode(1_002_005_002, "代理商不存在");
     ErrorCode AGENT_STATUS_NOT_ACTIVITY = new ErrorCode(1_002_005_003, "代理商未审核");
-
+    ErrorCode AGENT_EXITS_CHILDREN = new ErrorCode(1_002_005_004, "存在子代理商，无法删除");
+    ErrorCode AGENT_LEVEL_NOT_SECOND = new ErrorCode(1_002_005_005, "不是二级代理商");
 
 
     // ========== OAuth2 客户端 1-002-020-000 =========

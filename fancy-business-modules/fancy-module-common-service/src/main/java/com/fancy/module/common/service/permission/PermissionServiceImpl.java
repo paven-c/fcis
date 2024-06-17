@@ -309,6 +309,11 @@ public class PermissionServiceImpl implements PermissionService {
                 CollUtil.addAll(result.getDeptIds(), userDeptId.get());
                 continue;
             }
+            // 子部门
+            if (Objects.equals(role.getDataScope(), DataScopeEnum.CHILD.getScope())) {
+                CollUtil.addAll(result.getDeptIds(), deptService.getChildDeptIdListFromCache(userDeptId.get()));
+                continue;
+            }
             // 本人数据
             if (Objects.equals(role.getDataScope(), DataScopeEnum.SELF.getScope())) {
                 result.setSelf(true);

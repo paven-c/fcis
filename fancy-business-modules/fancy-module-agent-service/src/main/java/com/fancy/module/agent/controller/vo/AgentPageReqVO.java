@@ -1,6 +1,8 @@
 package com.fancy.module.agent.controller.vo;
 
 import com.fancy.common.pojo.PageParam;
+import com.fancy.common.validation.InEnum;
+import com.fancy.module.agent.enums.AgentStatusEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,6 +32,9 @@ public class AgentPageReqVO extends PageParam {
     private Integer status;
 
     @Schema(description = "代理等级", example = "")
+    @InEnum(value = AgentStatusEnum.class, message = "代理商类型必须是 {status}")
     private Integer level;
+
+    private Boolean isCompanyRole;
 
 }

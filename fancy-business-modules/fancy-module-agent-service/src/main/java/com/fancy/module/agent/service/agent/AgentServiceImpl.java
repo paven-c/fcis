@@ -1,10 +1,12 @@
 package com.fancy.module.agent.service.agent;
 
 import static com.fancy.common.exception.util.ServiceExceptionUtil.exception;
+import static com.fancy.module.agent.enums.AgentStatusEnum.COMPANY_AVAILABLE_STATUS;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_MOBILE_DUPLICATE;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_NAME_DUPLICATE;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_NOT_EXISTS;
 
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,6 +36,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     @Override
     public PageResult<Agent> getAgentPage(AgentPageReqVO reqVO) {
         return agentMapper.selectPage(reqVO, new LambdaQueryWrapperX<Agent>()
+                .in(BooleanUtil.isTrue(reqVO.getIsCompanyRole()), Agent::getStatus, COMPANY_AVAILABLE_STATUS)
                 .eqIfPresent(Agent::getId, reqVO.getAgentId())
                 .likeIfPresent(Agent::getAgentName, reqVO.getAgentName())
                 .eqIfPresent(Agent::getMobile, reqVO.getMobile())
@@ -99,6 +102,11 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     @Override
     public List<Agent> selectByIds(Set<Long> parenAgentIds) {
         return agentMapper.selectList(Wrappers.lambdaQuery(Agent.class).in(Agent::getId, parenAgentIds));
+    }
+
+    @Override
+    public long selectCountByParentId(Long agentId) {
+        return agentMapper.selectCount(Wrappers.lambdaQuery(Agent.class).eq(Agent::getParentId, agentId).eq(Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
     }
 
     private Agent validateAgent4CreateOrUpdate(Long agentId, String agentName, String mobile) {

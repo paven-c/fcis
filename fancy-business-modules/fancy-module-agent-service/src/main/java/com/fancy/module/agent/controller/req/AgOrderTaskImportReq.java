@@ -1,8 +1,6 @@
 package com.fancy.module.agent.controller.req;
 
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.opencsv.bean.CsvBindByName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Data;

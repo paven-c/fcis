@@ -35,6 +35,11 @@ public enum DataScopeEnum implements IntArrayValuable {
     DEPT_AND_CHILD(4),
 
     /**
+     * 子部门数据权限
+     */
+    CHILD(5),
+
+    /**
      * 仅本人数据权限
      */
     SELF(5);

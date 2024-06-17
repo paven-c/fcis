@@ -2,7 +2,7 @@ package com.fancy.component.core.util;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.converters.longconverter.LongStringConverter;
-import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
+import com.alibaba.excel.write.style.column.SimpleColumnWidthStyleStrategy;
 import com.fancy.component.core.handler.SelectSheetWriteHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -29,16 +29,14 @@ public class ExcelUtils {
      * @param <T>       泛型，保证 head 和 data 类型的一致性
      * @throws IOException 写入失败的情况
      */
-    public static <T> void write(HttpServletResponse response, String filename, String sheetName,
-                                 Class<T> head, List<T> data) throws IOException {
+    public static <T> void write(HttpServletResponse response, String filename, String sheetName, Class<T> head, List<T> data) throws IOException {
         // 输出 Excel
         EasyExcel.write(response.getOutputStream(), head)
                 .autoCloseStream(false)
-                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
+                .registerWriteHandler(new SimpleColumnWidthStyleStrategy(36))
                 .registerWriteHandler(new SelectSheetWriteHandler(head))
                 .registerConverter(new LongStringConverter())
                 .sheet(sheetName).doWrite(data);
-        // 设置 header 和 contentType。写在最后的原因是，避免报错时，响应 contentType 已经被修改了
         response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, StandardCharsets.UTF_8));
         response.setContentType("application/vnd.ms-excel;charset=UTF-8");
     }
