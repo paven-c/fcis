@@ -176,7 +176,8 @@ public class AgentController {
         if (agent == null) {
             return success(null);
         }
-        Map<Long, String> agentNames = Optional.ofNullable(agentService.selectByIds(Sets.newHashSet(agent.getParentId()))).orElse(Lists.newArrayList()).stream()
+        Map<Long, String> agentNames = Optional.ofNullable(agentService.selectByIdsWithoutDataPermission(Sets.newHashSet(agent.getParentId())))
+                .orElse(Lists.newArrayList()).stream()
                 .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
         return success(AgentConvert.INSTANCE.convertVO(agent, agentNames));
     }
@@ -300,7 +301,7 @@ public class AgentController {
         Set<Long> parenAgentIds = pageResult.getList().stream().map(Agent::getParentId).filter(Objects::nonNull).collect(Collectors.toSet());
         Map<Long, String> agentNames = Maps.newHashMap();
         if (CollUtil.isNotEmpty(parenAgentIds)) {
-            agentNames = Optional.ofNullable(agentService.selectByIds(parenAgentIds)).orElse(Lists.newArrayList()).stream()
+            agentNames = Optional.ofNullable(agentService.selectByIdsWithoutDataPermission(parenAgentIds)).orElse(Lists.newArrayList()).stream()
                     .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
         }
         return success(new PageResult<>(AgentConvert.INSTANCE.convertList(pageResult.getList(), agentNames), pageResult.getTotal(), pageResult.getPageNum(),
@@ -312,18 +313,19 @@ public class AgentController {
     @PreAuthorize("@ss.hasPermission('agent:agent:export')")
     public void exportAgentList(@Validated AgentPageReqVO exportReqVO, HttpServletResponse response) throws IOException {
         List<Agent> list = agentService.getAgentPage(exportReqVO).getList();
-        Set<Long> parenAgentIds = list.stream().map(Agent::getParentId).filter(Objects::nonNull).collect(Collectors.toSet());
-        Map<Long, String> agentNames = Maps.newHashMap();
-        if (CollUtil.isNotEmpty(parenAgentIds)) {
-            agentNames = Optional.ofNullable(agentService.selectByIds(parenAgentIds)).orElse(Lists.newArrayList()).stream()
-                    .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
-        }
-        ExcelUtils.write(response, "agent-data.xlsx", "agent", AgentRespVO.class, AgentConvert.INSTANCE.convertList(list, agentNames));
+        ExcelUtils.write(response, "agent-data.xlsx", "agent", AgentRespVO.class, AgentConvert.INSTANCE.convertList(list, getAgentNames(list)));
+    }
+
+    @Operation(summary = "代理交易")
+    @PostMapping("/myTransactionPageList")
+    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList(@RequestBody QueryAgUserBalanceDetailReq req) {
+        return CommonResult.success(agUserBalanceDetailService.myTransactionPageList(req));
     }
 
     @Operation(summary = "我的交易")
-    @PostMapping("/myTransactionPageList")
-    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList(@RequestBody QueryAgUserBalanceDetailReq req) {
+    @PostMapping("/myTransactionPageList1")
+    @DataPermission(enable = false)
+    public CommonResult<PageResult<AgUserBalanceDetailVo>> myTransactionPageList1(@RequestBody QueryAgUserBalanceDetailReq req) {
         Set<String> roleCodes = permissionApi.getUserRoleCodeListByUserIds(getLoginUserId());
         // 是否代理商角色
         boolean b = roleCodes.stream().anyMatch(s -> RoleCodeEnum.getAgent().contains(s));
@@ -347,13 +349,20 @@ public class AgentController {
             return success(Lists.newArrayList());
         }
         // 获取父级代理商名称
-        Set<Long> parenAgentIds = agentList.stream().map(Agent::getParentId).filter(Objects::nonNull).collect(Collectors.toSet());
+        return success(AgentConvert.INSTANCE.convertList(agentList, getAgentNames(agentList)));
+    }
+
+    private Map<Long, String> getAgentNames(List<Agent> agentList) {
+        Set<Long> parenAgentIds = Optional.ofNullable(agentList).orElse(Lists.newArrayList())
+                .stream().map(Agent::getParentId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
         Map<Long, String> agentNames = Maps.newHashMap();
         if (CollUtil.isNotEmpty(parenAgentIds)) {
-            agentNames = Optional.ofNullable(agentService.selectByIds(parenAgentIds)).orElse(Lists.newArrayList()).stream()
-                    .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
+            agentNames = Optional.ofNullable(agentService.selectByIdsWithoutDataPermission(parenAgentIds)).orElse(Lists.newArrayList())
+                    .stream().collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
         }
-        return success(AgentConvert.INSTANCE.convertList(agentList, agentNames));
+        return agentNames;
     }
 
     /**

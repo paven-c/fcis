@@ -1,20 +1,18 @@
 package com.fancy.module.agent.repository.pojo;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
+import com.fancy.component.mybatis.core.dataobject.BasePojo;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
-
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * 代理商余额明细表(AgUserBalanceDetail)实体类
@@ -26,7 +24,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName(value = "ag_user_balance_detail",autoResultMap = true)
-public class AgUserBalanceDetail implements Serializable {
+public class AgUserBalanceDetail extends BasePojo {
     private static final long serialVersionUID = -65063725236600075L;
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;

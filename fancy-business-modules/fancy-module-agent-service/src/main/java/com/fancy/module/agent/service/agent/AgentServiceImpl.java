@@ -43,6 +43,8 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 .eqIfPresent(Agent::getMobile, reqVO.getMobile())
                 .eqIfPresent(Agent::getStatus, reqVO.getStatus())
                 .eqIfPresent(Agent::getLevel, reqVO.getLevel())
+                .geIfPresent(Agent::getCreateTime, reqVO.getStartTime())
+                .leIfPresent(Agent::getCreateTime, reqVO.getEndTime())
                 .orderByDesc(Agent::getId));
     }
 
@@ -101,18 +103,19 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     }
 
     @Override
-    @DataPermission(enable = false)
-    public List<Agent> selectByIds(Set<Long> parenAgentIds) {
-        return agentMapper.selectList(Wrappers.lambdaQuery(Agent.class).in(Agent::getId, parenAgentIds));
-    }
-
-    @Override
     public long selectCountByParentId(Long agentId) {
         return agentMapper.selectCount(
                 Wrappers.lambdaQuery(Agent.class).eq(Agent::getParentId, agentId).eq(Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
     }
 
     @Override
+    @DataPermission(enable = false)
+    public List<Agent> selectByIdsWithoutDataPermission(Set<Long> parenAgentIds) {
+        return agentMapper.selectList(Wrappers.lambdaQuery(Agent.class).in(Agent::getId, parenAgentIds));
+    }
+
+    @Override
+    @DataPermission(enable = false)
     public List<Agent> getAgentListWithoutDataPermission(AgentPageReqVO reqVO) {
         return agentMapper.selectList(new LambdaQueryWrapperX<Agent>()
                 .eqIfPresent(Agent::getId, reqVO.getAgentId())
