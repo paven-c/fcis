@@ -124,7 +124,7 @@ public class AgentController {
         reqVO.setDeptId(deptId);
         reqVO.setParentAgentId(Objects.isNull(parentAgent) ? null : parentAgent.getId());
         reqVO.setLevel(Objects.isNull(parentAgent) ? AgentLevelEnum.FIRST_LEVEL.getType() : AgentLevelEnum.SECOND_LEVEL.getType());
-        reqVO.setStatus(AgentStatusEnum.PENDING_REVIEW.getStatus());
+        reqVO.setStatus(AgentStatusEnum.INIT.getStatus());
         return success(agentService.createAgent(reqVO));
     }
 
@@ -180,6 +180,21 @@ public class AgentController {
                 .orElse(Lists.newArrayList()).stream()
                 .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
         return success(AgentConvert.INSTANCE.convertVO(agent, agentNames));
+    }
+
+    @Operation(summary = "提交审核")
+    @PutMapping("/submit-review")
+    @PreAuthorize("@ss.hasPermission('agent:agent:submit-review')")
+    @Transactional(rollbackFor = Exception.class)
+    public CommonResult<Boolean> submitReviewAgent(@RequestParam("agentId") Long agentId) {
+        // 获取代理商
+        Agent agent = agentService.getAgent(agentId);
+        if (Objects.isNull(agent)) {
+            throw exception(AGENT_NOT_EXISTS);
+        }
+        // 审批代理商
+        agentService.updateAgent(AgentSaveReqVO.builder().id(agent.getId()).status(AgentStatusEnum.PENDING_REVIEW.getStatus()).build());
+        return success(true);
     }
 
     @Operation(summary = "代理商审核通过")
