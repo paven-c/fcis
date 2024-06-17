@@ -2,7 +2,6 @@ package com.fancy.module.agent.service.impl;
 
 import static com.fancy.common.exception.util.ServiceExceptionUtil.exception;
 import static com.fancy.component.redis.constant.RedisConstant.AG_USER_CHANGE_BALANCE;
-import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUserId;
 import static com.fancy.module.common.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -96,9 +95,9 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     req.setFromAgUserId(toAgUserId);
                     req.setFromUserName(req.getToAgUsername());
                     AgUserBalanceDetail agUserBalanceDetail1 = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.PAYMENT_OUT.getType(), paymentOut.getNowPrice(), sub);
-                    agUserBalanceDetail1.setCreateTime(now)
-                            .setUpdateTime(now)
-                            .setRecordType(req.getObjectType().getRecordType().getType());
+                    agUserBalanceDetail1.setRecordType(req.getObjectType().getRecordType().getType())
+                            .setCreateTime(now)
+                            .setUpdateTime(now);
                     agUserBalanceDetailList.add(agUserBalanceDetail1);
                 }
 
@@ -122,9 +121,9 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     UserRespDTO toUser = Optional.ofNullable(userApi.getUser(req.getToAgUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
                     req.setDeptId(toUser.getDeptId());
                     AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), accounting.getNowPrice(), add);
-                    agUserBalanceDetail.setCreateTime(now)
-                            .setUpdateTime(now)
-                            .setRecordType(req.getObjectType().getRecordType().getType());
+                    agUserBalanceDetail.setRecordType(req.getObjectType().getRecordType().getType())
+                            .setCreateTime(now)
+                            .setUpdateTime(now);
 
                     agUserBalanceDetailList.add(agUserBalanceDetail);
                 }
