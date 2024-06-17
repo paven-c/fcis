@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.enums.DeleteStatusEnum;
 import com.fancy.common.pojo.PageResult;
+import com.fancy.component.datapermission.core.annotation.DataPermission;
 import com.fancy.component.datapermission.core.util.DataPermissionUtils;
 import com.fancy.component.mybatis.core.query.LambdaQueryWrapperX;
 import com.fancy.module.agent.controller.vo.AgentPageReqVO;
@@ -100,6 +101,7 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     }
 
     @Override
+    @DataPermission(enable = false)
     public List<Agent> selectByIds(Set<Long> parenAgentIds) {
         return agentMapper.selectList(Wrappers.lambdaQuery(Agent.class).in(Agent::getId, parenAgentIds));
     }
