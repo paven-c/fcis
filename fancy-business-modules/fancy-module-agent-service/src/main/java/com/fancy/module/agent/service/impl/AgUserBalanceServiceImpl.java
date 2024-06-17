@@ -67,6 +67,34 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
             try {
                 LocalDateTime now = LocalDateTime.now();
                 List<AgUserBalanceDetail> agUserBalanceDetailList = new ArrayList<>();
+                //查询入账用户余额
+                if (req.getCheckTo()) {
+                    AgUserBalance accounting = lambdaQuery()
+                            .eq(AgUserBalance::getAgUserId, req.getToAgUserId())
+                            .eq(AgUserBalance::getDeleted, 0)
+                            .last("limit 1").one();
+                    Optional.ofNullable(accounting).orElseThrow(() -> new ServiceException("用户不存在"));
+                    Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new ServiceException("未知的变更类型"));
+                    //入账
+                    //变更后金额
+                    BigDecimal add = accounting.getNowPrice().add(req.getPrice());
+                    //更新
+                    int i = agUserBalanceDetailService.updateBalance(accounting.getId(), req.getPrice(), AgUserBalanceDetailBillType.ACCOUNTING);
+                    if (i < 1) {
+                        throw new ServiceException("更新失败");
+                    }
+                    //入账明细
+                    UserRespDTO toUser = Optional.ofNullable(userApi.getUser(req.getToAgUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
+                    req.setDeptId(toUser.getDeptId());
+                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), accounting.getNowPrice(), add);
+                    agUserBalanceDetail.setRecordType(req.getObjectType().getRecordType().getType())
+                            .setCreateTime(now)
+                            .setUpdateTime(now);
+
+                    agUserBalanceDetailList.add(agUserBalanceDetail);
+                }
+
+
                 //查询出账用户余额
                 if (req.getCheckFrom()) {
                     AgUserBalance paymentOut = lambdaQuery()
@@ -101,32 +129,7 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     agUserBalanceDetailList.add(agUserBalanceDetail1);
                 }
 
-                //查询入账用户余额
-                if (req.getCheckTo()) {
-                    AgUserBalance accounting = lambdaQuery()
-                            .eq(AgUserBalance::getAgUserId, req.getToAgUserId())
-                            .eq(AgUserBalance::getDeleted, 0)
-                            .last("limit 1").one();
-                    Optional.ofNullable(accounting).orElseThrow(() -> new ServiceException("用户不存在"));
-                    Optional.ofNullable(req.getObjectType()).orElseThrow(() -> new ServiceException("未知的变更类型"));
-                    //入账
-                    //变更后金额
-                    BigDecimal add = accounting.getNowPrice().add(req.getPrice());
-                    //更新
-                    int i = agUserBalanceDetailService.updateBalance(accounting.getId(), req.getPrice(), AgUserBalanceDetailBillType.ACCOUNTING);
-                    if (i < 1) {
-                        throw new ServiceException("更新失败");
-                    }
-                    //入账明细
-                    UserRespDTO toUser = Optional.ofNullable(userApi.getUser(req.getToAgUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
-                    req.setDeptId(toUser.getDeptId());
-                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), accounting.getNowPrice(), add);
-                    agUserBalanceDetail.setRecordType(req.getObjectType().getRecordType().getType())
-                            .setCreateTime(now)
-                            .setUpdateTime(now);
 
-                    agUserBalanceDetailList.add(agUserBalanceDetail);
-                }
                 if (ObjectUtil.isNotEmpty(agUserBalanceDetailList)) {
                     agUserBalanceDetailService.saveBatch(agUserBalanceDetailList);
                 }
