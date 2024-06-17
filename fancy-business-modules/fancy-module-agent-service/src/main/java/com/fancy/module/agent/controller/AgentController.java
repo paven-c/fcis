@@ -8,6 +8,8 @@ import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_EXITS_CHILD
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_LEVEL_NOT_SECOND;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_NOT_EXISTS;
 import static com.fancy.module.common.enums.ErrorCodeConstants.AGENT_STATUS_NOT_ACTIVITY;
+import static com.fancy.module.common.enums.ErrorCodeConstants.SOURCE_USER_BALANCE_NOT_EXISTS;
+import static com.fancy.module.common.enums.ErrorCodeConstants.TARGET_USER_BALANCE_NOT_EXISTS;
 import static com.fancy.module.common.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 
 import cn.hutool.core.collection.CollUtil;
@@ -27,6 +29,7 @@ import com.fancy.module.agent.convert.agent.AgentConvert;
 import com.fancy.module.agent.enums.AgUserBalanceDetailType;
 import com.fancy.module.agent.enums.AgentLevelEnum;
 import com.fancy.module.agent.enums.AgentStatusEnum;
+import com.fancy.module.agent.repository.pojo.AgUserBalance;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
 import com.fancy.module.agent.service.AgUserBalanceDetailService;
 import com.fancy.module.agent.service.AgUserBalanceService;
@@ -243,6 +246,11 @@ public class AgentController {
         if (Objects.isNull(targetAgent)) {
             throw exception(AGENT_NOT_EXISTS);
         }
+        // 入账账户
+        AgUserBalance targetUserBalance = userBalanceService.getUserBalance(targetAgent.getUserId());
+        if (targetUserBalance == null) {
+            throw exception(TARGET_USER_BALANCE_NOT_EXISTS);
+        }
         // 校验代理商状态
         if (!AgentStatusEnum.isActivityStatus(targetAgent.getStatus())) {
             throw exception(AGENT_STATUS_NOT_ACTIVITY);
@@ -255,7 +263,7 @@ public class AgentController {
         // 转账操作
         userBalanceService.changeBalance(new EditAgUserBalanceDetailReq()
                 .setFromAgUserId(user.getId()).setFromUserName(user.getNickname())
-                .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName()).setCheckFrom(false)
+                .setToAgUserId(targetUserBalance.getAgUserId()).setToAgUsername(targetUserBalance.getName()).setCheckFrom(false)
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.FIRST_LEVEL_AGENT_RECHARGE)
                 .setCreateId(user.getId()).setCreateName(user.getNickname()));
         return success(true);
@@ -272,6 +280,11 @@ public class AgentController {
         if (Objects.isNull(targetAgent)) {
             throw exception(AGENT_NOT_EXISTS);
         }
+        // 入账账户
+        AgUserBalance targetUserBalance = userBalanceService.getUserBalance(targetAgent.getUserId());
+        if (targetUserBalance == null) {
+            throw exception(TARGET_USER_BALANCE_NOT_EXISTS);
+        }
         // 校验代理商状态
         if (!AgentStatusEnum.isActivityStatus(targetAgent.getStatus())) {
             throw exception(AGENT_STATUS_NOT_ACTIVITY);
@@ -287,10 +300,17 @@ public class AgentController {
         if (!isFirstLevelAgent && !isFinance) {
             throw new AccessDeniedException("无操作权限");
         }
+        // 一级代理商出账
+        if (isFirstLevelAgent) {
+            AgUserBalance sourceUserBalance = userBalanceService.getUserBalance(user.getId());
+            if (sourceUserBalance == null) {
+                throw exception(SOURCE_USER_BALANCE_NOT_EXISTS);
+            }
+        }
         // 转账操作
         userBalanceService.changeBalance(new EditAgUserBalanceDetailReq()
                 .setFromAgUserId(user.getId()).setFromUserName(user.getNickname())
-                .setToAgUserId(targetAgent.getUserId()).setToAgUsername(targetAgent.getAgentName()).setCheckFrom(!isFinance)
+                .setToAgUserId(targetUserBalance.getAgUserId()).setToAgUsername(targetUserBalance.getName()).setCheckFrom(!isFinance)
                 .setPrice(new BigDecimal(reqVO.getAmount())).setObjectType(AgUserBalanceDetailType.SECONDARY_AGENT_RECHARGE)
                 .setCreateId(user.getId()).setCreateName(user.getNickname()));
         return success(true);
