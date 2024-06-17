@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -57,8 +58,11 @@ public class AgUserBalanceDetailServiceImpl extends ServiceImpl<AgUserBalanceDet
                 .stream().collect(Collectors.toMap(Agent::getUserId, Function.identity(), (k1, k2) -> k1));
         agUserBalanceDetailVos.forEach(agUserBalanceDetailVo -> {
             Agent agent = agentMap.get(agUserBalanceDetailVo.getAgUserId());
-            agUserBalanceDetailVo.setAgUserId(agent.getId());
-            agUserBalanceDetailVo.setName(agent.getAgentName());
+            Optional.ofNullable(agent).ifPresent(o -> {
+                agUserBalanceDetailVo.setAgUserId(agent.getId());
+                agUserBalanceDetailVo.setName(agent.getAgentName());
+            });
+
         });
 
 
