@@ -17,7 +17,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import java.util.Optional;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +40,7 @@ public class UserBalanceController {
 
     @Operation(summary = "用户账户")
     @GetMapping("/detail")
-    @PreAuthorize("@ss.hasPermission('agent:user-balance:detail')")
+//    @PreAuthorize("@ss.hasPermission('agent:user-balance:detail')")
     public CommonResult<UserBalanceRespVO> getUserBalance(@RequestParam("userId") Long userId) {
         UserRespDTO user = Optional.ofNullable(userApi.getUser(userId)).orElseThrow(() -> exception(USER_NOT_EXISTS));
         AgUserBalance userBalance = userBalanceService.getUserBalance(user.getId());

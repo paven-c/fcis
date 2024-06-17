@@ -25,9 +25,9 @@ public enum RoleCodeEnum {
     FINANCE("finance", "财务"),
 
     /**
-     * 项目经理
+     * 代理商管理员
      */
-    PROJECT_MANAGER("project_manager", "项目经理"),
+    AGENT_MANAGER("agent_manager", "代理商管理员"),
 
     /**
      * 运营
