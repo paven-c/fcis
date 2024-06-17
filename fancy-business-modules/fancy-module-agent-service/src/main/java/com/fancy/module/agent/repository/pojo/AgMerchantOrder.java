@@ -115,11 +115,20 @@ public class AgMerchantOrder implements Serializable {
     @Accessors(chain = true)
     @EqualsAndHashCode(callSuper = false)
     public static class AgMerchantOrderDetailVo {
+        /**
+         * 服务版本Id不能为空
+         */
+        private Long contentServiceId;
+        /**
+         * 套餐服务版本id 只有套餐的时候 才需要
+         */
+        private Long packageContentServiceId = 0L;
 
         /**
          * 服务内容
          */
         private String serviceName;
+        private Integer serviceType;
         /**
          * 服务任务总数
          */
@@ -133,6 +142,15 @@ public class AgMerchantOrder implements Serializable {
          * 覆盖条数
          */
         private Integer coverageNum;
+
+        /**
+         * 订单金额
+         */
+        private BigDecimal orderMoney;
+        /**
+         * 订单单价
+         */
+        private  BigDecimal orderUnitPrice;
 
 
     }

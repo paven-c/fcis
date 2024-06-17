@@ -80,6 +80,11 @@ public class AgMerchantOrderDetail extends BasePojo implements Serializable {
     private Long contentServiceId;
 
     /**
+     * 套餐服务版本id 只有套餐的时候 才需要
+     */
+    private Long packageContentServiceId = 0L;
+
+    /**
      * 服务版本类型
      */
     private Integer serviceType;
