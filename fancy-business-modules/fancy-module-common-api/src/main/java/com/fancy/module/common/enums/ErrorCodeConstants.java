@@ -45,6 +45,8 @@ public interface ErrorCodeConstants {
     ErrorCode USER_PASSWORD_FAILED = new ErrorCode(1_002_003_005, "用户密码校验失败");
     ErrorCode USER_IS_DISABLE = new ErrorCode(1_002_003_006, "名字为【{}】的用户已被禁用");
     ErrorCode USER_BALANCE_NOT_EXISTS = new ErrorCode(1_002_003_007, "账户不存在");
+    ErrorCode SOURCE_USER_BALANCE_NOT_EXISTS = new ErrorCode(1_002_003_008, "出账账户不存在");
+    ErrorCode TARGET_USER_BALANCE_NOT_EXISTS = new ErrorCode(1_002_003_009, "入账账户不存在");
 
     // ========== 部门模块 1-002-004-000 ==========
 
