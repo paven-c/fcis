@@ -27,12 +27,12 @@ public class AgUserBalanceDetail extends BasePojo {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     /**
-     * 代理商id
+     * 账户id
      */
     private Long agUserId;
 
     /**
-     * 代理商名称
+     * 账户名称
      */
     private String name;
     /**
