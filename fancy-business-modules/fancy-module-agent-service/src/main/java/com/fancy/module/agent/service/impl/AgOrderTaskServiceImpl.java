@@ -86,7 +86,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
                 .eq(Objects.nonNull(orderTaskListDTO.getTaskStatus()), AgOrderTask::getTaskStatus, orderTaskListDTO.getTaskStatus())
                 .in(CollectionUtil.isNotEmpty(serviceMainList), AgOrderTask::getContentId, serviceMainList.stream().map(AgContentServiceMain::getId).toList())
                 .eq(Objects.nonNull(orderTaskListDTO.getMerchantId()), AgOrderTask::getAgMerchantId, orderTaskListDTO.getMerchantId())
-                .in(CollectionUtil.isNotEmpty(orderTaskListDTO.getFancyItemId()), AgOrderTask::getFancyItemId, orderTaskListDTO.getFancyItemId())
+                .in(CollectionUtil.isNotEmpty(orderTaskListDTO.getFancyItemIdList()), AgOrderTask::getFancyItemId, orderTaskListDTO.getFancyItemIdList())
                 .like(StringUtils.isNotBlank(orderTaskListDTO.getFancyItemName()), AgOrderTask::getFancyItemName, orderTaskListDTO.getFancyItemName())
                 .ge(Objects.nonNull(orderTaskListDTO.getTaskCreateTime()), AgOrderTask::getTaskCreateTime, orderTaskListDTO.getTaskCreateTime())
                 .le(Objects.nonNull(orderTaskListDTO.getTaskFinishTime()), AgOrderTask::getTaskCreateTime, orderTaskListDTO.getTaskCreateTime())
@@ -193,7 +193,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
             );
             if (taskNum > 0) {
                 // 更新
-                this.update(agOrderTask, null);
+                this.updateById(agOrderTask);
             } else {
                 // 插入
                 this.save(agOrderTask);
@@ -217,7 +217,7 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
     private void handleFlow(AgOrderTask agOrderTask, Long orderDetailId) {
         // 判断是否状态为完成或交付,并且不存在流水表中
         if (!Objects.equals(agOrderTask.getTaskStatus(), TaskStatusEnum.COMPLETED.getType())
-                || !Objects.equals(agOrderTask.getTaskStatus(), TaskStatusEnum.DELIVERED.getType())) {
+                && !Objects.equals(agOrderTask.getTaskStatus(), TaskStatusEnum.DELIVERED.getType())) {
             return;
         }
         long flowCount = agOrderFlowService.count(Wrappers.lambdaQuery(AgOrderFlow.class)

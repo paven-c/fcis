@@ -32,7 +32,7 @@ public class AgOrderFlow implements Serializable {
     /**
      * 客户id
      */
-    private Long merchantId;
+    private Long agMerchantId;
 
     /**
      * 导入任务id

@@ -3,6 +3,7 @@ package com.fancy.module.agent.controller;
 
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.TypeReference;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.event.SyncReadListener;
 import com.alibaba.fastjson.JSONObject;
@@ -15,6 +16,7 @@ import com.fancy.module.agent.controller.vo.OrderTaskListVO;
 import com.fancy.module.agent.service.AgOrderTaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,26 +49,22 @@ public class AgOrderTaskController {
 
     @PostMapping("/csv/upload/task")
     @Operation(summary = "导入任务")
-    public CommonResult<AgUploadTaskReqVO> csvUploadTask(@RequestParam("file") MultipartFile file) {
+    public CommonResult<AgUploadTaskReqVO> csvUploadTask(@RequestParam("file") MultipartFile file) throws IOException {
         // 文件非空判断
         if (file.isEmpty()) {
             throw new RuntimeException("文件不能为空");
         }
         String originalFilename = file.getOriginalFilename();
-        if (originalFilename.contains(".xlsx")) {
-            try {
-                SyncReadListener syncReadListener = new SyncReadListener();
-                EasyExcel.read(file.getInputStream(), AgOrderTaskImportReq.class, syncReadListener).sheet().doRead();
-                List<Object> list = syncReadListener.getList();
-                List<AgOrderTaskImportReq> convert = Convert.convert(new TypeReference<>() {
-                }, list);
-                log.info("导入任务:{}", JSONObject.toJSONString(convert));
-                return CommonResult.success(agOrderTaskService.csvUploadTask(convert));
-            } catch (Exception e) {
-                log.info("csvUploadTask,读取数据失败：{}", e.getMessage(), e);
-            }
+        if (StrUtil.isBlank(originalFilename) || !originalFilename.contains(".xlsx") || !originalFilename.contains(".xls")) {
+            throw new RuntimeException("只支持excel格式文件");
         }
-        return CommonResult.error(500, "上传文件失败，请上传execl文件");
+        SyncReadListener syncReadListener = new SyncReadListener();
+        EasyExcel.read(file.getInputStream(), AgOrderTaskImportReq.class, syncReadListener).sheet().doRead();
+        List<Object> list = syncReadListener.getList();
+        List<AgOrderTaskImportReq> convert = Convert.convert(new TypeReference<>() {
+        }, list);
+        log.info("导入任务:{}", JSONObject.toJSONString(convert));
+        return CommonResult.success(agOrderTaskService.csvUploadTask(convert));
     }
 
 }

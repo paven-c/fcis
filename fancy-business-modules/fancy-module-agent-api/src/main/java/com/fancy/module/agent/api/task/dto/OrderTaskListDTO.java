@@ -33,7 +33,7 @@ public class OrderTaskListDTO extends PageParam {
     /**
      * 商品id
      */
-    private List<Long> fancyItemId;
+    private List<Long> fancyItemIdList;
 
     /**
      * 商品名称
