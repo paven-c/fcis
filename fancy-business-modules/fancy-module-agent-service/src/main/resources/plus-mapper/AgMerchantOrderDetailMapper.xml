@@ -12,6 +12,12 @@
     <if test="merchantId != null">
       and ag_merchant_id = #{merchantId}
     </if>
+    <if test="deptIds != null and deptIds.size > 0">
+      <foreach collection="deptIds" item="item" index="index" open="and dept_id in(" close=")"
+        separator=" , ">
+        #{item}
+      </foreach>
+    </if>
     group by content_service_id
   </select>
 
