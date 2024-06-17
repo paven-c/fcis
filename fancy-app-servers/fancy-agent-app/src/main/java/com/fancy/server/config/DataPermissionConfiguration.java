@@ -1,6 +1,8 @@
 package com.fancy.server.config;
 
 import com.fancy.component.datapermission.core.rule.dept.DeptDataPermissionRuleCustomizer;
+import com.fancy.module.agent.repository.pojo.AgMerchantOrderDetail;
+import com.fancy.module.agent.repository.pojo.AgOrderTask;
 import com.fancy.module.agent.repository.pojo.AgUserBalanceDetail;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +21,8 @@ public class DataPermissionConfiguration {
         return rule -> {
             rule.addDeptColumn(Agent.class, "dept_id");
             rule.addDeptColumn(AgUserBalanceDetail.class, "dept_id");
+            rule.addDeptColumn(AgOrderTask.class, "dept_id");
+            rule.addDeptColumn(AgMerchantOrderDetail.class, "dept_id");
         };
     }
 

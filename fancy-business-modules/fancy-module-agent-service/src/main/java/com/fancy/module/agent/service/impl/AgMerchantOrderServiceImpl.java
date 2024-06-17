@@ -130,7 +130,6 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                 .setAgMerchantId(agMerchantOrder.getAgMerchantId())
                 .setName(agMerchantOrder.getName())
                 .setMerchantId(agMerchantOrder.getMerchantId())
-                .setCreatorId(loginUserId)
                 .setDeptId(loginUserDeptId));
         agMerchantOrderDetailService.saveBatch(agMerchantOrderDetails);
         //扣减代理商户余额

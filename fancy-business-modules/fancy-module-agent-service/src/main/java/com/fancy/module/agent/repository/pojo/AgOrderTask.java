@@ -81,16 +81,6 @@ public class AgOrderTask extends BasePojo implements Serializable {
     private Integer deleted;
 
     /**
-     * 创建人id
-     */
-    private Long createId;
-
-    /**
-     * 创建人
-     */
-    private String createName;
-
-    /**
      * 部门id
      */
     private Long deptId;

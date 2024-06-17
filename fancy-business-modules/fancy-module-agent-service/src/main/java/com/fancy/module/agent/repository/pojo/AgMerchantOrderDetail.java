@@ -47,12 +47,7 @@ public class AgMerchantOrderDetail extends BasePojo implements Serializable {
     /**
      * fc商户id
      */
-    private Long merchantId; 
-    
-    /**
-     * 创建人Id
-     */
-    private Long creatorId; 
+    private Long merchantId;
     
     /**
      * 部门id

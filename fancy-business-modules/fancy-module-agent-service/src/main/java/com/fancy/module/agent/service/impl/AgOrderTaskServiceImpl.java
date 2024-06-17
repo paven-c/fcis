@@ -88,7 +88,6 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
 
         // 分页查询
         PageResult<AgOrderTask> agOrderTaskPageResult = agOrderTaskMapper.selectPage(orderTaskListDTO, Wrappers.lambdaQuery(AgOrderTask.class)
-                .eq(AgOrderTask::getDeptId, user.getDeptId())
                 .eq(Objects.nonNull(orderTaskListDTO.getTaskStatus()), AgOrderTask::getTaskStatus, orderTaskListDTO.getTaskStatus())
                 .in(CollectionUtil.isNotEmpty(serviceMainList), AgOrderTask::getContentId, serviceMainList.stream().map(AgContentServiceMain::getId).toList())
                 .eq(Objects.nonNull(orderTaskListDTO.getMerchantId()), AgOrderTask::getAgMerchantId, orderTaskListDTO.getMerchantId())
@@ -161,16 +160,6 @@ public class AgOrderTaskServiceImpl extends ServiceImpl<AgOrderTaskMapper, AgOrd
                 continue;
             }
             agOrderTask.setDeptId(agMerchants.get(0).getDeptId());
-            // 查询创建人名称
-            UserRespDTO user = userApi.getUser(agOrderTaskImportReq.getCreateId());
-            if (user == null) {
-                agUploadTaskErrorVo.setContentId(contentId);
-                agUploadTaskErrorVo.setFancyItemId(fancyItemId);
-                agUploadTaskErrorVo.setErrorMsg("创建人不存在");
-                agUploadTaskErrorVos.add(agUploadTaskErrorVo);
-                continue;
-            }
-            agOrderTask.setCreateName(user.getUsername());
             // 判断是否超过订单剩余数
             List<AgMerchantOrderDetail> merchantOrderDetailList = agMerchantOrderDetailService.list(Wrappers.lambdaQuery(AgMerchantOrderDetail.class)
                     .eq(AgMerchantOrderDetail::getAgMerchantId, merchantId)

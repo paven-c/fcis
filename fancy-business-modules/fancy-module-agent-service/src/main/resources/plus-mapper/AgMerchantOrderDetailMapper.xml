@@ -9,9 +9,8 @@
     where
     deleted = 0
     and service_status in (0,2)
-    and dept_id = #{deptId}
     <if test="merchantId != null">
-      and id = #{merchantId}
+      and ag_merchant_id = #{merchantId}
     </if>
     group by content_service_id
   </select>
