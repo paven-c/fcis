@@ -5,9 +5,9 @@ spring:
       - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-2ze47m9z96m75gbqp.mysql.rds.aliyuncs.com:3306/fancy_agent?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
-    username: fancy_root
-    password: fancyApp666
+    url: jdbc:mysql://rm-2ze47m9z96m75gbqp.mysql.rds.aliyuncs.com:3306/fancy_agent?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false
+    username: content_root
+    password: contentApp888
     druid: # Druid 【监控】相关的全局配置
       web-stat-filter:
         enabled: true
