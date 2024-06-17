@@ -6,9 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.fancy.component.mybatis.core.dataobject.BasePojo;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -105,11 +103,6 @@ public class AgUserBalanceDetail extends BasePojo {
     private List<AgMerchantOrder.AgMerchantOrderDetailVo> objectSubTypeDetailName;
 
     /**
-     * 操作人Id
-     */
-    private Long  createId;
-
-    /**
      * 操作人名称
      */
     private String createName;
@@ -129,24 +122,6 @@ public class AgUserBalanceDetail extends BasePojo {
      */
     private String remarks;
 
-    /**
-     * 创建时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除0启用1删除
-     */
-    private Integer deleted;
-    
-    
 
 }
 
