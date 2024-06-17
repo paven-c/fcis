@@ -75,7 +75,7 @@ public enum RoleCodeEnum {
     }
 
     public static boolean isAgent(Set<String> codes) {
-        return CollectionUtils.containsAny(COMPANY_ROLES, codes);
+        return CollectionUtils.containsAny(AGENT_ROLES, codes);
     }
 
     public static boolean isAgent(String code) {
