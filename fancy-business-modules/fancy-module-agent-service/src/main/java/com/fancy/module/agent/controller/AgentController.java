@@ -322,10 +322,10 @@ public class AgentController {
     public CommonResult<PageResult<AgentRespVO>> getAgentPage(@Valid AgentPageReqVO pageReqVO) {
         UserRespDTO user = Optional.ofNullable(userApi.getUser(getLoginUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
         // 我司角色
-        boolean isCompanyRole = permissionApi.hasAnyRoles(
-                user.getId(), RoleCodeEnum.SUPER_ADMIN.getCode(), RoleCodeEnum.AGENT_MANAGER.getCode(), RoleCodeEnum.OPERATIONS_STAFF.getCode(),
-                RoleCodeEnum.FINANCE.getCode());
-        pageReqVO.setIsCompanyRole(isCompanyRole);
+//        boolean isCompanyRole = permissionApi.hasAnyRoles(
+//                user.getId(), RoleCodeEnum.SUPER_ADMIN.getCode(), RoleCodeEnum.AGENT_MANAGER.getCode(), RoleCodeEnum.OPERATIONS_STAFF.getCode(),
+//                RoleCodeEnum.FINANCE.getCode());
+//        pageReqVO.setIsCompanyRole(isCompanyRole);
         // 代理商分页列表
         PageResult<Agent> pageResult = agentService.getAgentPage(pageReqVO);
         if (CollUtil.isEmpty(pageResult.getList())) {
