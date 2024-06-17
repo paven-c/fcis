@@ -18,6 +18,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface AgMerchantOrderDetailMapper extends BaseMapper<AgMerchantOrderDetail> {
 
-    List<MerchantTaskNumListVO> listMerchantTaskNum(@Param("merchantId") Long merchantId);
+    List<MerchantTaskNumListVO> listMerchantTaskNum(@Param("merchantId") Long merchantId, @Param("deptId") Long deptId);
 
 }

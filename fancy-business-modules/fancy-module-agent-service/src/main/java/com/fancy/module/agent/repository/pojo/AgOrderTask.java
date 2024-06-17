@@ -2,6 +2,7 @@ package com.fancy.module.agent.repository.pojo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fancy.component.mybatis.core.dataobject.BasePojo;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -19,7 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class AgOrderTask implements Serializable {
+public class AgOrderTask extends BasePojo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
