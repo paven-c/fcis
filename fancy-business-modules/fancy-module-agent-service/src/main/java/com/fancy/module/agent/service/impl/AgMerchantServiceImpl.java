@@ -93,7 +93,7 @@ public class AgMerchantServiceImpl extends ServiceImpl<AgMerchantMapper, AgMerch
         List<AgMerchantVo> agMerchantVos = AgMerchantConvert.INSTANCE.convertList(agMerchantPageResult.getList());
         List<Long> collect = agMerchantVos.stream().map(AgMerchant::getCreatorId).collect(Collectors.toList());
         Map<Long, String> userMap = userApi.getUserByIds(collect)
-                .stream().collect(Collectors.toMap(UserRespDTO::getId, UserRespDTO::getUsername));
+                .stream().collect(Collectors.toMap(UserRespDTO::getId, UserRespDTO::getNickname));
         agMerchantVos.forEach(agMerchantVo -> {
             if (ObjectUtil.isNotEmpty(agMerchantVo.getCreatorId())) {
                 agMerchantVo.setAgUserName(userMap.get(agMerchantVo.getCreatorId()));

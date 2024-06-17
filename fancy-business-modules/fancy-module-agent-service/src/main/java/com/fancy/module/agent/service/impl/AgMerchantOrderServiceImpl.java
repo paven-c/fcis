@@ -95,7 +95,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                 .collect(Collectors.toList());
         Map<Long, String> userMap = userApi.getUserByIds(collect)
                 .stream()
-                .collect(Collectors.toMap(UserRespDTO::getId, UserRespDTO::getUsername));
+                .collect(Collectors.toMap(UserRespDTO::getId, UserRespDTO::getNickname));
 
         agMerchantOrderVos.forEach(agMerchantOrderVo -> {
             if (ObjectUtil.isNotEmpty(agMerchantOrderVo.getCreatorId())) {
