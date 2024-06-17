@@ -19,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Dept extends BasePojo {
 
-    public static final Long PARENT_ID_ROOT = 0L;
+    public static final Long PARENT_ID_ROOT = 1L;
 
     /**
      * 部门ID

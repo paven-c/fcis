@@ -1,7 +1,9 @@
 package com.fancy.module.common.controller.dept;
 
 
+import static com.fancy.common.exception.util.ServiceExceptionUtil.exception;
 import static com.fancy.common.pojo.CommonResult.success;
+import static com.fancy.module.common.enums.ErrorCodeConstants.DEPT_NOT_FOUND;
 
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.pojo.CommonResult;
@@ -50,6 +52,13 @@ public class DeptController {
     @Operation(summary = "更新部门")
     @PreAuthorize("@ss.hasPermission('common:dept:update')")
     public CommonResult<Boolean> updateDept(@Valid @RequestBody DeptSaveReqVO updateReqVO) {
+        Dept dept = deptService.getDept(updateReqVO.getId());
+        if (dept == null) {
+            throw exception(DEPT_NOT_FOUND);
+        }
+        if (dept.getParentId() == null) {
+            updateReqVO.setParentId(Dept.PARENT_ID_ROOT);
+        }
         deptService.updateDept(updateReqVO);
         return success(true);
     }
