@@ -69,9 +69,6 @@ public class DeptServiceImpl implements DeptService {
     @Override
     @CacheEvict(cacheNames = RedisKeyConstants.DEPT_CHILDREN_ID_LIST, allEntries = true)
     public void updateDept(DeptSaveReqVO updateReqVO) {
-        if (updateReqVO.getParentId() == null) {
-            updateReqVO.setParentId(Dept.PARENT_ID_ROOT);
-        }
         // 校验自己存在
         validateDeptExists(updateReqVO.getId());
         // 校验父部门的有效性
