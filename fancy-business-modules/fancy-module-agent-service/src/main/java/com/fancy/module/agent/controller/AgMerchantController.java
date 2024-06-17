@@ -100,7 +100,7 @@ public class AgMerchantController {
         AuthTokenGetReqVO authTokenGetReqVO = new AuthTokenGetReqVO();
         // 转换成fancy
         List<AgMerchant> agMerchants = agMerchantService.list(Wrappers.lambdaQuery(AgMerchant.class)
-                .eq(AgMerchant::getMerchantId, merchantId)
+                .eq(AgMerchant::getId, merchantId)
                 .eq(AgMerchant::getDeleted, 0)
         );
         Assert.notEmpty(agMerchants, "代理商不存在");
