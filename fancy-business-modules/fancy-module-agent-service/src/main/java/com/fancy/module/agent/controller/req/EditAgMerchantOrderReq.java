@@ -113,5 +113,9 @@ public class EditAgMerchantOrderReq  {
          * 订单名称
          */
         private String orderName;
+        /**
+         * 覆盖范围类型 1覆盖全店 2部分覆盖
+         */
+        private Integer coverageArea;
     }
 }

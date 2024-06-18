@@ -196,6 +196,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                                         .setPackageContentServiceId(orderDetail.getContentServiceId())
                                         .setServiceTotalNum(NumberUtil.mul(a.getCoverageNum(), a.getCoverageSkuNum()).intValue())
                                         .setCoverageNum(a.getCoverageNum())
+                                        .setCoverageArea(a.getCoverageArea())
                                         .setCoverageSkuNum(a.getCoverageSkuNum());
 
                             }).toList());
@@ -233,7 +234,8 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                                     .setContentServiceId(orderDetail.getContentServiceId())
                                     .setServiceTotalNum(orderDetail.getServiceTotalNum())
                                     .setCoverageNum(orderDetail.getNumberOfGenerations())
-                                    .setCoverageSkuNum(orderDetail.getCoverageNumber()));
+                                    .setCoverageSkuNum(orderDetail.getCoverageNumber())
+                                    .setCoverageArea(orderDetail.getCoverageArea()));
                 }
             }
             default -> throw new ServiceException("订单类型错误");

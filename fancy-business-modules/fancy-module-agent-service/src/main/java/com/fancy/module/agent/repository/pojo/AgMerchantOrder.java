@@ -152,6 +152,11 @@ public class AgMerchantOrder implements Serializable {
          */
         private  BigDecimal orderUnitPrice;
 
+        /**
+         * 覆盖范围类型 1覆盖全店 2部分覆盖
+         */
+        private Integer coverageArea;
+
 
     }
 
