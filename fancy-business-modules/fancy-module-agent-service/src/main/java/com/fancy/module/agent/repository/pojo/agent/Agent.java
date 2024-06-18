@@ -81,6 +81,11 @@ public class Agent extends BasePojo {
     private String contractLink;
 
     /**
+     * 代理合同名称
+     */
+    private String contractName;
+
+    /**
      * 公司介绍
      */
     private String introduction;

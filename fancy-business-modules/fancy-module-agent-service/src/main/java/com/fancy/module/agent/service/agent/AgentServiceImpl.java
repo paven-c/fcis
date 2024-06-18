@@ -57,9 +57,9 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 // 联系人信息
                 .level(reqVO.getLevel()).parentId(reqVO.getParentAgentId()).mobile(reqVO.getMobile()).contactor(reqVO.getContactorName())
                 // 身份证信息
-                .idCardFrontSide(reqVO.getIdCardFrontSide()).idCardBackSide(reqVO.getIdCardBackSide())
+                .idCardFrontSide(reqVO.getIdCardFrontSide()).idCardBackSide(reqVO.getIdCardBackSide()).introduction(reqVO.getIntroduction())
                 // 营业执照、合同信息
-                .businessLicense(reqVO.getBusinessLicense()).contractLink(reqVO.getContractLink()).introduction(reqVO.getIntroduction())
+                .businessLicense(reqVO.getBusinessLicense()).contractLink(reqVO.getContractLink()).contractName(reqVO.getContractName())
                 // 合作起始时间 & 合作状态
                 .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).userId(reqVO.getUserId()).deptId(reqVO.getDeptId()).build();
         agentMapper.insert(agent);
@@ -74,9 +74,9 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
                 // 联系人信息
                 .parentId(reqVO.getParentAgentId()).mobile(reqVO.getMobile()).contactor(reqVO.getContactorName())
                 // 身份证信息
-                .idCardFrontSide(reqVO.getIdCardFrontSide()).idCardBackSide(reqVO.getIdCardBackSide())
+                .idCardFrontSide(reqVO.getIdCardFrontSide()).idCardBackSide(reqVO.getIdCardBackSide()).introduction(reqVO.getIntroduction())
                 // 营业执照、合同信息
-                .businessLicense(reqVO.getBusinessLicense()).contractLink(reqVO.getContractLink()).introduction(reqVO.getIntroduction())
+                .businessLicense(reqVO.getBusinessLicense()).contractLink(reqVO.getContractLink()).contractName(reqVO.getContractName())
                 // 合作起始时间 & 合作状态
                 .beginTime(reqVO.getBeginTime()).endTime(reqVO.getEndTime()).status(reqVO.getStatus()).approveTime(reqVO.getApproveTime()).build();
         agentMapper.updateById(updateAgent);
@@ -105,7 +105,8 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     @Override
     @DataPermission(enable = false)
     public List<Agent> getAgentByUserIdsWithoutDataPermission(List<Long> userId) {
-        return agentMapper.selectList(Wrappers.lambdaQuery(Agent.class).in(Agent::getUserId, userId).eq(Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
+        return agentMapper.selectList(
+                Wrappers.lambdaQuery(Agent.class).in(Agent::getUserId, userId).eq(Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
     }
 
     @Override

@@ -85,6 +85,11 @@ public class AgentSaveReqVO {
     private String contractLink;
 
     /**
+     * 合同名称
+     */
+    private String contractName;
+
+    /**
      * 公司介绍
      */
     private String introduction;
