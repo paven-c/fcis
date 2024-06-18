@@ -98,13 +98,13 @@ public class AgentServiceImpl extends ServiceImpl<AgentMapper, Agent> implements
     }
 
     @Override
-    public Agent getAgentByUserId(Long userId) {
+    public Agent getAgentByUserIdWithoutDataPermission(Long userId) {
         return agentMapper.selectOne(Agent::getUserId, userId, Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus());
     }
 
     @Override
     @DataPermission(enable = false)
-    public List<Agent> getAgentByUserIdWithoutDataPermission(List<Long> userId) {
+    public List<Agent> getAgentByUserIdsWithoutDataPermission(List<Long> userId) {
         return agentMapper.selectList(Wrappers.lambdaQuery(Agent.class).in(Agent::getUserId, userId).eq(Agent::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
     }
 

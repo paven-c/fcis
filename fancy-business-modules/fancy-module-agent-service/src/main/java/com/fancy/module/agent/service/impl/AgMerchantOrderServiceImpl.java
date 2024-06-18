@@ -1,5 +1,7 @@
 package com.fancy.module.agent.service.impl;
 
+import static com.fancy.component.security.core.util.SecurityFrameworkUtils.getLoginUser;
+
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -17,15 +19,21 @@ import com.fancy.module.agent.controller.vo.AgMerchantOrderVo;
 import com.fancy.module.agent.convert.merchant.AgMerchantOrderConvert;
 import com.fancy.module.agent.enums.AgUserBalanceDetailType;
 import com.fancy.module.agent.enums.ContentFortTypeEnum;
-import com.fancy.module.agent.repository.mapper.*;
-import com.fancy.module.agent.repository.pojo.*;
+import com.fancy.module.agent.repository.mapper.AgContentServiceDetailMapper;
+import com.fancy.module.agent.repository.mapper.AgContentServiceMainMapper;
+import com.fancy.module.agent.repository.mapper.AgMerchantMapper;
+import com.fancy.module.agent.repository.mapper.AgMerchantOrderMapper;
+import com.fancy.module.agent.repository.pojo.AgContentServiceDetail;
+import com.fancy.module.agent.repository.pojo.AgContentServiceMain;
+import com.fancy.module.agent.repository.pojo.AgMerchant;
+import com.fancy.module.agent.repository.pojo.AgMerchantOrder;
+import com.fancy.module.agent.repository.pojo.AgMerchantOrderDetail;
 import com.fancy.module.agent.repository.pojo.agent.Agent;
 import com.fancy.module.agent.service.AgMerchantOrderDetailService;
 import com.fancy.module.agent.service.AgMerchantOrderService;
 import com.fancy.module.agent.service.AgUserBalanceService;
 import com.fancy.module.agent.service.agent.AgentService;
 import jakarta.annotation.Resource;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +41,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.fancy.component.security.core.util.SecurityFrameworkUtils.*;
 
 /**
  * <p>
@@ -101,7 +106,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
     }
 
     private Map<Long, String> getAgentNameByUserId(List<Long> userIds) {
-     return agentService.getAgentByUserIdWithoutDataPermission(userIds)
+     return agentService.getAgentByUserIdsWithoutDataPermission(userIds)
              .stream()
              .collect(Collectors.toMap(Agent::getUserId, Agent::getAgentName));
     }

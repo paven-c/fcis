@@ -52,15 +52,23 @@ public interface AgentService extends IService<Agent> {
      */
     Agent getAgent(Long agentId);
 
-    Agent getAgentByUserId(Long userId);
+    /**
+     * 根据ID查询代理商
+     *
+     * @param userId 用户ID
+     * @return 代理
+     */
+    @DataPermission(enable = false)
+    Agent getAgentByUserIdWithoutDataPermission(Long userId);
 
     /**
      * 获取用户对应的代理商信息 不走数据权限
+     *
      * @param userId
      * @return
      */
     @DataPermission(enable = false)
-    List<Agent> getAgentByUserIdWithoutDataPermission(List<Long> userId);
+    List<Agent> getAgentByUserIdsWithoutDataPermission(List<Long> userId);
 
     /**
      * 查询代理商列表

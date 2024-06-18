@@ -42,3 +42,4 @@ build/
 /.idea/vcs.xml
 /.idea/workspace.xml
 /fancy-agent-app/logs/fancy-agent.log
+!/fancy-agent-app/

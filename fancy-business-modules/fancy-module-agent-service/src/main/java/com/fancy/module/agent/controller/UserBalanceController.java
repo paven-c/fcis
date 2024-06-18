@@ -51,7 +51,7 @@ public class UserBalanceController {
         if (userBalance == null) {
             throw exception(USER_BALANCE_NOT_EXISTS);
         }
-        Agent agent = agentService.getAgentByUserId(user.getId());
+        Agent agent = agentService.getAgentByUserIdWithoutDataPermission(user.getId());
         return success(AgUserBalanceConvert.INSTANCE.convertVO(userBalance, agent == null ? "" : agent.getAgentName()));
     }
 }
