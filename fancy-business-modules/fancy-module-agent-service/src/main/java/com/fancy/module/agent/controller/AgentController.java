@@ -55,6 +55,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
@@ -75,7 +76,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 
 /**
  * @author paven
@@ -182,7 +182,10 @@ public class AgentController {
         Map<Long, String> agentNames = Optional.ofNullable(agentService.selectByIdsWithoutDataPermission(Sets.newHashSet(agent.getParentId())))
                 .orElse(Lists.newArrayList()).stream()
                 .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
-        return success(AgentConvert.INSTANCE.convertVO(agent, agentNames));
+        Map<Long, String> balanceAmounts = Optional.ofNullable(userBalanceService.getUserBalances(Sets.newHashSet(agent.getUserId())))
+                .orElse(Lists.newArrayList()).stream()
+                .collect(Collectors.toMap(AgUserBalance::getAgUserId, balance -> balance.getNowPrice().setScale(2, RoundingMode.HALF_UP).toString()));
+        return success(AgentConvert.INSTANCE.convertVO(agent, agentNames, balanceAmounts));
     }
 
     @Operation(summary = "提交审核")
@@ -331,15 +334,11 @@ public class AgentController {
         if (CollUtil.isEmpty(pageResult.getList())) {
             return success(new PageResult<>(pageResult.getTotal(), pageResult.getPageNum(), pageResult.getPageSize()));
         }
-        Set<Long> parenAgentIds = pageResult.getList().stream().map(Agent::getParentId).filter(Objects::nonNull).collect(Collectors.toSet());
-        Map<Long, String> agentNames = Maps.newHashMap();
-        if (CollUtil.isNotEmpty(parenAgentIds)) {
-            agentNames = Optional.ofNullable(agentService.selectByIdsWithoutDataPermission(parenAgentIds)).orElse(Lists.newArrayList()).stream()
-                    .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
-        }
-        return success(new PageResult<>(AgentConvert.INSTANCE.convertList(pageResult.getList(), agentNames), pageResult.getTotal(), pageResult.getPageNum(),
-                pageResult.getPageSize()));
+        return success(new PageResult<>(
+                AgentConvert.INSTANCE.convertList(pageResult.getList(), getAgentNames(pageResult.getList()), getAgentUserBalance(pageResult.getList())),
+                pageResult.getTotal(), pageResult.getPageNum(), pageResult.getPageSize()));
     }
+
 
     @Operation(summary = "查询代理商列表")
     @GetMapping("/search/list")
@@ -349,7 +348,7 @@ public class AgentController {
             return success(Lists.newArrayList());
         }
         // 获取父级代理商名称
-        return success(AgentConvert.INSTANCE.convertList(agentList, getAgentNames(agentList)));
+        return success(AgentConvert.INSTANCE.convertList(agentList, getAgentNames(agentList), null));
     }
 
     @Operation(summary = "导出代理商")
@@ -357,7 +356,8 @@ public class AgentController {
     @PreAuthorize("@ss.hasPermission('agent:agent:export')")
     public void exportAgentList(@Validated AgentPageReqVO exportReqVO, HttpServletResponse response) throws IOException {
         List<Agent> list = agentService.getAgentPage(exportReqVO).getList();
-        ExcelUtils.write(response, "agent-data.xlsx", "agent", AgentRespVO.class, AgentConvert.INSTANCE.convertList(list, getAgentNames(list)));
+        ExcelUtils.write(response, "agent-data.xlsx", "agent", AgentRespVO.class,
+                AgentConvert.INSTANCE.convertList(list, getAgentNames(list), getAgentUserBalance(list)));
     }
 
     @Operation(summary = "代理交易")
@@ -397,19 +397,27 @@ public class AgentController {
             return success(Lists.newArrayList());
         }
         // 获取父级代理商名称
-        return success(AgentConvert.INSTANCE.convertList(agentList, getAgentNames(agentList)));
+        return success(AgentConvert.INSTANCE.convertList(agentList, getAgentNames(agentList), null));
     }
 
     private Map<Long, String> getAgentNames(List<Agent> agentList) {
         Set<Long> parenAgentIds = Optional.ofNullable(agentList).orElse(Lists.newArrayList())
-                .stream().map(Agent::getParentId)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+                .stream().map(Agent::getParentId).filter(Objects::nonNull).collect(Collectors.toSet());
         Map<Long, String> agentNames = Maps.newHashMap();
         if (CollUtil.isNotEmpty(parenAgentIds)) {
-            agentNames = Optional.ofNullable(agentService.selectByIdsWithoutDataPermission(parenAgentIds)).orElse(Lists.newArrayList())
-                    .stream().collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
+            agentNames = Optional.ofNullable(agentService.selectByIdsWithoutDataPermission(parenAgentIds)).orElse(Lists.newArrayList()).stream()
+                    .collect(Collectors.toMap(Agent::getId, Agent::getAgentName));
         }
         return agentNames;
+    }
+
+    private Map<Long, String> getAgentUserBalance(List<Agent> agentList) {
+        Set<Long> userIds = agentList.stream().map(Agent::getUserId).filter(Objects::nonNull).collect(Collectors.toSet());
+        Map<Long, String> balanceAmounts = Maps.newHashMap();
+        if (CollUtil.isNotEmpty(userIds)) {
+            balanceAmounts = Optional.ofNullable(userBalanceService.getUserBalances(userIds)).orElse(Lists.newArrayList()).stream()
+                    .collect(Collectors.toMap(AgUserBalance::getAgUserId, balance -> balance.getNowPrice().setScale(2, RoundingMode.HALF_UP).toString()));
+        }
+        return balanceAmounts;
     }
 }

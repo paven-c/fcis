@@ -10,7 +10,9 @@ import com.fancy.common.pojo.CommonResult;
 import com.fancy.module.agent.controller.vo.UserBalanceRespVO;
 import com.fancy.module.agent.convert.balance.AgUserBalanceConvert;
 import com.fancy.module.agent.repository.pojo.AgUserBalance;
+import com.fancy.module.agent.repository.pojo.agent.Agent;
 import com.fancy.module.agent.service.AgUserBalanceService;
+import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.user.UserApi;
 import com.fancy.module.common.api.user.dto.UserRespDTO;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,6 +39,8 @@ public class UserBalanceController {
     private AgUserBalanceService userBalanceService;
     @Resource
     private UserApi userApi;
+    @Resource
+    private AgentService agentService;
 
     @Operation(summary = "用户账户")
     @GetMapping("/detail")
@@ -47,6 +51,7 @@ public class UserBalanceController {
         if (userBalance == null) {
             throw exception(USER_BALANCE_NOT_EXISTS);
         }
-        return success(AgUserBalanceConvert.INSTANCE.convertVO(userBalance,user.getNickname()));
+        Agent agent = agentService.getAgentByUserId(user.getId());
+        return success(AgUserBalanceConvert.INSTANCE.convertVO(userBalance, agent == null ? "" : agent.getAgentName()));
     }
 }

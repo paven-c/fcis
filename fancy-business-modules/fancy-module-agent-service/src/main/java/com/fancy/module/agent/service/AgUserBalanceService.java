@@ -4,6 +4,8 @@ package com.fancy.module.agent.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.fancy.module.agent.controller.req.EditAgUserBalanceDetailReq;
 import com.fancy.module.agent.repository.pojo.AgUserBalance;
+import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -37,4 +39,12 @@ public interface AgUserBalanceService extends IService<AgUserBalance> {
      * @return 用户余额
      */
     AgUserBalance getUserBalance(Long userId);
+
+    /**
+     * 获取用户余额
+     *
+     * @param userIds 用户id
+     * @return 用户余额
+     */
+    List<AgUserBalance> getUserBalances(Set<Long> userIds);
 }

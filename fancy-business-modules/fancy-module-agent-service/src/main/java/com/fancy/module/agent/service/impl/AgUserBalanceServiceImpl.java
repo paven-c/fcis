@@ -6,10 +6,12 @@ import static com.fancy.module.common.enums.ErrorCodeConstants.USER_NOT_EXISTS;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fancy.common.enums.CommonStatusEnum;
 import com.fancy.common.enums.DeleteStatusEnum;
 import com.fancy.common.exception.ServiceException;
+import com.fancy.component.datapermission.core.annotation.DataPermission;
 import com.fancy.module.agent.controller.req.EditAgUserBalanceDetailReq;
 import com.fancy.module.agent.convert.balance.AgUserBalanceConvert;
 import com.fancy.module.agent.enums.AgUserBalanceDetailBillType;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -43,6 +46,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Slf4j
+@DataPermission(enable = false)
 public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, AgUserBalance> implements AgUserBalanceService {
 
     @Resource
@@ -86,14 +90,14 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     //入账明细
                     UserRespDTO toUser = Optional.ofNullable(userApi.getUser(req.getToAgUserId())).orElseThrow(() -> exception(USER_NOT_EXISTS));
                     req.setDeptId(toUser.getDeptId());
-                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), accounting.getNowPrice(), add);
+                    AgUserBalanceDetail agUserBalanceDetail = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(
+                            req, AgUserBalanceDetailBillType.ACCOUNTING.getType(), accounting.getNowPrice(), add);
                     agUserBalanceDetail.setRecordType(req.getObjectType().getRecordType().getType())
                             .setCreateTime(now)
                             .setUpdateTime(now);
 
                     agUserBalanceDetailList.add(agUserBalanceDetail);
                 }
-
 
                 //查询出账用户余额
                 if (req.getCheckFrom()) {
@@ -122,19 +126,19 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
                     req.setToAgUsername(req.getFromUserName());
                     req.setFromAgUserId(toAgUserId);
                     req.setFromUserName(req.getToAgUsername());
-                    AgUserBalanceDetail agUserBalanceDetail1 = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(req, AgUserBalanceDetailBillType.PAYMENT_OUT.getType(), paymentOut.getNowPrice(), sub);
+                    AgUserBalanceDetail agUserBalanceDetail1 = AgUserBalanceConvert.INSTANCE.convertAgUserBalanceDetail(
+                            req, AgUserBalanceDetailBillType.PAYMENT_OUT.getType(), paymentOut.getNowPrice(), sub);
                     agUserBalanceDetail1.setRecordType(req.getObjectType().getRecordType().getType())
                             .setCreateTime(now)
                             .setUpdateTime(now);
                     agUserBalanceDetailList.add(agUserBalanceDetail1);
                 }
 
-
                 if (ObjectUtil.isNotEmpty(agUserBalanceDetailList)) {
                     agUserBalanceDetailService.saveBatch(agUserBalanceDetailList);
                 }
                 return true;
-            }catch (ServiceException e) {
+            } catch (ServiceException e) {
                 throw new ServiceException(e.getMessage());
             } catch (Exception e) {
                 log.error("修改用户余额异常,params:{},error:{}", JSONUtil.toJsonStr(req), e.getMessage(), e);
@@ -161,6 +165,13 @@ public class AgUserBalanceServiceImpl extends ServiceImpl<AgUserBalanceMapper, A
     @Override
     public AgUserBalance getUserBalance(Long userId) {
         return getByUserId(userId);
+    }
+
+    @Override
+    public List<AgUserBalance> getUserBalances(Set<Long> userIds) {
+        return userBalanceMapper.selectList(Wrappers.lambdaQuery(AgUserBalance.class)
+                .in(AgUserBalance::getAgUserId, userIds)
+                .eq(AgUserBalance::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()));
     }
 
     private AgUserBalance getByUserId(Long userId) {

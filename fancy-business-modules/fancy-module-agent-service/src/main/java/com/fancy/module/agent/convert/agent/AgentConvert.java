@@ -27,10 +27,11 @@ public interface AgentConvert {
     @Mapping(target = "contactorName", source = "bean.contactor")
     @Mapping(target = "parentAgentName", expression = "java(agentNames.get(bean.getParentId()))")
     @Mapping(target = "parentAgentId", source = "bean.parentId")
-    AgentRespVO convertVO(Agent bean, Map<Long, String> agentNames);
+    @Mapping(target = "currentBalance", expression = "java(cn.hutool.core.map.MapUtil.isNotEmpty(balanceAmounts) ? balanceAmounts.get(bean.getUserId()) : null)")
+    AgentRespVO convertVO(Agent bean, Map<Long, String> agentNames, Map<Long, String> balanceAmounts);
 
-    default List<AgentRespVO> convertList(List<Agent> list, Map<Long, String> agentNames) {
-        return CollectionUtils.convertList(list, agent -> convertVO(agent, agentNames));
+    default List<AgentRespVO> convertList(List<Agent> list, Map<Long, String> agentNames, Map<Long, String> balanceAmounts) {
+        return CollectionUtils.convertList(list, agent -> convertVO(agent, agentNames, balanceAmounts));
     }
 
     Agent convertBean(AgentSaveReqVO reqVO);

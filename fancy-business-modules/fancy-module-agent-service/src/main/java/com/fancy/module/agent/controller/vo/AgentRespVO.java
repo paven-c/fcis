@@ -79,6 +79,11 @@ public class AgentRespVO {
     private Integer status;
 
     /**
+     * 当前余额
+     */
+    private String currentBalance;
+
+    /**
      * 代理省份
      */
     private Long provinceId;
