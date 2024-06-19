@@ -38,6 +38,10 @@
         </rollingPolicy>
     </appender>
 
+    <logger name="com.baomidou.mybatisplus.core.toolkit.ParameterUtils" level="INFO"/>
+    <logger name="com.baomidou.mybatisplus.core.conditions.query" level="INFO"/>
+    <logger name="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor" level="INFO"/>
+
     <!-- 本地环境 -->
     <springProfile name="local">
         <root level="INFO">
