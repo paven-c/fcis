@@ -2,6 +2,7 @@ package com.fancy.component.mybatis.core.handler;
 
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.fancy.common.enums.DeleteStatusEnum;
 import com.fancy.component.mybatis.core.dataobject.BasePojo;
 import com.fancy.component.web.core.util.WebFrameworkUtils;
 import java.time.LocalDateTime;
@@ -38,6 +39,10 @@ public class DefaultDBFieldHandler implements MetaObjectHandler {
             // 当前登录用户不为空，更新人为空，则当前登录用户为更新人
             if (Objects.nonNull(userId) && Objects.isNull(basePojo.getUpdater())) {
                 basePojo.setUpdater(userId.toString());
+            }
+
+            if (Objects.isNull(basePojo.getDeleted())) {
+                basePojo.setDeleted(DeleteStatusEnum.ACTIVATED.getStatus());
             }
         }
     }
