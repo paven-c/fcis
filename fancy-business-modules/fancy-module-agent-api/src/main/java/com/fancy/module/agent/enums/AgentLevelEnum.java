@@ -26,4 +26,13 @@ public enum AgentLevelEnum {
 
     private final String desc;
 
+    public static AgentLevelEnum findByType(Integer type) {
+        for (AgentLevelEnum agentLevelEnum : AgentLevelEnum.values()) {
+            if (agentLevelEnum.getType().equals(type)) {
+                return agentLevelEnum;
+            }
+        }
+        return null;
+    }
+
 }

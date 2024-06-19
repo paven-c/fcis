@@ -57,4 +57,8 @@ public enum AgentStatusEnum implements IntArrayValuable {
     public int[] array() {
         return ARRAYS;
     }
+
+    public static AgentStatusEnum findByStatus(Integer status) {
+        return Arrays.stream(values()).filter(item -> item.getStatus().equals(status)).findFirst().orElse(null);
+    }
 }

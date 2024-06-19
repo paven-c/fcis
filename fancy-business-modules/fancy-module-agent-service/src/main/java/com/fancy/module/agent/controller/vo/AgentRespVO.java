@@ -2,6 +2,8 @@ package com.fancy.module.agent.controller.vo;
 
 import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.fancy.module.agent.convert.easyexcel.AgentLevelConverter;
+import com.fancy.module.agent.convert.easyexcel.AgentStatusConverter;
 import java.time.LocalDateTime;
 import lombok.Data;
 
@@ -27,7 +29,7 @@ public class AgentRespVO {
     /**
      * 代理商等级
      */
-    @ExcelProperty("代理商等级")
+    @ExcelProperty(value = "代理商等级", converter = AgentLevelConverter.class)
     private Integer level;
 
     /**
@@ -75,7 +77,7 @@ public class AgentRespVO {
     /**
      * 状态
      */
-    @ExcelProperty("状态")
+    @ExcelProperty(value = "状态",converter = AgentStatusConverter.class)
     private Integer status;
 
     /**
