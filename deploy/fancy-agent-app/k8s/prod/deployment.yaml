@@ -27,7 +27,7 @@ spec:
             - name: aliyun_logs_fancy-agent-log
               value: /app/fancy-agent-app/logs/fancy-agent.*.log
             - name: aliyun_logs_fancy-agent-log_logstore
-              value: fancy-agent
+              value: fancy-agent-log
             - name: aliyun_logs_fancy_agent_tags
               value: agent=v1
           volumeMounts:
