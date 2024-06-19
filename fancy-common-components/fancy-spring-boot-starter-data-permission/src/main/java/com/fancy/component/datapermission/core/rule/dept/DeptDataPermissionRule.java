@@ -108,6 +108,7 @@ public class DeptDataPermissionRule implements DataPermissionRule {
             // WHERE null = null，可以保证返回的数据为空
             return new EqualsTo(null, null);
         }
+        log.info("[getExpression][LoginUser({}) Table({}/{}) DeptDataPermission({})]", JsonUtils.toJsonString(loginUser), tableName, tableAlias, JsonUtils.toJsonString(deptDataPermission));
         // 拼接 Dept 和 User 的条件，最后组合
         Expression deptExpression = buildDeptExpression(tableName, tableAlias, deptDataPermission.getDeptIds());
         Expression userExpression = buildUserExpression(tableName, tableAlias, deptDataPermission.getSelf(), loginUser.getId());
