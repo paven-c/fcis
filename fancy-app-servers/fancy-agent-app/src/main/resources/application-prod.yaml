@@ -41,7 +41,7 @@ spring:
   # Redis 配置
   data:
     redis:
-      host: r-2ze7f60x9gqz0qlk1v.redis.rds.aliyuncs.com
+      host: r-2ze7f60x9gqz0qlk1vpd.redis.rds.aliyuncs.com
       port: 6379
       database: 1
       password: flipApp666

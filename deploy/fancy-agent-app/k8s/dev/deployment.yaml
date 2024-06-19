@@ -24,7 +24,7 @@ spec:
           env:
             - name: JAVA_OPTS
               value: "-server -Xms512m -Xmx512m -Xss512K"
-            - name: aliyun_logs_fancy-agent-logtest
+            - name: aliyun_logs_fancy-agent-test
               value: /app/fancy-agent-app/logs/fancy-agent.*.log
             - name: aliyun_logs_fancy-agent-logtest_logstore
               value: fancy-agent-test
