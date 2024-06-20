@@ -1,4 +1,4 @@
-package com.fancy.module.common.api.content.Dto;
+package com.fancy.module.common.api.content.dto;
 
 
 import lombok.Data;

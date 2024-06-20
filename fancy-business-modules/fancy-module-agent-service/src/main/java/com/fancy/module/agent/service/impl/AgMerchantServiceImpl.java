@@ -18,7 +18,7 @@ import com.fancy.module.agent.repository.pojo.agent.Agent;
 import com.fancy.module.agent.service.AgMerchantService;
 import com.fancy.module.agent.service.agent.AgentService;
 import com.fancy.module.common.api.content.CmsMerchantApi;
-import com.fancy.module.common.api.content.Dto.CmsMerchantReqDto;
+import com.fancy.module.common.api.content.dto.CmsMerchantReqDto;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.List;
