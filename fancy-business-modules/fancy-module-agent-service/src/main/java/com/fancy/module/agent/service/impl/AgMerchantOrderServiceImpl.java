@@ -187,7 +187,7 @@ public class AgMerchantOrderServiceImpl extends ServiceImpl<AgMerchantOrderMappe
                     if (ObjectUtil.isEmpty(agContentServiceMainMap)) {
                         throw new ServiceException("服务内容不存在");
                     }
-                    req.setOrderName(contentFortTypeEnum.getName())
+                    req.setOrderName(agContentServiceMains.getContentName())
                             .getServiceJson().addAll(agContentServiceDetails.stream().map(a -> {
                                 return new AgMerchantOrder.AgMerchantOrderDetailVo()
                                         .setServiceName(agContentServiceMainMap.get(a.getContentId()).getContentName())
