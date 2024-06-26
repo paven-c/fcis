@@ -144,7 +144,7 @@ public class AgentController {
         deptApi.updateDept(DeptSaveReqDTO.builder().id(agent.getDeptId()).name(reqVO.getAgentName()).phone(reqVO.getMobile()).build());
         // 编辑用户
         userApi.updateUser(UserSaveReqDTO.builder().id(agent.getUserId())
-                .username(reqVO.getMobile()).nickname(reqVO.getAgentName()).mobile(reqVO.getMobile()).build());
+                .username(reqVO.getMobile()).nickname(reqVO.getContactorName()).mobile(reqVO.getMobile()).build());
         return success(true);
     }
 

@@ -69,7 +69,7 @@ public class UserController {
         return success(id);
     }
 
-    @PutMapping("update")
+    @PutMapping("/update")
     @Operation(summary = "修改用户")
     @PreAuthorize("@ss.hasPermission('common:user:update')")
     public CommonResult<Boolean> updateUser(@Valid @RequestBody UserSaveReqVO reqVO) {

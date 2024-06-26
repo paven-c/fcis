@@ -139,8 +139,6 @@ public class UserServiceImpl implements UserService {
         updateObj.setId(id);
         updateObj.setPassword(encodePassword(password));
         userMapper.updateById(updateObj);
-        LogRecordContext.putVariable("user", user);
-        LogRecordContext.putVariable("newPassword", updateObj.getPassword());
     }
 
     @Override
