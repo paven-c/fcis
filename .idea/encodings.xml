@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app-servers/fire-compliance-identification-app/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-servers/fire-compliance-identification-app/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-servers/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app-servers/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/basic-components/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/module-common-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/module-common-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/module-common-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/module-common-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/module-fire-compliance-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/module-fire-compliance-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/module-fire-compliance-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/module-fire-compliance-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/business-modules/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

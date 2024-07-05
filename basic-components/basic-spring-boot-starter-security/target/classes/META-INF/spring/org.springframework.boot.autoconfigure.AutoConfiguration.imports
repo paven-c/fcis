@@ -1,0 +1,2 @@
+com.paven.component.security.config.SecurityAutoConfiguration
+com.paven.component.security.config.WebSecurityConfigurerAdapter

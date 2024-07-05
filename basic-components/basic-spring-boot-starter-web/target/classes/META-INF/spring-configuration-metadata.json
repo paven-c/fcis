@@ -1,0 +1,116 @@
+{
+  "groups": [
+    {
+      "name": "app.swagger",
+      "type": "com.paven.component.swagger.config.SwaggerProperties",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.web",
+      "type": "com.paven.component.web.config.WebProperties",
+      "sourceType": "com.paven.component.web.config.WebProperties"
+    },
+    {
+      "name": "app.web.admin-api",
+      "type": "com.paven.component.web.config.WebProperties$Api",
+      "sourceType": "com.paven.component.web.config.WebProperties"
+    },
+    {
+      "name": "app.web.agent-api",
+      "type": "com.paven.component.web.config.WebProperties$Api",
+      "sourceType": "com.paven.component.web.config.WebProperties"
+    },
+    {
+      "name": "app.xss",
+      "type": "com.paven.component.xss.config.XssProperties",
+      "sourceType": "com.paven.component.xss.config.XssProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.swagger.author",
+      "type": "java.lang.String",
+      "description": "作者",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.swagger.description",
+      "type": "java.lang.String",
+      "description": "描述",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.swagger.email",
+      "type": "java.lang.String",
+      "description": "email",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.swagger.license",
+      "type": "java.lang.String",
+      "description": "license",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.swagger.license-url",
+      "type": "java.lang.String",
+      "description": "license-url",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.swagger.title",
+      "type": "java.lang.String",
+      "description": "标题",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.swagger.url",
+      "type": "java.lang.String",
+      "description": "url",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.swagger.version",
+      "type": "java.lang.String",
+      "description": "版本",
+      "sourceType": "com.paven.component.swagger.config.SwaggerProperties"
+    },
+    {
+      "name": "app.web.admin-api.controller",
+      "type": "java.lang.String",
+      "description": "Controller 所在包的 Ant 路径规则",
+      "sourceType": "com.paven.component.web.config.WebProperties$Api"
+    },
+    {
+      "name": "app.web.admin-api.prefix",
+      "type": "java.lang.String",
+      "description": "API 前缀，实现所有 Controller 提供的 RESTFul API 的统一前缀",
+      "sourceType": "com.paven.component.web.config.WebProperties$Api"
+    },
+    {
+      "name": "app.web.agent-api.controller",
+      "type": "java.lang.String",
+      "description": "Controller 所在包的 Ant 路径规则",
+      "sourceType": "com.paven.component.web.config.WebProperties$Api"
+    },
+    {
+      "name": "app.web.agent-api.prefix",
+      "type": "java.lang.String",
+      "description": "API 前缀，实现所有 Controller 提供的 RESTFul API 的统一前缀",
+      "sourceType": "com.paven.component.web.config.WebProperties$Api"
+    },
+    {
+      "name": "app.xss.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启，默认为 true",
+      "sourceType": "com.paven.component.xss.config.XssProperties"
+    },
+    {
+      "name": "app.xss.exclude-urls",
+      "type": "java.util.List<java.lang.String>",
+      "description": "需要排除的 URL，默认为空",
+      "sourceType": "com.paven.component.xss.config.XssProperties"
+    }
+  ],
+  "hints": []
+}

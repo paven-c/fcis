@@ -1,0 +1,5 @@
+com.paven.component.banner.config.BannerAutoConfiguration
+com.paven.component.jackson.config.JacksonAutoConfiguration
+com.paven.component.swagger.config.SwaggerAutoConfiguration
+com.paven.component.web.config.WebAutoConfiguration
+com.paven.component.xss.config.XssAutoConfiguration

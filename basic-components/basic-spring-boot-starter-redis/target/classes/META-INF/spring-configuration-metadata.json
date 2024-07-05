@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "app.cache",
+      "type": "com.paven.component.redis.config.AppCacheProperties",
+      "sourceType": "com.paven.component.redis.config.AppCacheProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.cache.redis-scan-batch-size",
+      "type": "java.lang.Integer",
+      "description": "redis scan 一次返回数量",
+      "sourceType": "com.paven.component.redis.config.AppCacheProperties"
+    }
+  ],
+  "hints": []
+}

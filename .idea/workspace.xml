@@ -1,0 +1,1342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f70b717b-5cf0-4d30-8817-e1a875a6c3bf" name="Changes" comment="init">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/src/main/java/com/paven/server/FireComplianceIdentificationApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/src/main/java/com/paven/server/config/DataPermissionConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/src/main/java/com/paven/server/config/SecurityConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/src/main/java/com/paven/server/controller/TestController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/application-dev.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/application-local.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/application-prod.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/com/paven/server/FireComplianceIdentificationApplication.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/com/paven/server/config/DataPermissionConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/com/paven/server/config/SecurityConfiguration$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/com/paven/server/config/SecurityConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/com/paven/server/controller/TestController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app-servers/fire-compliance-identification-app/target/classes/logback-spring.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/core/IntArrayValuable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/core/KeyValue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/enums/CommonStatusEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/enums/DeleteStatusEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/enums/GenderEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/enums/TerminalEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/enums/UserTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/enums/WebFilterOrderEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/exception/ErrorCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/exception/NeedLoginException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/exception/ServerException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/exception/ServiceException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/exception/enums/GlobalErrorCodeConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/exception/util/ServiceExceptionUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/pojo/CommonResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/pojo/PageParam.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/pojo/PageResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/pojo/SortablePageParam.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/pojo/SortingField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/cache/CacheUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/collection/ArrayUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/collection/CollectionUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/collection/MapUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/collection/SetUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/date/DateUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/date/LocalDateTimeUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/http/HttpUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/io/FileUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/io/IoUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/json/JsonUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/number/MoneyUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/number/NumberUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/object/BeanUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/object/ObjectUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/object/PageUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/servlet/ServletUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/spring/SpringExpressionUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/string/StrUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/util/validation/ValidationUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/validation/InEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/validation/InEnumCollectionValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/validation/InEnumValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/validation/Mobile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/validation/MobileValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/validation/Telephone.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/src/main/java/com/paven/common/validation/TelephoneValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/core/IntArrayValuable.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/core/KeyValue.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/enums/CommonStatusEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/enums/ComparisonOperator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/enums/DeleteStatusEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/enums/FieldTypeEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/enums/GenderEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/enums/TerminalEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/enums/UserTypeEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/enums/WebFilterOrderEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/exception/ErrorCode.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/exception/NeedLoginException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/exception/ServerException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/exception/ServiceException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/exception/enums/GlobalErrorCodeConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/exception/util/ServiceExceptionUtil.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/pojo/CommonResult.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/pojo/PageParam.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/pojo/PageResult.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/pojo/SortablePageParam.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/pojo/SortingField.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/cache/CacheUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/collection/ArrayUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/collection/CollectionUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/collection/MapUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/collection/SetUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/date/DateUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/date/LocalDateTimeUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/http/HttpUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/io/FileUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/io/IoUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/json/JsonUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/number/MoneyUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/number/NumberUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/object/BeanUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/object/ObjectUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/object/PageUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/servlet/ServletUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/spring/SpringExpressionUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/string/StrUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/util/validation/ValidationUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/validation/InEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/validation/InEnumCollectionValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/validation/InEnumValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/validation/Mobile.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/validation/MobileValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/validation/Telephone.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-common/target/classes/com/paven/common/validation/TelephoneValidator.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/config/DataPermissionAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/config/DeptDataPermissionAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/annotation/DataPermission.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/aop/DataPermissionAnnotationAdvisor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/aop/DataPermissionAnnotationInterceptor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/aop/DataPermissionContextHolder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/db/DataPermissionMappedStatementInterceptor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/db/MappedStatementCache.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/rule/DataPermissionRule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/rule/DataPermissionRuleFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/rule/dept/DeptDataPermissionRule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/rule/dept/DeptDataPermissionRuleCustomizer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/src/main/java/com/paven/component/datapermission/core/util/DataPermissionUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/config/DataPermissionAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/config/DeptDataPermissionAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/annotation/DataPermission.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/aop/DataPermissionAnnotationAdvisor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/aop/DataPermissionAnnotationInterceptor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/aop/DataPermissionContextHolder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/db/DataPermissionMappedStatementInterceptor$ContextHolder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/db/DataPermissionMappedStatementInterceptor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/db/MappedStatementCache.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/rule/DataPermissionRule.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/rule/DataPermissionRuleFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/rule/dept/DeptDataPermissionRule.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/rule/dept/DeptDataPermissionRuleCustomizer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-data-permission/target/classes/com/paven/component/datapermission/core/util/DataPermissionUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/core/annotations/DictFormat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/core/annotations/ExcelColumnSelect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/core/convert/DictConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/core/convert/JsonConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/core/convert/MoneyConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/core/function/ExcelColumnSelectFunction.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/core/handler/SelectSheetWriteHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/core/util/ExcelUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/dict/config/DictAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/src/main/java/com/paven/component/dict/core/DictFrameworkUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/core/annotations/DictFormat.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/core/annotations/ExcelColumnSelect.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/core/convert/DictConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/core/convert/JsonConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/core/convert/MoneyConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/core/function/ExcelColumnSelectFunction.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/core/handler/SelectSheetWriteHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/core/util/ExcelUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/dict/config/DictAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/dict/core/DictFrameworkUtils$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/dict/core/DictFrameworkUtils$2.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/dict/core/DictFrameworkUtils$3.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-excel/target/classes/com/paven/component/dict/core/DictFrameworkUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/datasource/config/DataSourceAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/datasource/core/filter/DruidAdRemoveFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/config/IdTypeEnvironmentPostProcessor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/config/MybatisAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/dataobject/BasePojo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/enums/SqlConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/handler/DefaultDBFieldHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/mapper/BaseMapperX.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/query/LambdaQueryWrapperX.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/query/MPJLambdaWrapperX.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/query/QueryWrapperX.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/type/EncryptTypeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/type/IntegerListTypeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/type/JsonLongSetTypeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/type/LongListTypeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/type/StringListTypeHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/util/JdbcUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/mybatis/core/util/MyBatisUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/translate/config/TranslateAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/src/main/java/com/paven/component/translate/core/TranslateUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/datasource/config/DataSourceAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/datasource/core/filter/DruidAdRemoveFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/config/IdTypeEnvironmentPostProcessor$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/config/IdTypeEnvironmentPostProcessor.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/config/MybatisAutoConfiguration$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/config/MybatisAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/dataobject/BasePojo.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/enums/SqlConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/handler/DefaultDBFieldHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/mapper/BaseMapperX.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/query/LambdaQueryWrapperX.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/query/MPJLambdaWrapperX.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/query/QueryWrapperX$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/query/QueryWrapperX.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/type/EncryptTypeHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/type/IntegerListTypeHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/type/JsonLongSetTypeHandler$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/type/JsonLongSetTypeHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/type/LongListTypeHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/type/StringListTypeHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/util/JdbcUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/mybatis/core/util/MyBatisUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/translate/config/TranslateAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-mybatis/target/classes/com/paven/component/translate/core/TranslateUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/src/main/java/com/paven/component/redis/config/AppCacheProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/src/main/java/com/paven/component/redis/config/CacheAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/src/main/java/com/paven/component/redis/config/RedisAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/src/main/java/com/paven/component/redis/constant/RedisConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/src/main/java/com/paven/component/redis/core/TimeoutRedisCacheManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/target/classes/META-INF/spring-configuration-metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/target/classes/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/target/classes/com/paven/component/redis/config/AppCacheProperties.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/target/classes/com/paven/component/redis/config/CacheAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/target/classes/com/paven/component/redis/config/RedisAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/target/classes/com/paven/component/redis/constant/RedisConstant.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-redis/target/classes/com/paven/component/redis/core/TimeoutRedisCacheManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/config/AuthorizeRequestsCustomizer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/config/SecurityAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/config/SecurityProperties.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/config/WebSecurityConfigurerAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/LoginUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/annotations/PreAuthenticated.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/aop/PreAuthenticatedAspect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/context/TransmittableThreadLocalSecurityContextHolderStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/filter/TokenAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/handler/AccessDeniedHandlerImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/handler/AuthenticationEntryPointImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/service/SecurityFrameworkService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/service/SecurityFrameworkServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/src/main/java/com/paven/component/security/core/util/SecurityFrameworkUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/META-INF/spring-configuration-metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/config/AuthorizeRequestsCustomizer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/config/SecurityAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/config/SecurityProperties.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/config/WebSecurityConfigurerAdapter$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/config/WebSecurityConfigurerAdapter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/LoginUser.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/annotations/PreAuthenticated.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/aop/PreAuthenticatedAspect.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/context/TransmittableThreadLocalSecurityContextHolderStrategy.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/filter/TokenAuthenticationFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/handler/AccessDeniedHandlerImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/handler/AuthenticationEntryPointImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/service/SecurityFrameworkService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/service/SecurityFrameworkServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-security/target/classes/com/paven/component/security/core/util/SecurityFrameworkUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/META-INF/spring-configuration-metadata.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/banner.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/banner/config/BannerAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/banner/core/BannerApplicationRunner.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/base/annotation/DesensitizeBy.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/base/handler/DesensitizationHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/base/serializer/StringDesensitizeSerializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/regex/annotation/EmailDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/regex/annotation/RegexDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/regex/handler/AbstractRegexDesensitizationHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/regex/handler/DefaultRegexDesensitizationHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/regex/handler/EmailDesensitizationHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/annotation/BankCardDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/annotation/CarLicenseDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/annotation/ChineseNameDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/annotation/FixedPhoneDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/annotation/IdCardDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/annotation/MobileDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/annotation/PasswordDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/annotation/SliderDesensitize.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/AbstractSliderDesensitizationHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/BankCardDesensitization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/CarLicenseDesensitization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/ChineseNameDesensitization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/DefaultDesensitizationHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/FixedPhoneDesensitization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/IdCardDesensitization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/MobileDesensitization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/desensitize/core/slider/handler/PasswordDesensitization.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/jackson/config/JacksonAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/jackson/core/databind/NumberSerializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/jackson/core/databind/TimestampLocalDateTimeDeserializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/jackson/core/databind/TimestampLocalDateTimeSerializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/jackson/core/databind/TimestampLongDeserializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/jackson/core/databind/TimestampLongSerializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/swagger/config/SwaggerAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/swagger/config/SwaggerProperties.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/config/WebAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/config/WebProperties$Api.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/config/WebProperties$Ui.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/config/WebProperties.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/core/filter/ApiRequestFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/core/filter/CacheRequestBodyFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/core/filter/CacheRequestBodyWrapper$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/core/filter/CacheRequestBodyWrapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/core/handler/GlobalExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/core/handler/GlobalResponseBodyHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/web/core/util/WebFrameworkUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/xss/config/XssAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/xss/config/XssProperties.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/xss/core/clean/JsoupXssCleaner.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/xss/core/clean/XssCleaner.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/xss/core/filter/XssFilter.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/xss/core/filter/XssRequestWrapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/basic-components/basic-spring-boot-starter-web/target/classes/com/paven/component/xss/core/json/XssStringJsonDeserializer.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/dept/DeptApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/dept/dto/DeptRespDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/dept/dto/DeptSaveReqDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/dict/DictDataApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/dict/dto/DictDataRespDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/file/FileApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/oauth/OAuth2TokenApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/oauth/dto/OAuth2AccessTokenCheckRespDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/oauth/dto/OAuth2AccessTokenCreateReqDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/oauth/dto/OAuth2AccessTokenRespDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/permission/PermissionApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/permission/RoleApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/permission/dto/DeptDataPermissionRespDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/permission/dto/RoleRespDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/user/UserApi.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/user/dto/UserRespDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/api/user/dto/UserSaveReqDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/enums/DictTypeConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/enums/ErrorCodeConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/enums/LoginLogTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/enums/oauth/OAuth2ClientConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/enums/permission/DataScopeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/enums/permission/MenuTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/enums/permission/RoleCodeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/src/main/java/com/paven/module/common/enums/permission/RoleTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/dept/DeptApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/dept/dto/DeptRespDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/dept/dto/DeptSaveReqDTO$DeptSaveReqDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/dept/dto/DeptSaveReqDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/dict/DictDataApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/dict/DictTypeApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/dict/dto/DictDataRespDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/file/FileApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/oauth/OAuth2TokenApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/oauth/dto/OAuth2AccessTokenCheckRespDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/oauth/dto/OAuth2AccessTokenCreateReqDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/oauth/dto/OAuth2AccessTokenRespDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/permission/PermissionApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/permission/RoleApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/permission/dto/DeptDataPermissionRespDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/permission/dto/RoleRespDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/user/UserApi.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/user/dto/UserRespDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/user/dto/UserSaveReqDTO$UserSaveReqDTOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/api/user/dto/UserSaveReqDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/enums/DictTypeConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/enums/ErrorCodeConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/enums/LoginLogTypeEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/enums/oauth/OAuth2ClientConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/enums/permission/DataScopeEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/enums/permission/MenuTypeEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/enums/permission/RoleCodeEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-api/target/classes/com/paven/module/common/enums/permission/RoleTypeEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/api/dept/DeptApiImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/api/dict/DictDataApiImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/api/file/FileApiImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/api/oauth/OAuth2TokenApiImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/api/permission/PermissionApiImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/api/permission/RoleApiImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/api/user/UserApiImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/config/FileAutoConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/AbstractFileClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/FileClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/FileClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/FileClientFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/FileClientFactoryImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/db/DBFileClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/db/DBFileClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/ftp/FtpFileClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/ftp/FtpFileClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/local/LocalFileClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/local/LocalFileClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/s3/FilePresignedUrlRespDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/s3/S3FileClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/s3/S3FileClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/sftp/SftpFileClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/client/sftp/SftpFileClientConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/enums/FileStorageEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/component/file/core/utils/FileTypeUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/auth/AuthController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/auth/vo/AuthLoginReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/auth/vo/AuthLoginRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/auth/vo/AuthMenuRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/auth/vo/AuthPermissionInfoRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dept/DeptController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dept/vo/DeptListReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dept/vo/DeptRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dept/vo/DeptSaveReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dept/vo/DeptSimpleRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/DictDataController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/DictTypeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/vo/data/DictDataPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/vo/data/DictDataRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/vo/data/DictDataSaveReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/vo/data/DictDataSimpleRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/vo/type/DictTypePageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/vo/type/DictTypeRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/vo/type/DictTypeSaveReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/dict/vo/type/DictTypeSimpleRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/FileConfigController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/FileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/vo/config/FileConfigPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/vo/config/FileConfigRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/vo/config/FileConfigSaveReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/vo/file/FileCreateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/vo/file/FilePageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/vo/file/FilePresignedUrlRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/vo/file/FileRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/file/vo/file/FileUploadReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/OAuth2ClientController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/OAuth2TokenController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/OAuth2UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/vo/client/OAuth2ClientPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/vo/client/OAuth2ClientRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/vo/client/OAuth2ClientSaveReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/vo/token/OAuth2AccessTokenPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/vo/token/OAuth2AccessTokenRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/vo/user/OAuth2UserInfoRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/oauth/vo/user/OAuth2UserUpdateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/MenuController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/PermissionController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/RoleController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/menu/MenuListReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/menu/MenuRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/menu/MenuSaveVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/menu/MenuSimpleRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/permission/PermissionAssignRoleDataScopeReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/permission/PermissionAssignRoleMenuReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/permission/PermissionAssignUserRoleReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/role/RolePageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/role/RoleRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/role/RoleSaveReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/permission/vo/role/RoleSimpleRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/UserProfileController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/profile/UserProfileRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/profile/UserProfileUpdatePasswordReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/profile/UserProfileUpdateReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/user/UserImportExcelVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/user/UserImportRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/user/UserPageReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/user/UserRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/user/UserSaveReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/user/UserSimpleRespVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/user/UserUpdatePasswordReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/controller/user/vo/user/UserUpdateStatusReqVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/convert/auth/AuthConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/convert/dept/DeptConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/convert/file/FileConfigConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/convert/role/RoleConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/convert/user/UserConvert.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/cache/redis/RedisKeyConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/cache/redis/oauth2/OAuth2AccessTokenRedisDAO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/dept/DeptMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/dict/DictDataMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/dict/DictTypeMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/file/FileConfigMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/file/FileContentMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/file/FileMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/oauth/OAuth2AccessTokenMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/oauth/OAuth2ClientMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/oauth/OAuth2RefreshTokenMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/permission/MenuMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/permission/RoleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/permission/RoleMenuMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/permission/UserRoleMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/mapper/user/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/dept/Dept.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/dict/DictData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/dict/DictType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/file/File.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/file/FileConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/file/FileContent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/oauth/OAuth2AccessToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/oauth/OAuth2Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/oauth/OAuth2RefreshToken.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/permission/Menu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/permission/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/permission/RoleMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/permission/UserRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/repository/pojo/user/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/auth/AuthService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/auth/AuthServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/dept/DeptService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/dept/DeptServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/dict/DictDataService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/dict/DictDataServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/dict/DictTypeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/dict/DictTypeServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/file/FileConfigService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/file/FileConfigServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/file/FileService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/file/FileServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/oauth/OAuth2ClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/oauth/OAuth2TokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/oauth/impl/OAuth2ClientServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/oauth/impl/OAuth2TokenServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/permission/MenuService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/permission/MenuServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/permission/PermissionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/permission/PermissionServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/permission/RoleService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/permission/RoleServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/user/UserService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/src/main/java/com/paven/module/common/service/user/UserServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/api/dept/DeptApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/api/dict/DictDataApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/api/dict/DictTypeApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/api/file/FileApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/api/oauth/OAuth2TokenApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/api/permission/PermissionApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/api/permission/RoleApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/api/user/UserApiImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/config/FileAutoConfiguration.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/AbstractFileClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/FileClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/FileClientConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/FileClientFactory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/FileClientFactoryImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/db/DBFileClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/db/DBFileClientConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/ftp/FtpFileClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/ftp/FtpFileClientConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/local/LocalFileClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/local/LocalFileClientConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/s3/FilePresignedUrlRespDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/s3/S3FileClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/s3/S3FileClientConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/sftp/SftpFileClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/client/sftp/SftpFileClientConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/enums/FileStorageEnum.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/component/file/core/utils/FileTypeUtils.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/AuthController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthLoginReqVO$AuthLoginReqVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthLoginReqVO$CodeEnableGroup.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthLoginReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthLoginRespVO$AuthLoginRespVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthLoginRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthMenuRespVO$AuthMenuRespVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthMenuRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthPermissionInfoRespVO$AuthPermissionInfoRespVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthPermissionInfoRespVO$MenuVO$MenuVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthPermissionInfoRespVO$MenuVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthPermissionInfoRespVO$UserVO$UserVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthPermissionInfoRespVO$UserVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/auth/vo/AuthPermissionInfoRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dept/DeptController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dept/vo/DeptListReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dept/vo/DeptRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dept/vo/DeptSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dept/vo/DeptSimpleRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/DictDataController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/DictTypeController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/data/DictDataPageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/data/DictDataRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/data/DictDataSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/data/DictDataSimpleRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/type/DictTypePageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/type/DictTypeRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/type/DictTypeSaveReqVO$DictTypeSaveReqVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/type/DictTypeSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/dict/vo/type/DictTypeSimpleRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/FileConfigController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/FileController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/vo/config/FileConfigPageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/vo/config/FileConfigRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/vo/config/FileConfigSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/vo/file/FileCreateReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/vo/file/FilePageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/vo/file/FilePresignedUrlRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/vo/file/FileRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/file/vo/file/FileUploadReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/OAuth2ClientController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/OAuth2TokenController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/OAuth2UserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/vo/client/OAuth2ClientPageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/vo/client/OAuth2ClientRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/vo/client/OAuth2ClientSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/vo/token/OAuth2AccessTokenPageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/vo/token/OAuth2AccessTokenRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/vo/user/OAuth2UserInfoRespVO$Dept.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/vo/user/OAuth2UserInfoRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/oauth/vo/user/OAuth2UserUpdateReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/MenuController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/PermissionController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/RoleController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/menu/MenuListReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/menu/MenuRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/menu/MenuSaveVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/menu/MenuSimpleRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/permission/PermissionAssignRoleDataScopeReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/permission/PermissionAssignRoleMenuReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/permission/PermissionAssignUserRoleReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/role/RolePageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/role/RoleRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/role/RoleSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/permission/vo/role/RoleSimpleRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/UserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/UserProfileController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/profile/UserProfileRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/profile/UserProfileUpdatePasswordReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/profile/UserProfileUpdateReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserImportExcelVO$UserImportExcelVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserImportExcelVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserImportRespVO$UserImportRespVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserImportRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserPageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserSimpleRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserUpdatePasswordReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/controller/user/vo/user/UserUpdateStatusReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/auth/AuthConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/auth/AuthConvertImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/dept/DeptConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/dept/DeptConvertImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/file/FileConfigConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/file/FileConfigConvertImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/role/RoleConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/role/RoleConvertImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/user/UserConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/convert/user/UserConvertImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/cache/redis/RedisKeyConstants.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/cache/redis/oauth2/OAuth2AccessTokenRedisDAO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/dept/DeptMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/dict/DictDataMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/dict/DictTypeMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/file/FileConfigMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/file/FileContentMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/file/FileMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/oauth/OAuth2AccessTokenMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/oauth/OAuth2ClientMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/oauth/OAuth2RefreshTokenMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/permission/MenuMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/permission/RoleMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/permission/RoleMenuMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/permission/UserRoleMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/mapper/user/UserMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/dept/Dept$DeptBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/dept/Dept.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/dict/DictData.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/dict/DictType$DictTypeBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/dict/DictType.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/file/File$FileBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/file/File.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/file/FileConfig$FileClientConfigTypeHandler$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/file/FileConfig$FileClientConfigTypeHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/file/FileConfig$FileConfigBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/file/FileConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/file/FileContent$FileContentBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/file/FileContent.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/oauth/OAuth2AccessToken$OAuth2AccessTokenBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/oauth/OAuth2AccessToken.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/oauth/OAuth2Client.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/oauth/OAuth2RefreshToken.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/permission/Menu.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/permission/Role.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/permission/RoleMenu.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/permission/UserRole.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/user/User$UserBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/repository/pojo/user/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/auth/AuthService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/auth/AuthServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/dept/DeptService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/dept/DeptServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/dict/DictDataService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/dict/DictDataServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/dict/DictTypeService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/dict/DictTypeServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/file/FileConfigService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/file/FileConfigServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/file/FileConfigServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/file/FileService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/file/FileServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/oauth/OAuth2ClientService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/oauth/OAuth2TokenService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/oauth/impl/OAuth2ClientServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/oauth/impl/OAuth2TokenServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/permission/MenuService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/permission/MenuServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/permission/PermissionService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/permission/PermissionServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/permission/RoleService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/permission/RoleServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/user/UserService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/classes/com/paven/module/common/service/user/UserServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/generated-sources/annotations/com/paven/module/common/convert/auth/AuthConvertImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/generated-sources/annotations/com/paven/module/common/convert/dept/DeptConvertImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/generated-sources/annotations/com/paven/module/common/convert/file/FileConfigConvertImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/generated-sources/annotations/com/paven/module/common/convert/role/RoleConvertImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-common-service/target/generated-sources/annotations/com/paven/module/common/convert/user/UserConvertImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-api/src/main/java/com/paven/module/compliance/api/task/dto/ContentServiceMainListDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-api/src/main/java/com/paven/module/compliance/api/task/dto/MerchantTaskNumListDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-api/src/main/java/com/paven/module/compliance/api/task/dto/OrderTaskListDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-api/target/classes/com/paven/module/compliance/api/task/dto/ContentServiceMainListDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-api/target/classes/com/paven/module/compliance/api/task/dto/MerchantTaskNumListDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-api/target/classes/com/paven/module/compliance/api/task/dto/OrderTaskListDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/field/FieldController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/field/vo/FieldCreateReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/field/vo/FieldPageReqVO$FieldPageReqVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/field/vo/FieldPageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/field/vo/FieldRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/field/vo/FieldUpdateReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/FormController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/FormFieldController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormCheckReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormCreateReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormFieldCreateReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormFieldSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormPageReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormRespVO$FormRespVOBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormRespVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormRuleSaveReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/controller/form/vo/FormUpdateReqVO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/convert/FormConvert.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/convert/FormConvertImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/dto/FieldConditionDTO.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/mapper/FieldMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/mapper/FormFieldMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/mapper/FormMapper.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/pojo/Field$FieldBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/pojo/Field.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/pojo/Form$FormBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/pojo/Form.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/pojo/FormField$FormFieldBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/repository/pojo/FormField.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/service/FieldService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/service/FormFieldService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/service/FormService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/service/impl/FieldServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/service/impl/FormFieldServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/service/impl/FormServiceImpl$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/classes/com/paven/module/compliance/service/impl/FormServiceImpl.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/business-modules/module-fire-compliance-service/target/generated-sources/annotations/com/paven/module/compliance/convert/FormConvertImpl.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="myGradleUserHome" value="$PROJECT_DIR$/../../respository" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="$PROJECT_DIR$/../../apache-maven-3.8.7" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+        <option name="showDialogWithAdvancedSettings" value="true" />
+        <option name="userSettingsFile" value="$PROJECT_DIR$/../../respository/settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2hRqnZWOUGfexh8Rp3r1vnfmiUq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <OptionsSetting value="false" id="Update" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
+    "Maven.basic-common [clean].executor": "Run",
+    "Maven.basic-dependencies [clean].executor": "Run",
+    "Maven.fancy-domestic [clean,install].executor": "Run",
+    "Maven.fancy-domestic [clean].executor": "Run",
+    "Maven.fancy-domestic [install].executor": "Run",
+    "Maven.fcis [clean,install].executor": "Run",
+    "Maven.fcis [clean].executor": "Run",
+    "Maven.fcis [install].executor": "Run",
+    "Maven.fire-compliance-identification-app [clean].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.AgentManagementApplication.executor": "Debug",
+    "Spring Boot.FireComplianceIdentificationApplication.executor": "Debug",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "main",
+    "last_directory_selection": "/Users/paven/JAVA/code/fancy-domestic/fancy-business-modules/fancy-module-common-service/src/main/java/com/fancy/module/common/api/oauth",
+    "last_opened_file_path": "/Users/paven/JAVA/code/fcis/business-modules/module-fire-compliance-service/src/main/java/com/paven/module/agent/controller/vo",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.grazie",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/business-modules/module-fire-compliance-service/src/main/java/com/paven/module/agent/controller/vo" />
+      <recent name="$PROJECT_DIR$/business-modules/module-fire-compliance-service/src/main/java/com/paven/module/agent/service/impl" />
+      <recent name="$PROJECT_DIR$/business-modules/module-fire-compliance-service/src/main/java/com/paven/module/agent/service" />
+      <recent name="$PROJECT_DIR$/business-modules/module-fire-compliance-service/src/main/java/com/paven/module/agent/repository/mapper" />
+      <recent name="$PROJECT_DIR$/business-modules/module-fire-compliance-service/src/main/java/com/paven/module/agent/repository/pojo" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/fancy-business-modules/fancy-module-common-service/src/main/java/com/fancy/module/common/controller/area" />
+      <recent name="$PROJECT_DIR$/fancy-business-modules/fancy-module-common-service/src/main/java/com/fancy/module/common/service/area" />
+      <recent name="$PROJECT_DIR$/fancy-business-modules/fancy-module-common-service/src/main/java/com/fancy/module/common/repository/mapper/area" />
+      <recent name="$PROJECT_DIR$/fancy-business-modules/fancy-module-common-service/src/main/java/com/fancy/module/common/repository/pojo/area" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.paven.module.compliance.controller.form.vo" />
+      <recent name="com.paven.module.common.api.dict" />
+      <recent name="com.paven.module.compliance.controller.build.vo" />
+      <recent name="com.paven.module.compliance.controller.field.vo" />
+      <recent name="com.paven.module.agent.convert" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.FireComplianceIdentificationApplication">
+    <configuration name="AgentManagementApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="fire-compliance-identification-app" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.paven.server.AgentManagementApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AgentManagementApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="fire-compliance-identification-app" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.fancy.server.AgentManagementApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FireComplianceIdentificationApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="fire-compliance-identification-app" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.paven.server.FireComplianceIdentificationApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.paven.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.FireComplianceIdentificationApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f70b717b-5cf0-4d30-8817-e1a875a6c3bf" name="Changes" comment="" />
+      <created>1717567406219</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1717567406219</updated>
+      <workItem from="1717567407803" duration="55886000" />
+      <workItem from="1717640118362" duration="28372000" />
+      <workItem from="1717725659112" duration="268437000" />
+      <workItem from="1718332946367" duration="1987000" />
+      <workItem from="1718337339702" duration="67096000" />
+      <workItem from="1718761073467" duration="8833000" />
+      <workItem from="1718797522746" duration="902000" />
+      <workItem from="1718799053288" duration="18870000" />
+      <workItem from="1719281857731" duration="8145000" />
+      <workItem from="1719573631413" duration="37841000" />
+      <workItem from="1719998633258" duration="48236000" />
+    </task>
+    <task id="LOCAL-00001" summary="项目初始化">
+      <option name="closed" value="true" />
+      <created>1717674589220</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1717674589220</updated>
+    </task>
+    <task id="LOCAL-00002" summary="项目初始化">
+      <option name="closed" value="true" />
+      <created>1717674612229</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1717674612229</updated>
+    </task>
+    <task id="LOCAL-00003" summary="gitignore">
+      <option name="closed" value="true" />
+      <created>1717675194991</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1717675194991</updated>
+    </task>
+    <task id="LOCAL-00004" summary="部分name字段修改">
+      <option name="closed" value="true" />
+      <created>1717679348500</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1717679348500</updated>
+    </task>
+    <task id="LOCAL-00005" summary="代理商管理&amp;基础组件调整">
+      <option name="closed" value="true" />
+      <created>1718159893656</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1718159893656</updated>
+    </task>
+    <task id="LOCAL-00006" summary="代理商管理&amp;基础组件调整">
+      <option name="closed" value="true" />
+      <created>1718160185645</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1718160185645</updated>
+    </task>
+    <task id="LOCAL-00007" summary="合并冲突修复">
+      <option name="closed" value="true" />
+      <created>1718160607926</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1718160607926</updated>
+    </task>
+    <task id="LOCAL-00008" summary="包路径整理">
+      <option name="closed" value="true" />
+      <created>1718161617895</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1718161617895</updated>
+    </task>
+    <task id="LOCAL-00009" summary="代理商管理&amp;数据权限">
+      <option name="closed" value="true" />
+      <created>1718244641325</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1718244641325</updated>
+    </task>
+    <task id="LOCAL-00010" summary=".gitignore">
+      <option name="closed" value="true" />
+      <created>1718244676771</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1718244676771</updated>
+    </task>
+    <task id="LOCAL-00011" summary="代理商管理&amp;权限配置接口">
+      <option name="closed" value="true" />
+      <created>1718258555120</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1718258555121</updated>
+    </task>
+    <task id="LOCAL-00012" summary="权限配置接口">
+      <option name="closed" value="true" />
+      <created>1718260362045</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1718260362045</updated>
+    </task>
+    <task id="LOCAL-00013" summary="权限配置接口">
+      <option name="closed" value="true" />
+      <created>1718262556814</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1718262556814</updated>
+    </task>
+    <task id="LOCAL-00014" summary="权限配置接口">
+      <option name="closed" value="true" />
+      <created>1718266046107</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1718266046107</updated>
+    </task>
+    <task id="LOCAL-00015" summary="代理商管理&amp;权限配置接口">
+      <option name="closed" value="true" />
+      <created>1718267024486</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1718267024486</updated>
+    </task>
+    <task id="LOCAL-00016" summary="用户账户余额">
+      <option name="closed" value="true" />
+      <created>1718279225643</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1718279225644</updated>
+    </task>
+    <task id="LOCAL-00017" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718284540024</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1718284540024</updated>
+    </task>
+    <task id="LOCAL-00018" summary="区域列表接口">
+      <option name="closed" value="true" />
+      <created>1718350165350</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1718350165350</updated>
+    </task>
+    <task id="LOCAL-00019" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718370264794</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1718370264794</updated>
+    </task>
+    <task id="LOCAL-00020" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718590246212</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1718590246212</updated>
+    </task>
+    <task id="LOCAL-00021" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718595983472</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1718595983472</updated>
+    </task>
+    <task id="LOCAL-00022" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718597215882</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1718597215882</updated>
+    </task>
+    <task id="LOCAL-00023" summary="日期格式修改">
+      <option name="closed" value="true" />
+      <created>1718605963498</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1718605963498</updated>
+    </task>
+    <task id="LOCAL-00024" summary="代理商反选列表">
+      <option name="closed" value="true" />
+      <created>1718608476160</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1718608476160</updated>
+    </task>
+    <task id="LOCAL-00025" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718610005046</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1718610005046</updated>
+    </task>
+    <task id="LOCAL-00026" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718610976642</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1718610976642</updated>
+    </task>
+    <task id="LOCAL-00027" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718612598062</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1718612598063</updated>
+    </task>
+    <task id="LOCAL-00028" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718618099158</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1718618099158</updated>
+    </task>
+    <task id="LOCAL-00029" summary="代理商 提交审核">
+      <option name="closed" value="true" />
+      <created>1718620420634</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1718620420634</updated>
+    </task>
+    <task id="LOCAL-00030" summary="代理商 提交审核">
+      <option name="closed" value="true" />
+      <created>1718620519642</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1718620519642</updated>
+    </task>
+    <task id="LOCAL-00031" summary="代理商审核通过导致父部门为空问题修复">
+      <option name="closed" value="true" />
+      <created>1718621639068</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1718621639068</updated>
+    </task>
+    <task id="LOCAL-00032" summary="客户权益列表">
+      <option name="closed" value="true" />
+      <created>1718622896543</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1718622896543</updated>
+    </task>
+    <task id="LOCAL-00033" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718623071579</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1718623071579</updated>
+    </task>
+    <task id="LOCAL-00034" summary="代理商充值">
+      <option name="closed" value="true" />
+      <created>1718625657715</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1718625657715</updated>
+    </task>
+    <task id="LOCAL-00035" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718626698221</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1718626698221</updated>
+    </task>
+    <task id="LOCAL-00036" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718682635700</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1718682635700</updated>
+    </task>
+    <task id="LOCAL-00037" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718692111237</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1718692111237</updated>
+    </task>
+    <task id="LOCAL-00038" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718700823781</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1718700823781</updated>
+    </task>
+    <task id="LOCAL-00039" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718795782161</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1718795782161</updated>
+    </task>
+    <task id="LOCAL-00040" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718796134912</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1718796134912</updated>
+    </task>
+    <task id="LOCAL-00041" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718796335777</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1718796335777</updated>
+    </task>
+    <task id="LOCAL-00042" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718796763163</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1718796763163</updated>
+    </task>
+    <task id="LOCAL-00043" summary="代理商管理">
+      <option name="closed" value="true" />
+      <created>1718798400533</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1718798400534</updated>
+    </task>
+    <task id="LOCAL-00044" summary="包路径修改">
+      <option name="closed" value="true" />
+      <created>1718872139029</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1718872139029</updated>
+    </task>
+    <task id="LOCAL-00045" summary="编辑代理商设置用户名称问题修复">
+      <option name="closed" value="true" />
+      <created>1719368287933</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1719368287933</updated>
+    </task>
+    <task id="LOCAL-00046" summary="init">
+      <option name="closed" value="true" />
+      <created>1720171349340</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1720171349340</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <MESSAGE value="项目初始化" />
+    <MESSAGE value="gitignore" />
+    <MESSAGE value="部分name字段修改" />
+    <MESSAGE value="代理商管理&amp;基础组件调整" />
+    <MESSAGE value="合并冲突修复" />
+    <MESSAGE value="包路径整理" />
+    <MESSAGE value="代理商管理&amp;数据权限" />
+    <MESSAGE value=".gitignore" />
+    <MESSAGE value="权限配置接口" />
+    <MESSAGE value="代理商管理&amp;权限配置接口" />
+    <MESSAGE value="用户账户余额" />
+    <MESSAGE value="区域列表接口" />
+    <MESSAGE value="日期格式修改" />
+    <MESSAGE value="代理商反选列表" />
+    <MESSAGE value="代理商 提交审核" />
+    <MESSAGE value="代理商审核通过导致父部门为空问题修复" />
+    <MESSAGE value="客户权益列表" />
+    <MESSAGE value="代理商充值" />
+    <MESSAGE value="代理商管理" />
+    <MESSAGE value="包路径修改" />
+    <MESSAGE value="编辑代理商设置用户名称问题修复" />
+    <MESSAGE value="init" />
+    <option name="LAST_COMMIT_MESSAGE" value="init" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="SpringBootApplicationConfigurationType">
+        <watch expression="        return conditionList.stream().allMatch(fieldCondition -&gt; {&#10;            if (StrUtil.isNotBlank(fieldCondition.getFieldName())) {&#10;                return checkValue(fieldCondition, FieldTypeEnum.findByType(fieldMap.get(fieldCondition.getFieldName())), data);&#10;            } else {&#10;                return fieldCondition.getConditions().stream().anyMatch(subCondition -&gt; checkValue(subCondition, FieldTypeEnum.findByType(fieldMap.get(subCondition.getFieldName())), data));&#10;            }&#10;        });" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

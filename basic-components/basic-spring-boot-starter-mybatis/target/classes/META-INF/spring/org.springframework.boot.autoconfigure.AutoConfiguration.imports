@@ -1,0 +1,3 @@
+com.paven.component.datasource.config.DataSourceAutoConfiguration
+com.paven.component.mybatis.config.MybatisAutoConfiguration
+com.paven.component.translate.config.TranslateAutoConfiguration
