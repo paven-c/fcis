@@ -1,3 +1,0 @@
-com.fancy.component.datasource.config.DataSourceAutoConfiguration
-com.fancy.component.mybatis.config.MybatisAutoConfiguration
-com.fancy.component.translate.config.TranslateAutoConfiguration

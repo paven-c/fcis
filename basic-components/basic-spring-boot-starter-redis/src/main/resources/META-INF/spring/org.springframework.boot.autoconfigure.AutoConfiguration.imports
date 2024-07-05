@@ -1,0 +1,2 @@
+com.paven.component.redis.config.RedisAutoConfiguration
+com.paven.component.redis.config.CacheAutoConfiguration

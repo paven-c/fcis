@@ -1,18 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.fancy</groupId>
-  <artifactId>fancy-domestic</artifactId>
+  <groupId>com.paven</groupId>
+  <artifactId>fcis</artifactId>
   <version>0.0.1</version>
   <packaging>pom</packaging>
 
   <modules>
-    <module>fancy-app-servers</module>
-    <module>fancy-business-modules</module>
-    <module>fancy-common-components</module>
-    <module>fancy-basic-dependencies</module>
+    <module>app-servers</module>
+    <module>business-modules</module>
+    <module>basic-components</module>
+    <module>basic-dependencies</module>
   </modules>
 
   <properties>
@@ -31,8 +32,8 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>com.fancy</groupId>
-        <artifactId>fancy-basic-dependencies</artifactId>
+        <groupId>com.paven</groupId>
+        <artifactId>basic-dependencies</artifactId>
         <version>0.0.1</version>
         <type>pom</type>
         <scope>import</scope>
