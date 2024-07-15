@@ -5,9 +5,9 @@ spring:
       - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/sys?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
-    username: root
-    password: 123456
+    url: jdbc:mysql://localhost:3306/sys?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+    username: admin
+    password: admin888
     druid: # Druid 【监控】相关的全局配置
       web-stat-filter:
         enabled: true
@@ -41,10 +41,10 @@ spring:
   # Redis 配置
   data:
     redis:
-      host: 60.205.222.35
-      port: 6380
-      database: 9
-      password: fancybos888
+      host: localhost
+      port: 6379
+      database: 0
+      password: admin888
       timeout: 20000ms
 
 # 日志文件配置

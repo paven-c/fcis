@@ -7,6 +7,6 @@ package com.paven.module.common.enums.oauth;
  */
 public interface OAuth2ClientConstants {
 
-    String CLIENT_ID_AGENT = "fancy-agent";
+    String CLIENT_ID_AGENT = "default";
 
 }

@@ -37,16 +37,6 @@ public class OAuth2AccessToken extends BasePojo {
     private Long id;
 
     /**
-     * 访问令牌
-     */
-    private String accessToken;
-
-    /**
-     * 刷新令牌
-     */
-    private String refreshToken;
-
-    /**
      * 用户编号
      */
     private Long userId;
@@ -62,6 +52,16 @@ public class OAuth2AccessToken extends BasePojo {
      */
     @TableField(typeHandler = JacksonTypeHandler.class)
     private Map<String, String> userInfo;
+
+    /**
+     * 访问令牌
+     */
+    private String accessToken;
+
+    /**
+     * 刷新令牌
+     */
+    private String refreshToken;
 
     /**
      * 客户端编号
