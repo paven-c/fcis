@@ -44,6 +44,7 @@ public class PageResult<T> implements IPage<T> {
     public PageResult(Integer pageNum, Integer pageSize) {
         this.pageNum = pageNum;
         this.pageSize = pageSize;
+        this.totalCount = 0;
     }
 
     public PageResult(List<T> list, Integer totalCount, Integer pageNum, Integer pageSize) {

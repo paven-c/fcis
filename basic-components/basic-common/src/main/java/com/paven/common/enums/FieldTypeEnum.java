@@ -17,77 +17,62 @@ public enum FieldTypeEnum implements IntArrayValuable {
     /**
      * 单行文本
      */
-    TEXT(1, "单行文本"),
+    TEXT(1, "input", "单行文本"),
 
     /**
      * 多行文本
      */
-    TEXTAREA(2, "多行文本"),
-
-    /**
-     * 数字
-     */
-    NUMBER(3, "数字"),
-
-    /**
-     * 单选
-     */
-    RADIO(4, "单选"),
-
-    /**
-     * 复选
-     */
-    CHECKBOX(5, "多选"),
-
-    /**
-     * 下拉
-     */
-    DROPDOWN(6, "下拉列表"),
-
-    /**
-     * 日期选择器
-     */
-    DATE(7, "日期选择器"),
-
-    /**
-     * 日期时间选择器
-     */
-    DATETIME(8, "日期时间选择器"),
-
-    /**
-     * 文件上传
-     */
-    FILE(9, "文件上传"),
-
-    /**
-     * 开关
-     */
-    SWITCH(10, "开关"),
+    TEXTAREA(2, "textarea", "多行文本"),
 
     /**
      * 密码
      */
-    PASSWORD(11, "密码"),
+    PASSWORD(3, "password", "密码"),
 
     /**
-     * 邮箱
+     * 下拉选择
      */
-    EMAIL(12, "邮箱"),
+    SELECT(4, "select", "下拉选择"),
 
     /**
-     * 手机
+     * 级联选择
      */
-    PHONE(13, "手机"),
+    CASCADER(5, "cascader", "级联选择"),
 
     /**
-     * URL
+     * 单选框组
      */
-    URL(14, "URL"),
+    RADIO(6, "radio", "单选框组"),
 
     /**
-     * 隐藏
+     * 多选框组
      */
-    HIDDEN(15, "隐藏字段"),
+    CHECKBOX(7, "checkbox", "多选框组"),
+
+    /**
+     * 开关
+     */
+    SWITCH(8, "switch", "开关"),
+
+    /**
+     * 时间选择
+     */
+    TIME_PICKER(9, "time", "时间选择"),
+
+    /**
+     * 时间范围
+     */
+    TIME_RANGE(10, "time-range", "时间范围"),
+
+    /**
+     * 日期选择
+     */
+    DATE(11, "date", "日期选择"),
+
+    /**
+     * 日期范围
+     */
+    DATE_RANGE(12, "date-range", "日期范围"),
     ;
 
     public static final int[] ARRAYS = Arrays.stream(values()).mapToInt(FieldTypeEnum::getType).toArray();
@@ -98,20 +83,25 @@ public enum FieldTypeEnum implements IntArrayValuable {
     private final Integer type;
 
     /**
-     * 状态名
+     * 字段code
      */
-    private final String name;
+    private final String code;
 
-    public static final FieldTypeEnum[] DICT_FIELDS = {RADIO, CHECKBOX, DROPDOWN};
+    /**
+     * 字段描述
+     */
+    private final String desc;
+
+    public static final FieldTypeEnum[] DICT_FIELDS = {RADIO, CHECKBOX, SELECT};
 
     /**
      * 是否字典字段
      *
-     * @param type 字段类型
+     * @param code 字段类型
      * @return 是否字典字段
      */
-    public static boolean isDictField(Integer type) {
-        return Arrays.stream(DICT_FIELDS).anyMatch(fieldType -> fieldType.getType().equals(type));
+    public static boolean isDictField(String code) {
+        return Arrays.stream(DICT_FIELDS).anyMatch(fieldType -> fieldType.getCode().equals(code));
     }
 
     /**
@@ -122,6 +112,11 @@ public enum FieldTypeEnum implements IntArrayValuable {
      */
     public static FieldTypeEnum findByType(Integer type) {
         return Arrays.stream(values()).filter(fieldType -> fieldType.getType().equals(type)).findFirst()
+                .orElse(null);
+    }
+
+    public static FieldTypeEnum findByCode(String code) {
+        return Arrays.stream(values()).filter(fieldType -> fieldType.getCode().equals(code)).findFirst()
                 .orElse(null);
     }
 

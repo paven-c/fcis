@@ -9,6 +9,7 @@ import com.paven.module.common.controller.user.vo.user.UserImportExcelVO;
 import com.paven.module.common.controller.user.vo.user.UserImportRespVO;
 import com.paven.module.common.controller.user.vo.user.UserPageReqVO;
 import com.paven.module.common.controller.user.vo.user.UserSaveReqVO;
+import com.paven.module.common.controller.user.vo.user.UserUpdateReqVO;
 import com.paven.module.common.repository.pojo.user.User;
 import jakarta.validation.Valid;
 import java.io.InputStream;
@@ -37,7 +38,7 @@ public interface UserService {
      *
      * @param updateReqVO 用户信息
      */
-    void updateUser(@Valid UserSaveReqVO updateReqVO);
+    void updateUser(@Valid UserUpdateReqVO updateReqVO);
 
     /**
      * 更新用户的最后登陆信息

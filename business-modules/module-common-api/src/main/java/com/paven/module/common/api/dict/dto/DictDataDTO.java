@@ -9,23 +9,37 @@ import lombok.Data;
  * @author paven
  */
 @Data
-public class DictDataRespDTO {
+public class DictDataDTO {
+
+    private Long id;
+
+    /**
+     * 字段ID
+     */
+    private Long fieldId;
+
+    /**
+     * 字典类型
+     */
+    private String dictType;
 
     /**
      * 字典标签
      */
     private String label;
+
     /**
      * 字典值
      */
     private String value;
+
     /**
-     * 字典类型
+     * 字典排序
      */
-    private String dictType;
+    private Integer sort;
+
     /**
-     * 状态
-     * 枚举 {@link CommonStatusEnum}
+     * 状态 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
 

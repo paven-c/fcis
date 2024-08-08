@@ -27,6 +27,7 @@ import com.paven.module.common.controller.user.vo.user.UserImportExcelVO;
 import com.paven.module.common.controller.user.vo.user.UserImportRespVO;
 import com.paven.module.common.controller.user.vo.user.UserPageReqVO;
 import com.paven.module.common.controller.user.vo.user.UserSaveReqVO;
+import com.paven.module.common.controller.user.vo.user.UserUpdateReqVO;
 import com.paven.module.common.repository.mapper.user.UserMapper;
 import com.paven.module.common.repository.pojo.dept.Dept;
 import com.paven.module.common.repository.pojo.user.User;
@@ -86,10 +87,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateUser(UserSaveReqVO reqVO) {
-        reqVO.setPassword(null);
-        User oldUser = validateUserForCreateOrUpdate(reqVO.getId(), reqVO.getUsername(), reqVO.getMobile(), reqVO.getEmail(), reqVO.getDeptId());
+    public void updateUser(UserUpdateReqVO reqVO) {
+        validateUserForCreateOrUpdate(reqVO.getId(), reqVO.getUsername(), reqVO.getMobile(), reqVO.getEmail(), reqVO.getDeptId());
         User updateObj = BeanUtils.toBean(reqVO, User.class);
+        if (StrUtil.isNotBlank(reqVO.getPassword())) {
+            updateObj.setPassword(encodePassword(reqVO.getPassword()));
+        }
         userMapper.updateById(updateObj);
     }
 

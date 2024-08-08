@@ -6,7 +6,7 @@ import com.google.common.cache.LoadingCache;
 import com.paven.common.core.KeyValue;
 import com.paven.common.util.cache.CacheUtils;
 import com.paven.module.common.api.dict.DictDataApi;
-import com.paven.module.common.api.dict.dto.DictDataRespDTO;
+import com.paven.module.common.api.dict.dto.DictDataDTO;
 import java.time.Duration;
 import java.util.List;
 import lombok.SneakyThrows;
@@ -22,15 +22,15 @@ public class DictFrameworkUtils {
 
     private static DictDataApi dictDataApi;
 
-    private static final DictDataRespDTO DICT_DATA_NULL = new DictDataRespDTO();
+    private static final DictDataDTO DICT_DATA_NULL = new DictDataDTO();
 
     /**
      * 针对 {@link #getDictDataLabel(String, String)} 的缓存
      */
-    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> GET_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
-            Duration.ofMinutes(1L), new CacheLoader<KeyValue<String, String>, DictDataRespDTO>() {
+    private static final LoadingCache<KeyValue<String, String>, DictDataDTO> GET_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
+            Duration.ofMinutes(1L), new CacheLoader<KeyValue<String, String>, DictDataDTO>() {
                 @Override
-                public DictDataRespDTO load(KeyValue<String, String> key) {
+                public DictDataDTO load(KeyValue<String, String> key) {
                     return ObjectUtil.defaultIfNull(dictDataApi.getDictData(key.getKey(), key.getValue()), DICT_DATA_NULL);
                 }
             });
@@ -49,10 +49,10 @@ public class DictFrameworkUtils {
     /**
      * 针对 {@link #parseDictDataValue(String, String)} 的缓存
      */
-    private static final LoadingCache<KeyValue<String, String>, DictDataRespDTO> PARSE_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
-            Duration.ofMinutes(1L), new CacheLoader<KeyValue<String, String>, DictDataRespDTO>() {
+    private static final LoadingCache<KeyValue<String, String>, DictDataDTO> PARSE_DICT_DATA_CACHE = CacheUtils.buildAsyncReloadingCache(
+            Duration.ofMinutes(1L), new CacheLoader<KeyValue<String, String>, DictDataDTO>() {
                 @Override
-                public DictDataRespDTO load(KeyValue<String, String> key) {
+                public DictDataDTO load(KeyValue<String, String> key) {
                     return ObjectUtil.defaultIfNull(dictDataApi.parseDictData(key.getKey(), key.getValue()), DICT_DATA_NULL);
                 }
             });

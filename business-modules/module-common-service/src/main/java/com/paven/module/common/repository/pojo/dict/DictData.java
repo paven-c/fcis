@@ -24,32 +24,41 @@ public class DictData extends BasePojo {
      */
     @TableId
     private Long id;
+
+    /**
+     * 字段编号
+     */
+    private Long fieldId;
+
     /**
      * 字典排序
      */
     private Integer sort;
+
     /**
      * 字典标签
      */
     private String label;
+
     /**
      * 字典值
      */
     private String value;
+
     /**
      * 字典类型
-     *
+     * <p>
      * 冗余 {@link DictData#getDictType()}
      */
     private String dictType;
+
     /**
-     * 状态
-     * 枚举 {@link CommonStatusEnum}
+     * 状态 枚举 {@link CommonStatusEnum}
      */
     private Integer status;
+
     /**
-     * 颜色类型
-     * 对应到 element-ui 为 default、primary、success、info、warning、danger
+     * 颜色类型 对应到 element-ui 为 default、primary、success、info、warning、danger
      */
     private String colorType;
     /**

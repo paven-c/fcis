@@ -5,7 +5,7 @@ spring:
       - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/sys?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
+    url: jdbc:mysql://124.222.108.50:3306/fcis?allowMultiQueries=true&useUnicode=true&useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC&autoReconnect=true&nullCatalogMeansCurrent=true&rewriteBatchedStatements=true
     username: admin
     password: admin888
     druid: # Druid 【监控】相关的全局配置
@@ -44,7 +44,7 @@ spring:
       host: localhost
       port: 6379
       database: 0
-      password: admin888
+#      password: admin888
       timeout: 20000ms
 
 # 日志文件配置
@@ -65,9 +65,3 @@ app:
     exclude-urls:
       - ${spring.boot.admin.context-path}/**
       - ${management.endpoints.web.base-path}/**
-
-feignUrl:
-  content: https://ccapi-test.fancybos.com/
-
-
-

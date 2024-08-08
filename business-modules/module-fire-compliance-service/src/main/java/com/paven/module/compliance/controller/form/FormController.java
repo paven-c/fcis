@@ -1,19 +1,23 @@
 package com.paven.module.compliance.controller.form;
 
 import static com.paven.common.pojo.CommonResult.success;
+import static com.paven.component.web.core.util.WebFrameworkUtils.getLoginUserId;
 
 import com.paven.common.pojo.CommonResult;
 import com.paven.common.pojo.PageResult;
+import com.paven.component.security.core.annotations.PreAuthenticated;
 import com.paven.module.compliance.controller.form.vo.FormCheckReqVO;
 import com.paven.module.compliance.controller.form.vo.FormCreateReqVO;
 import com.paven.module.compliance.controller.form.vo.FormPageReqVO;
 import com.paven.module.compliance.controller.form.vo.FormRespVO;
+import com.paven.module.compliance.controller.form.vo.FormRuleRespVO;
 import com.paven.module.compliance.controller.form.vo.FormRuleSaveReqVO;
 import com.paven.module.compliance.controller.form.vo.FormUpdateReqVO;
 import com.paven.module.compliance.service.FormService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,19 +49,9 @@ public class FormController {
         return success(formService.getFormList(reqVO));
     }
 
-    @GetMapping("/{id}")
-    public CommonResult<FormRespVO> detail(@PathVariable("id") Long id) {
+    @GetMapping("/{formId}")
+    public CommonResult<FormRespVO> detail(@PathVariable("formId") Long id) {
         return success(formService.getFormDetail(id));
-    }
-
-    @PostMapping("/check")
-    public CommonResult<Boolean> check(@RequestBody @Valid FormCheckReqVO reqVO) {
-        return success(formService.check(reqVO));
-    }
-
-    @PutMapping("/rule/save")
-    public CommonResult<Boolean> saveRule(@RequestBody @Valid FormRuleSaveReqVO reqVO) {
-        return success(formService.updateRule(reqVO));
     }
 
     @PostMapping("/create")
@@ -75,4 +69,19 @@ public class FormController {
         return success(formService.delete(id));
     }
 
+    @PostMapping("/rule/check")
+    public CommonResult<Boolean> checkRule(@RequestBody @Valid FormCheckReqVO reqVO) {
+        return success(formService.check(reqVO));
+    }
+
+    @PutMapping("/rule/save")
+    @PreAuthenticated
+    public CommonResult<Boolean> updateRule(@RequestBody @Valid FormRuleSaveReqVO reqVO) {
+        return success(formService.updateRule(getLoginUserId(),reqVO));
+    }
+
+    @GetMapping("/rules/{formId}")
+    public CommonResult<FormRuleRespVO> getRuleList(@PathVariable("formId") Long formId) {
+        return success(formService.getRuleList(formId));
+    }
 }

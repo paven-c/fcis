@@ -39,5 +39,14 @@ public enum ComparisonOperator {
      * 包含
      */
     CONTAINS,
+    ;
 
+    public static ComparisonOperator findByName(String operator) {
+        for (ComparisonOperator value : ComparisonOperator.values()) {
+            if (value.name().equals(operator)) {
+                return value;
+            }
+        }
+        return null;
+    }
 }

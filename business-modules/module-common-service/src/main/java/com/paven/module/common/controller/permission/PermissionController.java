@@ -99,7 +99,7 @@ public class PermissionController {
 
     @Operation(summary = "赋予用户角色")
     @PostMapping("/assign-user-role")
-    @PreAuthorize("@ss.hasRole('super_admin')")
+//    @PreAuthorize("@ss.hasRole('super_admin')")
     public CommonResult<Boolean> assignUserRole(@Validated @RequestBody PermissionAssignUserRoleReqVO reqVO) {
         permissionService.assignUserRole(reqVO.getUserId(), reqVO.getRoleIds());
         return success(true);

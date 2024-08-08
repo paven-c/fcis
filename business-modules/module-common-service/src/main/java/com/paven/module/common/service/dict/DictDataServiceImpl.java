@@ -9,12 +9,17 @@ import static com.paven.module.common.enums.ErrorCodeConstants.DICT_TYPE_NOT_ENA
 import static com.paven.module.common.enums.ErrorCodeConstants.DICT_TYPE_NOT_EXISTS;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.paven.common.enums.CommonStatusEnum;
 import com.paven.common.pojo.PageResult;
 import com.paven.common.util.collection.CollectionUtils;
 import com.paven.common.util.object.BeanUtils;
+import com.paven.module.common.api.dict.dto.DictDataDTO;
 import com.paven.module.common.controller.dict.vo.data.DictDataPageReqVO;
 import com.paven.module.common.controller.dict.vo.data.DictDataSaveReqVO;
+import com.paven.module.common.convert.dict.DictDataConvert;
 import com.paven.module.common.repository.mapper.dict.DictDataMapper;
 import com.paven.module.common.repository.pojo.dict.DictData;
 import com.paven.module.common.repository.pojo.dict.DictType;
@@ -24,6 +29,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +40,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class DictDataServiceImpl implements DictDataService {
+public class DictDataServiceImpl extends ServiceImpl<DictDataMapper, DictData> implements DictDataService {
 
     /**
      * 排序 dictType > sort
@@ -174,10 +180,47 @@ public class DictDataServiceImpl implements DictDataService {
     }
 
     @Override
-    public List<DictData> getDictDataListByDictType(String dictType) {
-        List<DictData> list = dictDataMapper.selectList(DictData::getDictType, dictType);
+    public List<DictData> getDictDataListByDictType(List<String> dictTypes) {
+        if (CollUtil.isEmpty(dictTypes)) {
+            return Lists.newArrayList();
+        }
+        List<DictData> list = dictDataMapper.selectList(Wrappers.lambdaQuery(DictData.class)
+                .in(DictData::getDictType, dictTypes));
         list.sort(Comparator.comparing(DictData::getSort));
         return list;
+    }
+
+    @Override
+    public List<DictData> getFieldDictDataList(List<Long> fieldIds) {
+        if (CollUtil.isEmpty(fieldIds)) {
+            return Lists.newArrayList();
+        }
+        return dictDataMapper.selectList(Wrappers.lambdaQuery(DictData.class)
+                .in(DictData::getId, fieldIds));
+    }
+
+    @Override
+    public void insertBatch(List<DictDataDTO> dictDataList) {
+        if (CollUtil.isEmpty(dictDataList)) {
+            return;
+        }
+        dictDataMapper.insertBatch(DictDataConvert.INSTANCE.convertList(dictDataList));
+    }
+
+    @Override
+    public void updateBatch(List<DictDataDTO> dictDataList) {
+        if (CollUtil.isEmpty(dictDataList)) {
+            return;
+        }
+        dictDataMapper.updateBatch(DictDataConvert.INSTANCE.convertList(dictDataList));
+    }
+
+    @Override
+    public void deleteBatchIds(Set<Long> dicDataIds) {
+        if (CollUtil.isEmpty(dicDataIds)) {
+            return;
+        }
+        dictDataMapper.deleteBatchIds(dicDataIds);
     }
 
 }

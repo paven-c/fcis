@@ -58,12 +58,13 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(rollbackFor = Exception.class)
     public Long createRole(RoleSaveReqVO createReqVO, Integer type) {
         // 查重校验
-        validateRoleDuplicate(createReqVO.getName(), createReqVO.getCode(), null);
+        validateRoleDuplicate(createReqVO.getRoleName(), createReqVO.getCode(), null);
         // 新增角色
         Role role = BeanUtils.toBean(createReqVO, Role.class)
-                .setRoleName(createReqVO.getName())
+                .setRoleName(createReqVO.getRoleName())
                 .setType(ObjectUtil.defaultIfNull(type, RoleTypeEnum.CUSTOM.getType()))
                 .setStatus(CommonStatusEnum.ENABLE.getStatus())
+                .setRemark(createReqVO.getRemark())
                 .setDataScope(DataScopeEnum.ALL.getScope());
         roleMapper.insert(role);
         return role.getId();
@@ -75,7 +76,7 @@ public class RoleServiceImpl implements RoleService {
         // 校验是否可以更新
         Role role = validateRoleForUpdate(updateReqVO.getId());
         // 校验角色的唯一字段是否重复
-        validateRoleDuplicate(updateReqVO.getName(), updateReqVO.getCode(), updateReqVO.getId());
+        validateRoleDuplicate(updateReqVO.getRoleName(), updateReqVO.getCode(), updateReqVO.getId());
         // 更新到数据库
         Role updateObj = BeanUtils.toBean(updateReqVO, Role.class);
         roleMapper.updateById(updateObj);

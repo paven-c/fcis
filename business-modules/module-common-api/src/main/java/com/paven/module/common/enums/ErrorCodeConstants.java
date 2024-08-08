@@ -106,5 +106,6 @@ public interface ErrorCodeConstants {
 
     ErrorCode FORM_NAME_EXISTS = new ErrorCode(1_001_008_001, "表单名已存在");
     ErrorCode FORM_NOT_EXISTS = new ErrorCode(1_001_008_002, "表单名不存在");
-    ErrorCode FORM_RULE_FIELD_NOT_EXISTS = new ErrorCode(1_001_008_003, "表单规则字段({})不存在");
+    ErrorCode FORM_RULE_FIELD_NOT_EXISTS = new ErrorCode(1_001_008_003, "表单规则字段不存在");
+    ErrorCode FORM_FIELD_NAME_DUPLICATE = new ErrorCode(1_001_008_004, "表单字段名({})重复");
 }

@@ -27,7 +27,7 @@ public class FieldUpdateReqVO implements Serializable {
     private String name;
 
     @Schema(description = "字段类型", requiredMode = Schema.RequiredMode.REQUIRED, example = "")
-    private Integer type;
+    private String type;
 
     /**
      * 状态（0停用 1启用）

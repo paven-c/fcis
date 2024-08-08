@@ -1,4 +1,4 @@
-package com.paven.component.mybatis.core.type;
+package com.paven.component.mybatis.core.typehandler;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.crypto.SecureUtil;

@@ -24,12 +24,12 @@ public abstract class BasePojo implements Serializable, TransPojo {
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT, jdbcType = JdbcType.DATE)
     private LocalDateTime createTime;
     /**
      * 最后更新时间
      */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE, jdbcType = JdbcType.DATE)
     private LocalDateTime updateTime;
     /**
      * 创建者，目前使用 SysUser 的 id 编号
@@ -44,6 +44,5 @@ public abstract class BasePojo implements Serializable, TransPojo {
     /**
      * 是否删除
      */
-    @TableLogic
     private Integer deleted;
 }

@@ -1,6 +1,7 @@
 package com.paven.module.common.repository.mapper.permission;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.paven.component.mybatis.core.mapper.BaseMapperX;
 import com.paven.module.common.repository.pojo.permission.UserRole;
 import java.util.Collection;
@@ -32,4 +33,7 @@ public interface UserRoleMapper extends BaseMapperX<UserRole> {
         return selectList(UserRole::getRoleId, roleIds);
     }
 
+    default List<UserRole> selectListByUserIds(List<Long> userIds) {
+        return selectList(Wrappers.lambdaQuery(UserRole.class).in(UserRole::getUserId, userIds));
+    }
 }

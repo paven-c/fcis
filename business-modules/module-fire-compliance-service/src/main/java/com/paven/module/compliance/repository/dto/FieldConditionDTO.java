@@ -12,22 +12,37 @@ import lombok.Data;
 @Data
 public class FieldConditionDTO {
 
+    private Long id;
+
+    /**
+     * 字段ID
+     */
+    private Long fieldId;
+
+    /**
+     * 字段标题
+     */
+    private String fieldTitle;
+
     /**
      * 字段名称
      */
-    @NotEmpty(message = "字段名称不能为空")
     private String fieldName;
+
+    /**
+     * 逻辑运算符
+     */
+    private String logicalOperator;
 
     /**
      * 操作符
      */
-    @NotNull(message = "操作符不能为空")
-    private ComparisonOperator operator;
+    private String operator;
 
     /**
      * 值
      */
-    private Object value;
+    private String value;
 
     /**
      * 或条件集合

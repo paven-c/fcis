@@ -1,6 +1,7 @@
 package com.paven.module.compliance.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.paven.common.enums.CommonStatusEnum;
@@ -12,10 +13,12 @@ import com.paven.module.compliance.controller.field.vo.FieldCreateReqVO;
 import com.paven.module.compliance.controller.field.vo.FieldPageReqVO;
 import com.paven.module.compliance.controller.field.vo.FieldRespVO;
 import com.paven.module.compliance.controller.field.vo.FieldUpdateReqVO;
+import com.paven.module.compliance.convert.FieldConvert;
+import com.paven.module.compliance.repository.dto.FromFieldDTO;
 import com.paven.module.compliance.repository.mapper.FieldMapper;
-import com.paven.module.compliance.repository.mapper.FormFieldMapper;
+import com.paven.module.compliance.repository.mapper.FormRuleMapper;
 import com.paven.module.compliance.repository.pojo.Field;
-import com.paven.module.compliance.repository.pojo.FormField;
+import com.paven.module.compliance.repository.pojo.FormRule;
 import com.paven.module.compliance.service.FieldService;
 import jakarta.annotation.Resource;
 import java.time.LocalDateTime;
@@ -33,45 +36,45 @@ public class FieldServiceImpl extends ServiceImpl<FieldMapper, Field> implements
     @Resource
     private FieldMapper fieldMapper;
     @Resource
-    private FormFieldMapper formFieldMapper;
+    private FormRuleMapper formRuleMapper;
     @Resource
     private DictTypeApi dictTypeApi;
 
     @Override
-    public PageResult<FieldRespVO> fieldPage(FieldPageReqVO reqVO) {
-        return fieldMapper.selectJoinPage(PageResult.build(reqVO), FieldRespVO.class, new MPJLambdaWrapper<>(Field.class)
-                .selectAll(Field.class).select(FormField::getFormId, FormField::getFieldId, FormField::getSort)
-                .leftJoin(FormField.class, condition -> condition.eq(FormField::getFieldId, Field::getId))
+    public PageResult<FromFieldDTO> fieldPage(FieldPageReqVO reqVO) {
+        return fieldMapper.selectJoinPage(PageResult.build(reqVO), FromFieldDTO.class, new MPJLambdaWrapper<>(Field.class)
+                .selectAll(Field.class)
+                .select(FormRule::getFormId, FormRule::getFieldId, FormRule::getSort)
+                .leftJoin(FormRule.class, condition -> condition.eq(FormRule::getFieldId, Field::getId))
                 .eq(Field::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus())
-                .eq(Objects.nonNull(reqVO.getFormId()), FormField::getFormId, reqVO.getFormId())
+                .eq(Objects.nonNull(reqVO.getFormId()), FormRule::getFormId, reqVO.getFormId())
                 .like(StrUtil.isNotBlank(reqVO.getTitle()), Field::getTitle, reqVO.getTitle())
                 .eq(Objects.nonNull(reqVO.getType()), Field::getType, reqVO.getType())
-                .orderByDesc(FormField::getSort));
+                .orderByAsc(FormRule::getSort));
     }
 
     @Override
     public List<FieldRespVO> fieldList(FieldPageReqVO reqVO) {
-        return fieldMapper.selectJoinList(FieldRespVO.class, new MPJLambdaWrapper<>(Field.class)
-                .selectAll(Field.class).select(FormField::getFormId, FormField::getFieldId, FormField::getSort)
-                .leftJoin(FormField.class, condition -> condition.eq(FormField::getFieldId, Field::getId))
+        List<Field> fieldList = fieldMapper.selectList(Wrappers.lambdaQuery(Field.class)
+                .eq(Field::getFormId, reqVO.getFormId())
                 .eq(Field::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus())
-                .eq(Objects.nonNull(reqVO.getFormId()), FormField::getFormId, reqVO.getFormId())
-                .like(StrUtil.isNotBlank(reqVO.getTitle()), Field::getTitle, reqVO.getTitle())
-                .eq(Objects.nonNull(reqVO.getType()), Field::getType, reqVO.getType())
-                .orderByDesc(FormField::getSort));
+                .orderByAsc(Field::getSort));
+        return FieldConvert.INSTANCE.convertVoList(fieldList);
+
     }
 
     @Override
-    public FieldRespVO detail(Long id) {
-        return formFieldMapper.selectJoinOne(FieldRespVO.class, new MPJLambdaWrapper<>(FormField.class)
-                .select(FormField::getFormId, FormField::getFieldId, FormField::getSort)
-                .selectAll(Field.class)
-                .leftJoin(Field.class, condition -> condition
-                        .eq(Field::getId, FormField::getFieldId)
-                        .eq(Field::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()))
-                .eq(Field::getId, id)
-                .orderByDesc(FormField::getSort)
-                .last("LIMIT 1"));
+    public Field detail(Long id) {
+        return fieldMapper.selectById(id);
+//        return formRuleMapper.selectJoinOne(FieldRespVO.class, new MPJLambdaWrapper<>(FormRule.class)
+//                .select(FormRule::getFormId, FormRule::getFieldId, FormRule::getSort)
+//                .selectAll(Field.class)
+//                .leftJoin(Field.class, condition -> condition
+//                        .eq(Field::getId, FormRule::getFieldId)
+//                        .eq(Field::getDeleted, DeleteStatusEnum.ACTIVATED.getStatus()))
+//                .eq(Field::getId, id)
+//                .orderByAsc(FormRule::getSort)
+//                .last("LIMIT 1"));
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -83,7 +86,7 @@ public class FieldServiceImpl extends ServiceImpl<FieldMapper, Field> implements
                 .status(Objects.nonNull(reqVO.getStatus()) ? reqVO.getStatus() : CommonStatusEnum.ENABLE.getStatus())
                 .dicType(dictField ? reqVO.getName() : null).build();
         fieldMapper.insert(field);
-        formFieldMapper.insert(FormField.builder().formId(reqVO.getFormId())
+        formRuleMapper.insert(FormRule.builder().formId(reqVO.getFormId())
                 .fieldId(field.getId())
                 .sort(0).creator(userId)
                 .createTime(LocalDateTime.now()).build());

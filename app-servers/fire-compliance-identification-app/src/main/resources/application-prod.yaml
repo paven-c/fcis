@@ -5,9 +5,9 @@ spring:
       - org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://rm-2ze47m9z96m75gbqp.mysql.rds.aliyuncs.com:3306/fancy_agent?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false
-    username: content_root
-    password: contentApp888
+    url: jdbc:mysql://124.222.108.50:3306/fcis?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&autoReconnect=true&failOverReadOnly=false
+    username: admin
+    password: admin888
     druid: # Druid 【监控】相关的全局配置
       web-stat-filter:
         enabled: true
@@ -41,10 +41,10 @@ spring:
   # Redis 配置
   data:
     redis:
-      host: r-2ze7f60x9gqz0qlk1v.redis.rds.aliyuncs.com
+      host: 124.222.108.50
       port: 6379
       database: 1
-      password: flipApp666
+      password: admin888
       timeout: 20000ms
 
 # 日志文件配置
@@ -64,7 +64,3 @@ app:
     exclude-urls:
       - ${spring.boot.admin.context-path}/**
       - ${management.endpoints.web.base-path}/**
-
-feignUrl:
-  content: http://fancy-content-center:8081/
-

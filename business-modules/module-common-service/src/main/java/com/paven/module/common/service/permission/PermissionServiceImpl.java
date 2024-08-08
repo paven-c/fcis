@@ -229,6 +229,11 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public List<UserRole> getUserRoleIdListByUserIds(List<Long> userIds) {
+        return userRoleMapper.selectListByUserIds(userIds);
+    }
+
+    @Override
     public Set<String> getUserRoleCodeListByUserId(Long userId) {
         List<Role> roles = getEnableUserRoleListByUserIdFromCache(userId);
         return roles.stream().map(Role::getCode).collect(Collectors.toSet());

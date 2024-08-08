@@ -3,7 +3,9 @@ package com.paven.module.common.service.permission;
 import static java.util.Collections.singleton;
 
 import com.paven.module.common.api.permission.dto.DeptDataPermissionRespDTO;
+import com.paven.module.common.repository.pojo.permission.UserRole;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -115,6 +117,9 @@ public interface PermissionService {
      * @return 角色编号集合
      */
     Set<Long> getUserRoleIdListByUserId(Long userId);
+
+    List<UserRole> getUserRoleIdListByUserIds(List<Long> userIds);
+
 
     Set<String> getUserRoleCodeListByUserId(Long userId);
 

@@ -1,7 +1,7 @@
-package com.paven.component.mybatis.core.type;
+package com.paven.component.mybatis.core.typehandler;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
+import com.paven.common.util.string.StrUtils;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,45 +13,43 @@ import org.apache.ibatis.type.MappedTypes;
 import org.apache.ibatis.type.TypeHandler;
 
 /**
- * List<String> 的类型转换器实现类，对应数据库的 varchar 类型
+ * List<Integer> 的类型转换器实现类，对应数据库的 varchar 类型
  *
- * @author paven
- * @since 2022 3/23 12:50:15
+ * @author jason
  */
 @MappedJdbcTypes(JdbcType.VARCHAR)
 @MappedTypes(List.class)
-public class StringListTypeHandler implements TypeHandler<List<String>> {
+public class IntegerListTypeHandler implements TypeHandler<List<Integer>> {
 
     private static final String COMMA = ",";
 
     @Override
-    public void setParameter(PreparedStatement ps, int i, List<String> strings, JdbcType jdbcType) throws SQLException {
-        // 设置占位符
+    public void setParameter(PreparedStatement ps, int i, List<Integer> strings, JdbcType jdbcType) throws SQLException {
         ps.setString(i, CollUtil.join(strings, COMMA));
     }
 
     @Override
-    public List<String> getResult(ResultSet rs, String columnName) throws SQLException {
+    public List<Integer> getResult(ResultSet rs, String columnName) throws SQLException {
         String value = rs.getString(columnName);
         return getResult(value);
     }
 
     @Override
-    public List<String> getResult(ResultSet rs, int columnIndex) throws SQLException {
+    public List<Integer> getResult(ResultSet rs, int columnIndex) throws SQLException {
         String value = rs.getString(columnIndex);
         return getResult(value);
     }
 
     @Override
-    public List<String> getResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public List<Integer> getResult(CallableStatement cs, int columnIndex) throws SQLException {
         String value = cs.getString(columnIndex);
         return getResult(value);
     }
 
-    private List<String> getResult(String value) {
+    private List<Integer> getResult(String value) {
         if (value == null) {
             return null;
         }
-        return StrUtil.splitTrim(value, COMMA);
+        return StrUtils.splitToInteger(value, COMMA);
     }
 }

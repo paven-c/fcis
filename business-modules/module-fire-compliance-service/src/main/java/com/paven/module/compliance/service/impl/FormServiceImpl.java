@@ -7,12 +7,17 @@ import static com.paven.module.common.enums.ErrorCodeConstants.FORM_RULE_FIELD_N
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
+import com.paven.common.enums.ComparisonOperator;
 import com.paven.common.enums.DeleteStatusEnum;
 import com.paven.common.enums.FieldTypeEnum;
 import com.paven.common.pojo.PageResult;
+import com.paven.common.util.collection.CollectionUtils;
 import com.paven.common.util.json.JsonUtils;
 import com.paven.module.compliance.controller.field.vo.FieldPageReqVO;
 import com.paven.module.compliance.controller.field.vo.FieldRespVO;
@@ -20,25 +25,31 @@ import com.paven.module.compliance.controller.form.vo.FormCheckReqVO;
 import com.paven.module.compliance.controller.form.vo.FormCreateReqVO;
 import com.paven.module.compliance.controller.form.vo.FormPageReqVO;
 import com.paven.module.compliance.controller.form.vo.FormRespVO;
+import com.paven.module.compliance.controller.form.vo.FormRuleRespVO;
 import com.paven.module.compliance.controller.form.vo.FormRuleSaveReqVO;
 import com.paven.module.compliance.controller.form.vo.FormUpdateReqVO;
 import com.paven.module.compliance.convert.FormConvert;
 import com.paven.module.compliance.repository.dto.FieldConditionDTO;
-import com.paven.module.compliance.repository.mapper.FormFieldMapper;
+import com.paven.module.compliance.repository.mapper.FormRuleMapper;
 import com.paven.module.compliance.repository.mapper.FormMapper;
+import com.paven.module.compliance.repository.pojo.Field;
 import com.paven.module.compliance.repository.pojo.Form;
-import com.paven.module.compliance.repository.pojo.FormField;
+import com.paven.module.compliance.repository.pojo.FormRule;
 import com.paven.module.compliance.service.FieldService;
 import com.paven.module.compliance.service.FormService;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.apache.commons.compress.utils.Lists;
+import java.util.stream.Stream;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,7 +62,7 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
     @Resource
     private FormMapper formMapper;
     @Resource
-    private FormFieldMapper formFieldMapper;
+    private FormRuleMapper formRuleMapper;
     @Resource
     private FieldService fieldService;
 
@@ -78,8 +89,8 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
             return true;
         }
         // 删除关联关系
-        formFieldMapper.delete(Wrappers.lambdaQuery(FormField.class)
-                .eq(FormField::getFormId, id));
+        formRuleMapper.delete(Wrappers.lambdaQuery(FormRule.class)
+                .eq(FormRule::getFormId, id));
         // 删除建筑
         int count = formMapper.update(Wrappers.lambdaUpdate(Form.class)
                 .set(Form::getDeleted, DeleteStatusEnum.DELETED.getStatus())
@@ -123,25 +134,68 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
     }
 
     @Override
-    public Boolean updateRule(FormRuleSaveReqVO reqVO) {
+    public Boolean updateRule(Long userId, FormRuleSaveReqVO reqVO) {
         FormRespVO formDetail = getFormDetail(reqVO.getFormId());
         if (Objects.isNull(formDetail)) {
             throw exception(FORM_NOT_EXISTS);
         }
-        // 表单字段
-        Map<String, FieldRespVO> fieldMap = Optional.ofNullable(fieldService.fieldList(FieldPageReqVO.builder().formId(reqVO.getFormId()).build()))
-                .orElse(Lists.newArrayList()).stream().collect(Collectors.toMap(FieldRespVO::getName, field -> field));
+        // 整合条件列表数据
+        AtomicInteger sort = new AtomicInteger();
+        List<FormRule> ruleList = Optional.ofNullable(reqVO.getConditions()).orElse(Lists.newArrayList())
+                .stream().flatMap(condition -> {
+                    FormRule outerRule = FormRule.builder()
+                            .id(condition.getId())
+                            .formId(reqVO.getFormId())
+                            .fieldId(condition.getFieldId())
+                            .operator(condition.getOperator())
+                            .value(condition.getValue())
+                            .parentId(0L)
+                            .sort(sort.getAndIncrement())
+                            .creator(condition.getId() != null ? null : userId)
+                            .createTime(condition.getId() != null ? null : LocalDateTime.now())
+                            .build();
+                    if (outerRule.getId() == null) {
+                        formRuleMapper.insert(outerRule);
+                    }
+                    AtomicInteger innerSort = new AtomicInteger();
+                    List<FormRule> rules = Optional.ofNullable(condition.getConditions()).orElse(Lists.newArrayList())
+                            .stream()
+                            .map(innerRule -> FormRule.builder()
+                                    .id(innerRule.getId())
+                                    .formId(reqVO.getFormId())
+                                    .fieldId(innerRule.getFieldId())
+                                    .operator(innerRule.getOperator())
+                                    .value(innerRule.getValue())
+                                    .parentId(outerRule.getId())
+                                    .sort(innerSort.getAndIncrement())
+                                    .creator(innerRule.getId() != null ? null : userId)
+                                    .createTime(innerRule.getId() != null ? null : LocalDateTime.now())
+                                    .build()).collect(Collectors.toList());
+                    rules.add(outerRule);
+                    return rules.stream();
+                }).toList();
+        // 校验表单字段
+        Map<Long, FieldRespVO> fieldMap = Optional.ofNullable(fieldService.fieldList(FieldPageReqVO.builder().formId(reqVO.getFormId()).build()))
+                .orElse(Lists.newArrayList()).stream().collect(Collectors.toMap(FieldRespVO::getId, field -> field));
         if (CollUtil.isNotEmpty(reqVO.getConditions())) {
-            List<String> fieldNames = reqVO.getConditions().stream().map(FieldConditionDTO::getFieldName)
-                    .filter(fieldName -> StrUtil.isNotBlank(fieldName) && !fieldMap.containsKey(fieldName)).toList();
-            if (CollUtil.isNotEmpty(fieldNames)) {
-                throw exception(FORM_RULE_FIELD_NOT_EXISTS, String.join(StrUtil.COMMA, fieldNames));
+            List<Long> ids = ruleList.stream().map(FormRule::getFieldId).filter(id -> Objects.nonNull(id) && !fieldMap.containsKey(id)).toList();
+            if (CollUtil.isNotEmpty(ids)) {
+                throw exception(FORM_RULE_FIELD_NOT_EXISTS);
             }
         }
-        formMapper.update(Wrappers.lambdaUpdate(Form.class)
-                .set(Form::getConditions, JsonUtils.toJsonString(reqVO.getConditions()))
-                .set(Form::getUpdateTime, LocalDateTime.now())
-                .eq(Form::getId, reqVO.getFormId()));
+        // 数据库操作
+        List<FormRule> dbRuleList = formRuleMapper.selectList(Wrappers.lambdaQuery(FormRule.class)
+                .eq(FormRule::getFormId, reqVO.getFormId()));
+        List<List<FormRule>> diffRuleList = CollectionUtils.diffList(dbRuleList, ruleList, (dbRule, rule) -> dbRule.getId().equals(rule.getId()));
+        if (CollUtil.isNotEmpty(diffRuleList.get(0))) {
+            formRuleMapper.insertBatch(diffRuleList.get(0));
+        }
+        if (CollUtil.isNotEmpty(diffRuleList.get(1))) {
+            formRuleMapper.updateBatch(diffRuleList.get(1));
+        }
+        if (CollUtil.isNotEmpty(diffRuleList.get(2))) {
+            formRuleMapper.deleteBatchIds(diffRuleList.get(2).stream().map(FormRule::getId).toList());
+        }
         return true;
     }
 
@@ -152,7 +206,7 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
         // 表单详情
         FormRespVO respVO = Optional.ofNullable(reqVO.getFormId()).map(this::getFormDetail).orElseThrow(() -> exception(FORM_NOT_EXISTS));
         // 表单字段
-        Map<String, Integer> fieldMap = Optional.ofNullable(respVO.getFieldList()).orElse(Lists.newArrayList()).stream()
+        Map<String, String> fieldMap = Optional.ofNullable(respVO.getFieldList()).orElse(Lists.newArrayList()).stream()
                 .collect(Collectors.toMap(FieldRespVO::getName, FieldRespVO::getType));
         // 条件规则
         List<FieldConditionDTO> conditionList = JsonUtils.parseArray(respVO.getConditions(), FieldConditionDTO.class);
@@ -162,11 +216,61 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
         return conditionList.stream().allMatch(fieldCondition -> {
             if (CollUtil.isNotEmpty(fieldCondition.getConditions())) {
                 return fieldCondition.getConditions().stream()
-                        .anyMatch(subCondition -> checkValue(subCondition, FieldTypeEnum.findByType(fieldMap.get(subCondition.getFieldName())), data));
+                        .anyMatch(subCondition -> checkValue(subCondition, FieldTypeEnum.findByCode(fieldMap.get(subCondition.getFieldName())), data));
             } else {
-                return checkValue(fieldCondition, FieldTypeEnum.findByType(fieldMap.get(fieldCondition.getFieldName())), data);
+                return checkValue(fieldCondition, FieldTypeEnum.findByCode(fieldMap.get(fieldCondition.getFieldName())), data);
             }
         });
+    }
+
+    @Override
+    public FormRuleRespVO getRuleList(Long formId) {
+        Form form = formMapper.selectById(formId);
+        if (Objects.isNull(form)) {
+            return null;
+        }
+        // 字段列表
+        Map<Long, FieldRespVO> fieldMap = fieldService.fieldList(FieldPageReqVO.builder().formId(formId).build()).stream()
+                .collect(Collectors.toMap(FieldRespVO::getId, field -> field));
+        // 规则列表
+        List<FormRule> ruleList = formRuleMapper.selectList(Wrappers.lambdaQuery(FormRule.class)
+                .eq(FormRule::getFormId, formId)
+                .orderByAsc(FormRule::getParentId)
+                .orderByAsc(FormRule::getSort));
+        Map<Long, List<FormRule>> ruleMap = ruleList.stream().collect(Collectors.groupingBy(FormRule::getParentId));
+        FormRuleRespVO respVO = new FormRuleRespVO();
+        respVO.setFormId(formId);
+        respVO.setConditions(Optional.ofNullable(ruleMap.get(0L)).orElse(Lists.newArrayList())
+                .stream()
+                .map(rule -> {
+                    FieldConditionDTO condition = new FieldConditionDTO();
+                    condition.setId(rule.getId());
+                    condition.setFieldId(rule.getFieldId());
+                    FieldRespVO field = fieldMap.get(rule.getFieldId());
+                    if (Objects.nonNull(field)) {
+                        condition.setFieldName(field.getName());
+                        condition.setFieldTitle(field.getTitle());
+                    }
+                    condition.setLogicalOperator("AND");
+                    condition.setOperator(rule.getOperator());
+                    condition.setValue(rule.getValue());
+                    condition.setConditions(Optional.ofNullable(ruleMap.get(rule.getId())).orElse(Lists.newArrayList()).stream().map(innerRule -> {
+                        FieldConditionDTO innerCondition = new FieldConditionDTO();
+                        innerCondition.setId(innerRule.getId());
+                        innerCondition.setFieldId(innerRule.getFieldId());
+                        FieldRespVO innerField = fieldMap.get(innerRule.getFieldId());
+                        if (Objects.nonNull(innerField)) {
+                            innerCondition.setFieldName(innerField.getName());
+                            innerCondition.setFieldTitle(innerField.getTitle());
+                        }
+                        innerCondition.setLogicalOperator("OR");
+                        innerCondition.setOperator(innerRule.getOperator());
+                        innerCondition.setValue(innerRule.getValue());
+                        return innerCondition;
+                    }).toList());
+                    return condition;
+                }).toList());
+        return respVO;
     }
 
     public static boolean checkValue(FieldConditionDTO condition, FieldTypeEnum type, Map<String, Object> data) {
@@ -178,16 +282,19 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
             return false;
         }
         return switch (type) {
-            case TEXT, TEXTAREA, PASSWORD, EMAIL, PHONE, URL -> checkStringCondition(condition, fieldValueStr, conditionValueStr);
-            case NUMBER -> checkNumberCondition(condition, fieldValueStr, conditionValueStr);
-            case DATE, DATETIME -> checkDateCondition(condition, fieldValueStr, conditionValueStr);
-            case RADIO, DROPDOWN, CHECKBOX -> checkListCondition(condition, fieldValueStr, conditionValueStr);
+            case TEXT, TEXTAREA, PASSWORD -> checkStringCondition(condition, fieldValueStr, conditionValueStr);
+            case DATE, TIME_PICKER, DATE_RANGE, TIME_RANGE -> checkDateCondition(condition, fieldValueStr, conditionValueStr);
+            case RADIO, SELECT, CHECKBOX -> checkListCondition(condition, fieldValueStr, conditionValueStr);
             default -> false;
         };
     }
 
     private static boolean checkStringCondition(FieldConditionDTO condition, String fieldValueStr, String conditionValueStr) {
-        return switch (condition.getOperator()) {
+        ComparisonOperator operator = ComparisonOperator.findByName(condition.getOperator());
+        if (Objects.isNull(operator)) {
+            return false;
+        }
+        return switch (operator) {
             case EQUALS -> StrUtil.equals(fieldValueStr, conditionValueStr);
             case NOT_EQUALS -> !StrUtil.equals(fieldValueStr, conditionValueStr);
             case CONTAINS -> StrUtil.contains(fieldValueStr, conditionValueStr);
@@ -199,7 +306,11 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
         try {
             BigDecimal fieldValue = new BigDecimal(fieldValueStr);
             BigDecimal conditionValue = new BigDecimal(conditionValueStr);
-            return switch (condition.getOperator()) {
+            ComparisonOperator operator = ComparisonOperator.findByName(condition.getOperator());
+            if (Objects.isNull(operator)) {
+                return false;
+            }
+            return switch (operator) {
                 case EQUALS -> fieldValue.compareTo(conditionValue) == 0;
                 case NOT_EQUALS -> fieldValue.compareTo(conditionValue) != 0;
                 case GREATER_THAN -> fieldValue.compareTo(conditionValue) > 0;
@@ -223,7 +334,11 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
         try {
             BigDecimal fieldDateValue = new BigDecimal(DateUtil.parse(fieldValueStr).getTime());
             BigDecimal conditionDateValue = new BigDecimal(DateUtil.parse(conditionValueStr).getTime());
-            return switch (condition.getOperator()) {
+            ComparisonOperator operator = ComparisonOperator.findByName(condition.getOperator());
+            if (Objects.isNull(operator)) {
+                return false;
+            }
+            return switch (operator) {
                 case EQUALS -> fieldDateValue.compareTo(conditionDateValue) == 0;
                 case NOT_EQUALS -> fieldDateValue.compareTo(conditionDateValue) != 0;
                 case GREATER_THAN -> fieldDateValue.compareTo(conditionDateValue) > 0;
@@ -238,7 +353,11 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
     }
 
     private static boolean checkListCondition(FieldConditionDTO condition, String fieldValueStr, String conditionValueStr) {
-        return switch (condition.getOperator()) {
+        ComparisonOperator operator = ComparisonOperator.findByName(condition.getOperator());
+        if (Objects.isNull(operator)) {
+            return false;
+        }
+        return switch (operator) {
             case EQUALS -> StrUtil.equals(fieldValueStr, conditionValueStr);
             case NOT_EQUALS -> !StrUtil.equals(fieldValueStr, conditionValueStr);
             case CONTAINS -> {

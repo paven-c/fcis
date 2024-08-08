@@ -12,4 +12,4 @@ EXPOSE 10091
 COPY target/fire-compliance-identification-app.jar ./app/
 
 #在data目录下启动 ./app/xxx-0.0.1-SNAPSHOT.jar
-CMD java -jar ./app/fire-compliance-identification-app.jar
+CMD ["java", "-jar", "./app/fire-compliance-identification-app.jar", "--spring.profiles.active=prod"]

@@ -1,11 +1,16 @@
 package com.paven.module.compliance.repository.pojo;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.paven.module.compliance.repository.dto.FieldConditionDTO;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
+import org.apache.ibatis.type.JdbcType;
 
 
 /**
@@ -13,8 +18,8 @@ import lombok.Data;
  */
 @Data
 @Builder
-@TableName("sys_form_field")
-public class FormField implements Serializable {
+@TableName("sys_form_rule")
+public class FormRule implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -33,6 +38,21 @@ public class FormField implements Serializable {
      * 字段ID
      */
     private Long fieldId;
+
+    /**
+     * 操作符
+     */
+    private String operator;
+
+    /**
+     * 值
+     */
+    private String value;
+
+    /**
+     * 父ID
+     */
+    private Long parentId;
 
     /**
      * 排序字段

@@ -20,6 +20,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,15 @@ public class MenuController {
     @Resource
     private MenuService menuService;
 
+    @GetMapping("/list")
+    @Operation(summary = "获取菜单列表", description = "用于【菜单管理】界面")
+//    @PreAuthorize("@ss.hasPermission('common:menu:query')")
+    public CommonResult<List<MenuRespVO>> getMenuList(MenuListReqVO reqVO) {
+        List<Menu> list = menuService.getMenuList(reqVO);
+        list.sort(Comparator.comparing(Menu::getSort));
+        return success(BeanUtils.toBean(list, MenuRespVO.class));
+    }
+
     @PostMapping("/create")
     @Operation(summary = "创建菜单")
     @PreAuthorize("@ss.hasPermission('common:menu:create')")
@@ -55,28 +65,19 @@ public class MenuController {
         return success(true);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/{menuId}")
     @Operation(summary = "删除菜单")
-    @Parameter(name = "id", description = "菜单编号", required= true, example = "1024")
+    @Parameter(name = "id", description = "菜单编号", required = true, example = "")
     @PreAuthorize("@ss.hasPermission('common:menu:delete')")
-    public CommonResult<Boolean> deleteMenu(@RequestParam("id") Long id) {
+    public CommonResult<Boolean> deleteMenu(@PathVariable("menuId") Long id) {
         menuService.deleteMenu(id);
         return success(true);
     }
 
-    @GetMapping("/list")
-    @Operation(summary = "获取菜单列表", description = "用于【菜单管理】界面")
-    @PreAuthorize("@ss.hasPermission('common:menu:query')")
-    public CommonResult<List<MenuRespVO>> getMenuList(MenuListReqVO reqVO) {
-        List<Menu> list = menuService.getMenuList(reqVO);
-        list.sort(Comparator.comparing(Menu::getSort));
-        return success(BeanUtils.toBean(list, MenuRespVO.class));
-    }
-
-    @GetMapping("/get")
+    @GetMapping("/{menuId}")
     @Operation(summary = "获取菜单信息")
     @PreAuthorize("@ss.hasPermission('common:menu:query')")
-    public CommonResult<MenuRespVO> getMenu(Long id) {
+    public CommonResult<MenuRespVO> getMenu(@PathVariable("menuId") Long id) {
         Menu menu = menuService.getMenu(id);
         return success(BeanUtils.toBean(menu, MenuRespVO.class));
     }

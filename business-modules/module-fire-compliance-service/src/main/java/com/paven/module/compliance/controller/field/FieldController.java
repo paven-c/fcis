@@ -3,12 +3,17 @@ package com.paven.module.compliance.controller.field;
 import static com.paven.common.pojo.CommonResult.success;
 import static com.paven.component.web.core.util.WebFrameworkUtils.getLoginUserId;
 
+import cn.hutool.json.JSONUtil;
 import com.paven.common.pojo.CommonResult;
 import com.paven.common.pojo.PageResult;
+import com.paven.common.util.json.JsonUtils;
 import com.paven.module.compliance.controller.field.vo.FieldCreateReqVO;
 import com.paven.module.compliance.controller.field.vo.FieldPageReqVO;
 import com.paven.module.compliance.controller.field.vo.FieldRespVO;
 import com.paven.module.compliance.controller.field.vo.FieldUpdateReqVO;
+import com.paven.module.compliance.convert.FieldConvert;
+import com.paven.module.compliance.repository.dto.FromFieldDTO;
+import com.paven.module.compliance.repository.pojo.Field;
 import com.paven.module.compliance.service.FieldService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
@@ -36,7 +41,8 @@ public class FieldController {
 
     @GetMapping("/page")
     public CommonResult<PageResult<FieldRespVO>> page(@Valid FieldPageReqVO reqVO) {
-        return success(fieldService.fieldPage(reqVO));
+        PageResult<FromFieldDTO> pageResult = fieldService.fieldPage(reqVO);
+        return success(PageResult.convert(FieldConvert.INSTANCE.convertList(pageResult.getList()), pageResult));
     }
 
     @GetMapping("/list")
@@ -46,7 +52,7 @@ public class FieldController {
 
     @GetMapping("/{id}")
     public CommonResult<FieldRespVO> detail(@PathVariable("id") Long id) {
-        return success(fieldService.detail(id));
+        return success(FieldConvert.INSTANCE.convertVo(fieldService.detail(id)));
     }
 
     @PostMapping("/create")

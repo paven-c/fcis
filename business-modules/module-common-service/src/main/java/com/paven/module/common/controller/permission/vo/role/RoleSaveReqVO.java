@@ -17,7 +17,7 @@ public class RoleSaveReqVO {
     @Schema(description = "角色名称", requiredMode = Schema.RequiredMode.REQUIRED, example = "管理员")
     @NotBlank(message = "角色名称不能为空")
     @Size(max = 30, message = "角色名称长度不能超过 30 个字符")
-    private String name;
+    private String roleName;
 
     @NotBlank(message = "角色标志不能为空")
     @Size(max = 100, message = "角色标志长度不能超过 100 个字符")
@@ -25,7 +25,6 @@ public class RoleSaveReqVO {
     private String code;
 
     @Schema(description = "显示顺序", requiredMode = Schema.RequiredMode.REQUIRED, example = "1024")
-    @NotNull(message = "显示顺序不能为空")
     private Integer sort;
 
     @Schema(description = "备注", example = "")

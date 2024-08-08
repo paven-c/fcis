@@ -2,6 +2,7 @@ package com.paven.module.common.api.user;
 
 import com.paven.module.common.api.user.dto.UserRespDTO;
 import com.paven.module.common.api.user.dto.UserSaveReqDTO;
+import com.paven.module.common.controller.user.vo.user.UserUpdateReqVO;
 import com.paven.module.common.convert.user.UserConvert;
 import com.paven.module.common.repository.pojo.dept.Dept;
 import com.paven.module.common.repository.pojo.user.User;
@@ -34,7 +35,7 @@ public class UserApiImpl implements UserApi {
 
     @Override
     public void updateUser(UserSaveReqDTO reqDTO) {
-        userService.updateUser(UserConvert.INSTANCE.convert(reqDTO));
+        userService.updateUser(UserConvert.INSTANCE.convertVO(reqDTO));
     }
 
     @Override

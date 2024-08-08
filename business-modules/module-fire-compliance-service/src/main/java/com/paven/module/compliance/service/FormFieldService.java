@@ -3,12 +3,12 @@ package com.paven.module.compliance.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.paven.module.compliance.controller.form.vo.FormFieldCreateReqVO;
 import com.paven.module.compliance.controller.form.vo.FormFieldSaveReqVO;
-import com.paven.module.compliance.repository.pojo.FormField;
+import com.paven.module.compliance.repository.pojo.FormRule;
 
 /**
  * @author Yanyi
  */
-public interface FormFieldService extends IService<FormField> {
+public interface FormFieldService extends IService<FormRule> {
 
     /**
      * 创建建筑字段

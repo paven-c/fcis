@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.paven.common.enums.CommonStatusEnum;
 import com.paven.component.mybatis.core.dataobject.BasePojo;
-import com.paven.component.mybatis.core.type.JsonLongSetTypeHandler;
+import com.paven.component.mybatis.core.typehandler.JsonLongSetTypeHandler;
 import com.paven.module.common.enums.permission.DataScopeEnum;
 import com.paven.module.common.enums.permission.RoleCodeEnum;
 import com.paven.module.common.enums.permission.RoleTypeEnum;

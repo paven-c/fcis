@@ -6,6 +6,7 @@ import com.paven.module.compliance.controller.form.vo.FormCheckReqVO;
 import com.paven.module.compliance.controller.form.vo.FormCreateReqVO;
 import com.paven.module.compliance.controller.form.vo.FormPageReqVO;
 import com.paven.module.compliance.controller.form.vo.FormRespVO;
+import com.paven.module.compliance.controller.form.vo.FormRuleRespVO;
 import com.paven.module.compliance.controller.form.vo.FormRuleSaveReqVO;
 import com.paven.module.compliance.controller.form.vo.FormUpdateReqVO;
 import com.paven.module.compliance.repository.pojo.Form;
@@ -70,7 +71,7 @@ public interface FormService extends IService<Form> {
      * @param reqVO 参数
      * @return 是否成功
      */
-    Boolean updateRule(FormRuleSaveReqVO reqVO);
+    Boolean updateRule(Long userId, FormRuleSaveReqVO reqVO);
 
     /**
      * 检测建筑
@@ -79,4 +80,12 @@ public interface FormService extends IService<Form> {
      * @return 是否成功
      */
     Boolean check(FormCheckReqVO reqVO);
+
+    /**
+     * 获取规则列表
+     *
+     * @param formId 表单ID
+     * @return 规则列表
+     */
+    FormRuleRespVO getRuleList(Long formId);
 }

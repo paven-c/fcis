@@ -6,6 +6,7 @@ import static com.paven.common.pojo.CommonResult.success;
 import static com.paven.component.web.core.util.WebFrameworkUtils.getLoginUserId;
 import static com.paven.module.common.enums.ErrorCodeConstants.FILE_IS_EMPTY;
 
+import com.google.common.collect.Lists;
 import com.paven.common.pojo.CommonResult;
 import com.paven.module.common.controller.user.vo.profile.UserProfileRespVO;
 import com.paven.module.common.controller.user.vo.profile.UserProfileUpdatePasswordReqVO;
@@ -60,7 +61,7 @@ public class UserProfileController {
 //        List<Role> userRoles = roleService.getRoleListFromCache(permissionService.getUserRoleIdListByUserId(user.getId()));
 //        // 获得部门信息
 //        Dept dept = user.getDeptId() != null ? deptService.getDept(user.getDeptId()) : null;
-        return success(UserConvert.INSTANCE.convert(user, null, null));
+        return success(UserConvert.INSTANCE.convert(user, Lists.newArrayList(), null));
     }
 
     @PutMapping("/update")

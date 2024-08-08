@@ -11,11 +11,13 @@ import com.paven.module.common.controller.user.vo.profile.UserProfileRespVO;
 import com.paven.module.common.controller.user.vo.user.UserRespVO;
 import com.paven.module.common.controller.user.vo.user.UserSaveReqVO;
 import com.paven.module.common.controller.user.vo.user.UserSimpleRespVO;
+import com.paven.module.common.controller.user.vo.user.UserUpdateReqVO;
 import com.paven.module.common.repository.pojo.dept.Dept;
 import com.paven.module.common.repository.pojo.permission.Role;
 import com.paven.module.common.repository.pojo.user.User;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -28,17 +30,21 @@ public interface UserConvert {
     UserConvert INSTANCE = Mappers.getMapper(UserConvert.class);
 
     UserSaveReqVO convert(UserSaveReqDTO createReqDTO);
+
+    UserUpdateReqVO convertVO(UserSaveReqDTO reqVO);
+
     List<UserRespDTO> convertDtoList(List<User> users);
 
-    default List<UserRespVO> convertList(List<User> list, Map<Long, Dept> deptMap) {
-        return CollectionUtils.convertList(list, user -> convert(user, deptMap.get(user.getDeptId())));
+    default List<UserRespVO> convertList(List<User> list, Map<Long, Dept> deptMap, Map<Long, Set<Long>> userRoleMap) {
+        return CollectionUtils.convertList(list, user -> convert(user, deptMap.get(user.getDeptId()), userRoleMap.get(user.getId())));
     }
 
-    default UserRespVO convert(User user, Dept dept) {
+    default UserRespVO convert(User user, Dept dept, Set<Long> roleIds) {
         UserRespVO userVO = BeanUtils.toBean(user, UserRespVO.class);
         if (dept != null) {
             userVO.setDeptName(dept.getDeptName());
         }
+        userVO.setRoleIds(roleIds);
         return userVO;
     }
 
