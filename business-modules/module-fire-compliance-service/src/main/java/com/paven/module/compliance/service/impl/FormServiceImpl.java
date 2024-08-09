@@ -184,8 +184,7 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
             }
         }
         // 数据库操作
-        List<FormRule> dbRuleList = formRuleMapper.selectList(Wrappers.lambdaQuery(FormRule.class)
-                .eq(FormRule::getFormId, reqVO.getFormId()));
+        List<FormRule> dbRuleList = formRuleMapper.selectList(Wrappers.lambdaQuery(FormRule.class).eq(FormRule::getFormId, reqVO.getFormId()));
         List<List<FormRule>> diffRuleList = CollectionUtils.diffList(dbRuleList, ruleList, (dbRule, rule) -> dbRule.getId().equals(rule.getId()));
         if (CollUtil.isNotEmpty(diffRuleList.get(0))) {
             formRuleMapper.insertBatch(diffRuleList.get(0));
