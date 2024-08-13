@@ -4,12 +4,18 @@ import com.paven.common.enums.ComparisonOperator;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author paven
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class FieldConditionDTO {
 
     private Long id;
@@ -28,6 +34,11 @@ public class FieldConditionDTO {
      * 字段名称
      */
     private String fieldName;
+
+    /**
+     * 父级ID
+     */
+    private Long parentId;
 
     /**
      * 逻辑运算符

@@ -15,6 +15,7 @@ import com.paven.module.compliance.controller.form.vo.FormRuleSaveReqVO;
 import com.paven.module.compliance.controller.form.vo.FormUpdateReqVO;
 import com.paven.module.compliance.service.FormService;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,6 +41,7 @@ public class FormController {
     private FormService formService;
 
     @GetMapping("/page")
+    @PermitAll
     public CommonResult<PageResult<FormRespVO>> page(@Valid FormPageReqVO reqVO) {
         return success(formService.getFormPage(reqVO));
     }
@@ -70,6 +72,7 @@ public class FormController {
     }
 
     @PostMapping("/rule/check")
+    @PermitAll
     public CommonResult<Boolean> checkRule(@RequestBody @Valid FormCheckReqVO reqVO) {
         return success(formService.check(reqVO));
     }

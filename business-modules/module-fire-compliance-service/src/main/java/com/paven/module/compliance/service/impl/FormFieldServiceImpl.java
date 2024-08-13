@@ -59,6 +59,9 @@ public class FormFieldServiceImpl extends ServiceImpl<FormRuleMapper, FormRule> 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean save(Long userId, FormFieldSaveReqVO reqVO) {
+        // 数据库字段
+        List<Field> dbFieldList = fieldMapper.selectList(Wrappers.lambdaQuery(Field.class).eq(Field::getFormId, reqVO.getFormId()));
+        // 字段排序
         AtomicInteger fieldSort = new AtomicInteger();
         // 参数字段
         List<Field> fieldList = Optional.ofNullable(reqVO.getFields()).orElse(Lists.newArrayList())
@@ -68,6 +71,7 @@ public class FormFieldServiceImpl extends ServiceImpl<FormRuleMapper, FormRule> 
                     Optional<JSONObject> configJson = Optional.ofNullable(field.getConfigJson());
                     String fieldTitle = configJson.map(config -> config.getStr("label")).orElse("");
                     String fieldType = configJson.map(config -> config.getStr("tagIcon")).orElse("");
+                    Long fieldId = configJson.map(config -> config.getLong("fieldId")).orElse(null);
                     String fieldName = field.getName();
                     // 字段属性
                     List<DictDataDTO> fieldDictDataList = Optional.ofNullable(field.getSlotJson())
@@ -75,6 +79,7 @@ public class FormFieldServiceImpl extends ServiceImpl<FormRuleMapper, FormRule> 
                             .orElse(Lists.newArrayList()).stream().peek(dictData -> {
                                 dictData.setDictType(fieldName);
                                 dictData.setSort(sort.getAndIncrement());
+                                dictData.setFieldId(field.getId());
                             }).toList();
                     return Field.builder().id(field.getId()).formId(reqVO.getFormId())
                             .title(fieldTitle).name(fieldName).type(fieldType).dicType(fieldName)
@@ -94,7 +99,7 @@ public class FormFieldServiceImpl extends ServiceImpl<FormRuleMapper, FormRule> 
                             .pickerOptionsJson(toJsonStr(field.getPickerOptionsJson())).format(field.getFormat()).valueFormat(field.getValueFormat())
                             .status(field.getStatus()).sort(fieldSort.getAndIncrement()).dictDataList(fieldDictDataList).build();
                 }).toList();
-        if (CollUtil.isEmpty(fieldList)) {
+        if (CollUtil.isNotEmpty(fieldList)) {
             Map<String, List<Field>> fieldNameMap = fieldList.stream().collect(Collectors.groupingBy(Field::getName));
             List<String> fieldNames = fieldNameMap.values().stream().filter(list -> list.size() > 1).map(list -> list.get(0).getName()).toList();
             if (CollUtil.isNotEmpty(fieldNames)) {
@@ -103,10 +108,9 @@ public class FormFieldServiceImpl extends ServiceImpl<FormRuleMapper, FormRule> 
         }
         // 字段数据字典列表
         List<DictDataDTO> dictDataList = Lists.newArrayList();
-        // 数据库字段
-        List<Field> dbFieldList = fieldMapper.selectList(Wrappers.lambdaQuery(Field.class).eq(Field::getFormId, reqVO.getFormId()));
         // 比较字段
-        List<List<Field>> diffFieldList = CollectionUtils.diffList(dbFieldList, fieldList, (oldField, newField) -> oldField.getId().equals(newField.getId()));
+        List<List<Field>> diffFieldList = CollectionUtils.diffList(
+                dbFieldList, fieldList, (oldField, newField) -> oldField.getId().equals(newField.getId()));
         List<Field> insertFieldList = diffFieldList.get(0);
         if (CollUtil.isNotEmpty(insertFieldList)) {
             fieldMapper.insertBatch(insertFieldList);

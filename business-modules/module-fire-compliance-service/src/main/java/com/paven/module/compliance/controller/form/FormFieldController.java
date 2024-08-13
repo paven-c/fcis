@@ -11,6 +11,7 @@ import com.paven.module.compliance.controller.form.vo.FormFieldSaveReqVO;
 import com.paven.module.compliance.service.FieldService;
 import com.paven.module.compliance.service.FormFieldService;
 import jakarta.annotation.Resource;
+import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,6 +38,7 @@ public class FormFieldController {
     private FieldService fieldService;
 
     @GetMapping("/list")
+    @PermitAll
     public CommonResult<List<FieldRespVO>> list(@Valid FieldPageReqVO reqVO) {
         return success(fieldService.fieldList(reqVO));
     }

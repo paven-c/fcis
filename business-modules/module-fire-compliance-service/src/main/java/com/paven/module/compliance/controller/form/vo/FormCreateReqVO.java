@@ -2,6 +2,7 @@ package com.paven.module.compliance.controller.form.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class FormCreateReqVO implements Serializable {
     private String name;
 
     @Schema(description = "状态", requiredMode = Schema.RequiredMode.REQUIRED, example = "")
-    @NotEmpty(message = "请选择状态")
+    @NotNull(message = "请选择状态")
     private Integer status;
 
 }

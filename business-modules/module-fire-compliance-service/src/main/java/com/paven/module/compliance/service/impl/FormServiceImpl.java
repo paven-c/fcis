@@ -36,6 +36,7 @@ import com.paven.module.compliance.repository.pojo.Field;
 import com.paven.module.compliance.repository.pojo.Form;
 import com.paven.module.compliance.repository.pojo.FormRule;
 import com.paven.module.compliance.service.FieldService;
+import com.paven.module.compliance.service.FormFieldService;
 import com.paven.module.compliance.service.FormService;
 import jakarta.annotation.Resource;
 import java.math.BigDecimal;
@@ -202,22 +203,32 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
     public Boolean check(FormCheckReqVO reqVO) {
         // 表单数据
         Map<String, Object> data = reqVO.getData();
-        // 表单详情
-        FormRespVO respVO = Optional.ofNullable(reqVO.getFormId()).map(this::getFormDetail).orElseThrow(() -> exception(FORM_NOT_EXISTS));
-        // 表单字段
-        Map<String, String> fieldMap = Optional.ofNullable(respVO.getFieldList()).orElse(Lists.newArrayList()).stream()
-                .collect(Collectors.toMap(FieldRespVO::getName, FieldRespVO::getType));
-        // 条件规则
-        List<FieldConditionDTO> conditionList = JsonUtils.parseArray(respVO.getConditions(), FieldConditionDTO.class);
-        if (CollUtil.isEmpty(conditionList)) {
+        // 字段集合
+        Map<Long, Field> fieldIdMap = Optional.ofNullable(fieldService.list(Wrappers.lambdaQuery(Field.class).eq(Field::getFormId, reqVO.getFormId())))
+                .orElse(Lists.newArrayList()).stream().collect(Collectors.toMap(Field::getId, Function.identity()));
+        // 规则列表
+        List<FormRule> ruleList = Optional.ofNullable(formRuleMapper.selectList(Wrappers.lambdaQuery(FormRule.class)
+                .eq(FormRule::getFormId, reqVO.getFormId()))).orElse(Lists.newArrayList());
+        if (CollUtil.isEmpty(ruleList)) {
             return true;
         }
-        return conditionList.stream().allMatch(fieldCondition -> {
-            if (CollUtil.isNotEmpty(fieldCondition.getConditions())) {
-                return fieldCondition.getConditions().stream()
-                        .anyMatch(subCondition -> checkValue(subCondition, FieldTypeEnum.findByCode(fieldMap.get(subCondition.getFieldName())), data));
+        // 规则集合
+        Map<Long, List<FormRule>> ruleMap = ruleList.stream().collect(Collectors.groupingBy(FormRule::getParentId, Collectors.toList()));
+        return ruleList.stream().allMatch(rule -> {
+            // 条件字段
+            Field field = fieldIdMap.get(rule.getFieldId());
+            if (Objects.isNull(field)) {
+                return true;
+            }
+            // 或规则
+            List<FormRule> subRuleList = ruleMap.get(rule.getId());
+            if (CollUtil.isNotEmpty(subRuleList)) {
+                return subRuleList.stream().anyMatch(subRule -> {
+                    Field subField = fieldIdMap.get(subRule.getFieldId());
+                    return checkValue(subRule, FieldTypeEnum.findByCode(subField.getType()), data.get(subField.getName()));
+                });
             } else {
-                return checkValue(fieldCondition, FieldTypeEnum.findByCode(fieldMap.get(fieldCondition.getFieldName())), data);
+                return checkValue(rule, FieldTypeEnum.findByCode(field.getType()), data.get(field.getName()));
             }
         });
     }
@@ -257,6 +268,7 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
                         FieldConditionDTO innerCondition = new FieldConditionDTO();
                         innerCondition.setId(innerRule.getId());
                         innerCondition.setFieldId(innerRule.getFieldId());
+                        innerCondition.setParentId(innerRule.getParentId());
                         FieldRespVO innerField = fieldMap.get(innerRule.getFieldId());
                         if (Objects.nonNull(innerField)) {
                             innerCondition.setFieldName(innerField.getName());
@@ -272,24 +284,22 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
         return respVO;
     }
 
-    public static boolean checkValue(FieldConditionDTO condition, FieldTypeEnum type, Map<String, Object> data) {
-        String fieldName = condition.getFieldName();
-        Object fieldValue = data.get(fieldName);
+    public static boolean checkValue(FormRule rule, FieldTypeEnum type, Object fieldValue) {
         String fieldValueStr = fieldValue != null ? fieldValue.toString() : null;
-        String conditionValueStr = condition.getValue() != null ? condition.getValue().toString() : null;
+        String conditionValueStr = rule.getValue() != null ? rule.getValue() : null;
         if (fieldValueStr == null || conditionValueStr == null) {
             return false;
         }
         return switch (type) {
-            case TEXT, TEXTAREA, PASSWORD -> checkStringCondition(condition, fieldValueStr, conditionValueStr);
-            case DATE, TIME_PICKER, DATE_RANGE, TIME_RANGE -> checkDateCondition(condition, fieldValueStr, conditionValueStr);
-            case RADIO, SELECT, CHECKBOX -> checkListCondition(condition, fieldValueStr, conditionValueStr);
+            case TEXT, TEXTAREA, PASSWORD -> checkStringCondition(rule, fieldValueStr, conditionValueStr);
+            case DATE, TIME_PICKER, DATE_RANGE, TIME_RANGE -> checkDateCondition(rule, fieldValueStr, conditionValueStr);
+            case RADIO, SELECT, CHECKBOX -> checkListCondition(rule, fieldValueStr, conditionValueStr);
             default -> false;
         };
     }
 
-    private static boolean checkStringCondition(FieldConditionDTO condition, String fieldValueStr, String conditionValueStr) {
-        ComparisonOperator operator = ComparisonOperator.findByName(condition.getOperator());
+    private static boolean checkStringCondition(FormRule rule, String fieldValueStr, String conditionValueStr) {
+        ComparisonOperator operator = ComparisonOperator.findByName(rule.getOperator());
         if (Objects.isNull(operator)) {
             return false;
         }
@@ -329,11 +339,11 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
         }
     }
 
-    private static boolean checkDateCondition(FieldConditionDTO condition, String fieldValueStr, String conditionValueStr) {
+    private static boolean checkDateCondition(FormRule rule, String fieldValueStr, String conditionValueStr) {
         try {
             BigDecimal fieldDateValue = new BigDecimal(DateUtil.parse(fieldValueStr).getTime());
             BigDecimal conditionDateValue = new BigDecimal(DateUtil.parse(conditionValueStr).getTime());
-            ComparisonOperator operator = ComparisonOperator.findByName(condition.getOperator());
+            ComparisonOperator operator = ComparisonOperator.findByName(rule.getOperator());
             if (Objects.isNull(operator)) {
                 return false;
             }
@@ -351,8 +361,8 @@ public class FormServiceImpl extends ServiceImpl<FormMapper, Form> implements Fo
         }
     }
 
-    private static boolean checkListCondition(FieldConditionDTO condition, String fieldValueStr, String conditionValueStr) {
-        ComparisonOperator operator = ComparisonOperator.findByName(condition.getOperator());
+    private static boolean checkListCondition(FormRule rule, String fieldValueStr, String conditionValueStr) {
+        ComparisonOperator operator = ComparisonOperator.findByName(rule.getOperator());
         if (Objects.isNull(operator)) {
             return false;
         }
